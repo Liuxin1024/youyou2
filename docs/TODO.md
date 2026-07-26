@@ -45,10 +45,28 @@
 
 - [ ] 导航中文化（Home / Work / Resume / Say hi → 首页 / 作品 / 关于或联系等）
 - [ ] Logo 字母 `JA` 改为个人缩写或图形 Logo
-- [ ] 浏览器标题 `index.html`：改为 you you 相关
+- [x] 浏览器标题改为 you you
 - [ ] Loading 轮播词是否改为中文（Design / Create / Inspire）
 - [ ] Hero 眉题 `COLLECTION '26` 是否保留或改中文
-- [ ] 替换 / 确认 Hero & Contact 背景 HLS 视频是否继续用 Mux 演示源
+- [x] Loading 已缩短至约 1 秒，并支持点击跳过
+- [x] 字体已改为本地托管（去掉 Google Fonts）
+
+## 背景视频（Mux）与占位图（Unsplash）说明
+
+### Mux 背景视频是什么？
+- Hero / Contact 里的动态背景，来自海外 Mux 流媒体（HLS）
+- 国内加载偏慢，会拖慢首屏观感
+
+**后续优化选项（择一）：**
+- [ ] 换成自己压缩好的短 MP4（放 `public/video/`，约 2–5MB，循环静音）
+- [ ] 首屏先显示静态封面图，视频延后加载 / Wi‑Fi 再播
+- [ ] 国内弱网直接用静态氛围图，不做视频
+
+### Unsplash 是什么？
+- 免费图库网站；当前核心项目 / 能力范围 / 更多作品里的图都是临时占位图
+- **不是你的作品**，等真实作品图到位后全部替换
+
+- [ ] 用真实作品图替换所有 Unsplash URL（见第二～四屏 ToDo）
 
 ## 内容资产
 
@@ -63,7 +81,8 @@
 - [x] Vercel 已连接 GitHub：`Liuxin1024/youyou2`（push `main` 会自动部署）
 - [x] 购买个人域名：`youyou.space`
 - [x] 域名已绑定 Vercel：`youyou.space` / `www.youyou.space`（DNS 已验证通过）
-- [ ] 验收：国内手机流量打开 `https://youyou.space`，检查首页、锚点跳转、邮箱复制
+- [x] 国内手机可打开 `https://youyou.space`（首开仍偏慢，性能优化进行中）
+- [ ] 优化后复测国内首开体感（目标：Loading 更快、字体不卡）
 
 ## 图像与性能优化（等真实图片补齐后再做）
 
@@ -93,3 +112,5 @@
 | 导航 | `src/components/Navbar.tsx` |
 | 首屏文案 | `src/components/Hero.tsx` |
 | 页面标题 | `index.html` |
+| 开场加载 | `src/components/LoadingScreen.tsx` |
+| 背景视频 | `src/components/HlsVideo.tsx` |

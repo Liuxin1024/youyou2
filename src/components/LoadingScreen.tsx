@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const WORDS = ["Design", "Create", "Inspire"];
+const DURATION_MS = 1000;
+const EXIT_DELAY_MS = 150;
 
 type LoadingScreenProps = {
   onComplete: () => void;
@@ -10,45 +12,77 @@ type LoadingScreenProps = {
 export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [count, setCount] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
+  const doneRef = useRef(false);
+  const frameRef = useRef(0);
+  const exitTimerRef = useRef<number | null>(null);
+
+  const finish = () => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    cancelAnimationFrame(frameRef.current);
+    if (exitTimerRef.current !== null) {
+      window.clearTimeout(exitTimerRef.current);
+    }
+    setCount(100);
+    exitTimerRef.current = window.setTimeout(onComplete, EXIT_DELAY_MS);
+  };
 
   useEffect(() => {
-    const duration = 2700;
     const start = performance.now();
-    let frame = 0;
 
     const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const next = Math.floor(progress * 100);
-      setCount(next);
+      if (doneRef.current) return;
+      const progress = Math.min((now - start) / DURATION_MS, 1);
+      setCount(Math.floor(progress * 100));
 
       if (progress < 1) {
-        frame = requestAnimationFrame(tick);
+        frameRef.current = requestAnimationFrame(tick);
       } else {
-        setTimeout(onComplete, 400);
+        finish();
       }
     };
 
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+    frameRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(frameRef.current);
+      if (exitTimerRef.current !== null) {
+        window.clearTimeout(exitTimerRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete]);
 
   useEffect(() => {
-    const id = setInterval(() => {
+    const id = window.setInterval(() => {
       setWordIndex((i) => (i + 1) % WORDS.length);
-    }, 900);
-    return () => clearInterval(id);
+    }, 450);
+    return () => window.clearInterval(id);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-bg">
+    <div
+      className="fixed inset-0 z-[9999] cursor-pointer bg-bg"
+      onClick={finish}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") finish();
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="点击跳过加载"
+    >
       <motion.p
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="absolute left-6 top-6 text-xs uppercase tracking-[0.3em] text-muted md:left-10 md:top-10"
       >
         Portfolio
       </motion.p>
+
+      <p className="absolute right-6 top-6 text-xs text-muted/70 md:right-10 md:top-10">
+        点击跳过
+      </p>
 
       <div className="absolute inset-0 flex items-center justify-center">
         <AnimatePresence mode="wait">
@@ -57,7 +91,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="font-display text-4xl italic text-text-primary/80 md:text-6xl lg:text-7xl"
           >
             {WORDS[wordIndex]}
