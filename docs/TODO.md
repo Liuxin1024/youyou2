@@ -56,6 +56,29 @@
 - [ ] 准备 3–5 个可公开讲的核心案例（客户允许范围）
 - [ ] 若有简历 PDF，决定是否挂在导航「关于」
 
+## 部署（第一期可做）
+
+- [x] 远程仓库已关联：`git@github.com:Liuxin1024/youyou2.git`
+- [x] Vercel 首次生产部署完成：`https://youyou2.vercel.app`
+- [x] Vercel 已连接 GitHub：`Liuxin1024/youyou2`（push `main` 会自动部署）
+- [x] 购买个人域名：`youyou.space`
+- [x] 域名已绑定 Vercel：`youyou.space` / `www.youyou.space`（DNS 已验证通过）
+- [ ] 验收：国内手机流量打开 `https://youyou.space`，检查首页、锚点跳转、邮箱复制
+
+## 图像与性能优化（等真实图片补齐后再做）
+
+架构原则：列表缩略图与高清放大图彻底分离。
+
+- [ ] 所有作品图上载前：TinyPNG / 脚本批量压缩
+- [ ] 缩略图：400–600px，WebP，约 30–80KB；统一 `loading="lazy"`
+- [ ] 高清图：1920px+，仅点击放大时异步加载
+- [ ] 接入 Lightbox（PhotoSwipe 或 Yet Another React Lightbox）
+  - 核心项目卡片
+  - 能力范围代表图（如需放大）
+  - 第四屏视差作品（已有简易 lightbox，可升级）
+- [ ] （可选）本地 `public/images/` 目录规范：`thumbs/` + `full/`
+- [ ] （可选）构建脚本：sharp / imagemin 批量出 WebP
+
 ---
 
 **对应代码位置速查**

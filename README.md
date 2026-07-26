@@ -30,3 +30,7 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+vercel网站：https://vercel.com/l747394004-6487s-projects
+
+实际访问地址： youyou.space
