@@ -6,10 +6,32 @@
 
 ## 第二屏 · 核心项目
 
-- [ ] 替换 4 张项目真实封面图
-- [ ] 项目标题改为真实中文案名（现为 Automotive Motion 等英文占位）
-- [ ] 决定卡片点击行为：详情页 / 外链 / 仅悬停预览
+- [ ] 替换 4 张项目真实封面图（去掉 Unsplash）
+- [ ] 其余 3 个列表项标题改为真实中文案名，并补详情数据
+- [x] 第一案例点击跳转二级页：`/work/ling-ling-jiu`（酃酃酒框架已搭）
 - [ ] （可选）补项目一行说明：行业 + 交付类型
+
+## 二级详情页 · 案例框架（数据驱动）
+
+路由：`/work/:slug` · 数据：`src/data/cases.ts`
+
+### 酃酃酒（ling-ling-jiu）— 内容待补
+
+- [ ] CaseHero：封面换真实 KV / 主视觉
+- [ ] CaseStrategy：可按需微调三步文案
+- [ ] CaseSystem：补色彩板、字体样张、组件截图
+- [ ] CaseShowcase 长图区：手机 Mockup + 公众号长图 / 动效
+- [ ] CaseShowcase 动态网格：视频号 / GIF（注意体积与国内加载）
+- [ ] CaseTakeaway：确认最终复盘文案
+- [ ] 其余核心项目：在 `CASES` 追加数据并开放详情
+
+### 结构说明（勿拆散）
+
+1. 概览 CaseHero  
+2. 策略 CaseStrategy  
+3. 视觉系统 CaseSystem  
+4. 落地 CaseShowcase  
+5. 复盘 CaseTakeaway + 返回 / 上一个下一个
 
 ## 第三屏 · 能力范围
 
@@ -66,7 +88,11 @@
 - 免费图库网站；当前核心项目 / 能力范围 / 更多作品里的图都是临时占位图
 - **不是你的作品**，等真实作品图到位后全部替换
 
-- [ ] 用真实作品图替换所有 Unsplash URL（见第二～四屏 ToDo）
+- [ ] **替换掉现在用到的所有 Unsplash 图**（方案：下载真实作品图到本地，放 `public/images/`，逐个替换 URL）
+  - [ ] 第二屏 核心项目 `SelectedWorks.tsx`（4 张）
+  - [ ] 第三屏 能力范围 `Capabilities.tsx`（4 张）
+  - [ ] 第四屏 更多作品 `Explorations.tsx`（6 张）
+  - [ ] 二级详情页配图（见下方案例页）
 
 ## 内容资产
 
