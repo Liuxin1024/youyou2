@@ -118,26 +118,15 @@ export function Explorations() {
         <div className="mb-4 flex items-center gap-3">
           <span className="h-px w-8 bg-stroke" />
           <span className="text-xs uppercase tracking-[0.3em] text-muted">
-            Explorations
+            更多作品
           </span>
         </div>
         <h2 className="mb-4 text-3xl text-text-primary md:text-5xl">
-          Visual <span className="font-display italic">playground</span>
+          视觉备忘
         </h2>
         <p className="mb-8 max-w-md text-sm text-muted md:text-base">
-          Experiments in form, texture, and motion — a living sketchbook.
+          核心项目之外的练习、局部与灵感碎片——持续更新的视觉库存。
         </p>
-        <a
-          href="https://dribbble.com"
-          target="_blank"
-          rel="noreferrer"
-          className="pointer-events-auto group relative inline-flex rounded-full"
-        >
-          <span className="accent-gradient absolute inset-[-2px] rounded-full opacity-0 transition-opacity group-hover:opacity-100" />
-          <span className="relative inline-flex items-center gap-2 rounded-full border border-stroke bg-bg px-5 py-2.5 text-sm text-text-primary">
-            Dribbble <span aria-hidden>↗</span>
-          </span>
-        </a>
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-20">

@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 
+/** 占位数据，真实数字见 docs/TODO.md */
 const STATS = [
-  { value: "20+", label: "Years Experience" },
-  { value: "95+", label: "Projects Done" },
-  { value: "200%", label: "Satisfied Clients" },
+  { value: "—", label: "合作品牌" },
+  { value: "—", label: "视觉交付" },
+  { value: "—", label: "垂类行业" },
 ] as const;
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
@@ -24,9 +25,7 @@ export function Stats() {
             <p className="mb-2 font-display text-5xl italic text-text-primary md:text-6xl lg:text-7xl">
               {stat.value}
             </p>
-            <p className="text-sm uppercase tracking-[0.2em] text-muted">
-              {stat.label}
-            </p>
+            <p className="text-sm tracking-[0.2em] text-muted">{stat.label}</p>
           </motion.div>
         ))}
       </div>

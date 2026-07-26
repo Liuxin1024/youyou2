@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { Hero } from "../components/Hero";
 import { SelectedWorks } from "../components/SelectedWorks";
-import { Journal } from "../components/Journal";
+import { Capabilities } from "../components/Capabilities";
 import { Explorations } from "../components/Explorations";
 import { Stats } from "../components/Stats";
 import { Contact } from "../components/Contact";
@@ -36,7 +36,7 @@ export default function Index() {
           >
             <Hero />
             <SelectedWorks />
-            <Journal />
+            <Capabilities />
             <Explorations />
             <Stats />
             <Contact />

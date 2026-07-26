@@ -2,11 +2,12 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { HlsVideo } from "./HlsVideo";
 
+/** 社交链接占位，真实账号见 docs/TODO.md */
 const SOCIALS = [
-  { label: "Twitter", href: "https://twitter.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Dribbble", href: "https://dribbble.com" },
-  { label: "GitHub", href: "https://github.com" },
+  { label: "小红书", href: "#" },
+  { label: "抖音", href: "#" },
+  { label: "视频号", href: "#" },
+  { label: "站酷", href: "#" },
 ] as const;
 
 export function Contact() {
@@ -28,9 +29,10 @@ export function Contact() {
     return () => ctx.revert();
   }, []);
 
-  const marqueeText = Array.from({ length: 10 }, () => "BUILDING THE FUTURE • ").join(
-    "",
-  );
+  const marqueeText = Array.from(
+    { length: 10 },
+    () => "OPEN FOR COLLABORATION  •  ",
+  ).join("");
 
   return (
     <section
@@ -54,16 +56,15 @@ export function Contact() {
         </div>
 
         <div className="mb-20 flex flex-col items-center px-6 text-center md:mb-28">
-          <p className="mb-6 text-xs uppercase tracking-[0.3em] text-muted">
-            Get in touch
-          </p>
+          <p className="mb-6 text-xs tracking-[0.3em] text-muted">联系合作</p>
+          {/* TODO: 替换为真实邮箱或微信 */}
           <a
-            href="mailto:hello@michaelsmith.com"
+            href="mailto:hello@example.com"
             className="group relative inline-flex rounded-full"
           >
             <span className="accent-gradient absolute inset-[-2px] rounded-full opacity-0 transition-opacity group-hover:opacity-100" />
             <span className="relative rounded-full border border-stroke bg-bg/80 px-8 py-4 text-lg text-text-primary backdrop-blur-md md:text-2xl">
-              hello@michaelsmith.com
+              邮箱 / 微信待补充
             </span>
           </a>
         </div>
@@ -74,8 +75,6 @@ export function Contact() {
               <a
                 key={social.label}
                 href={social.href}
-                target="_blank"
-                rel="noreferrer"
                 className="text-sm text-muted transition-colors hover:text-text-primary"
               >
                 {social.label}
@@ -88,7 +87,7 @@ export function Contact() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
             </span>
-            Available for projects
+            可接项目
           </div>
         </footer>
       </div>
