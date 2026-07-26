@@ -61,7 +61,7 @@ export function Navbar() {
         <span className="mx-1 hidden h-5 w-px bg-stroke sm:block" />
 
         <a
-          href="mailto:hello@michaelsmith.com"
+          href="mailto:231030208@qq.com"
           className="group relative ml-0.5 inline-flex items-center"
         >
           <span className="accent-gradient-border absolute inset-[-2px] rounded-full opacity-0 transition-opacity group-hover:animate-gradient-shift group-hover:opacity-100" />
