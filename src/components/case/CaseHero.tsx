@@ -41,8 +41,6 @@ export function CaseHero({ study }: Props) {
           className="pointer-events-none absolute -right-4 top-1/2 hidden -translate-y-1/2 select-none font-display text-[7rem] leading-none text-white/[0.04] md:block lg:text-[10rem]"
         >
           {study.title}
-          <br />
-          {study.title}
         </div>
 
         <div className="relative mx-auto flex max-w-[1200px] flex-col justify-end px-6 pb-10 pt-24 md:px-10 md:pb-14 md:pt-32 lg:px-16">
@@ -71,16 +69,18 @@ export function CaseHero({ study }: Props) {
         </div>
       </div>
 
-      {/* —— 四关键词支柱 —— */}
-      <div className="border-y border-stroke/80 bg-bg">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-2 gap-px bg-stroke/40 md:grid-cols-4">
+      {/* —— 四关键词支柱（与下方内容同宽） —— */}
+      <div className="mx-auto mt-6 max-w-[1200px] px-6 md:mt-8 md:px-10 lg:px-16">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-stroke/80 bg-stroke/40 md:grid-cols-4">
           {overview.pillars.map((pillar, i) => (
             <div
               key={pillar}
-              className="flex items-center gap-3 bg-bg px-5 py-5 md:px-8 md:py-6"
+              className="flex items-start gap-2.5 bg-bg px-3 py-4 sm:items-center sm:gap-3 sm:px-5 sm:py-5 md:px-6 md:py-6"
             >
               <PillarIcon index={i} />
-              <span className={`text-sm md:text-[15px] ${goldMuted}`}>
+              <span
+                className={`text-xs leading-snug sm:text-sm md:text-[15px] ${goldMuted}`}
+              >
                 {pillar}
               </span>
             </div>
@@ -129,28 +129,28 @@ export function CaseHero({ study }: Props) {
             <p className={`mb-5 text-[11px] uppercase tracking-[0.3em] ${gold}`}>
               AI Tools
             </p>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
               {overview.aiTools.map((tool) => {
                 const iconSrc = AI_TOOL_ICONS[tool];
                 return (
                   <div
                     key={tool}
-                    className="flex flex-col items-center gap-2.5"
+                    className="flex min-w-0 flex-col items-center gap-2"
                   >
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#C9A96E]/35 bg-bg/70 md:h-14 md:w-14">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#C9A96E]/35 bg-bg/70 sm:h-12 sm:w-12 md:h-14 md:w-14">
                       {iconSrc ? (
                         <img
                           src={iconSrc}
                           alt={tool}
                           width={28}
                           height={28}
-                          className="h-6 w-6 object-contain md:h-7 md:w-7"
+                          className="h-5 w-5 object-contain sm:h-6 sm:w-6 md:h-7 md:w-7"
                         />
                       ) : (
                         <span className={`text-sm ${gold}`}>{tool[0]}</span>
                       )}
                     </span>
-                    <span className="text-center text-[11px] leading-tight text-muted md:text-xs">
+                    <span className="w-full truncate text-center text-[10px] leading-tight text-muted sm:text-[11px] md:text-xs">
                       {tool}
                     </span>
                   </div>
@@ -190,23 +190,23 @@ export function CaseHero({ study }: Props) {
                 <span className="text-text-primary">品牌大事件（节选）</span>
               </p>
 
-              {/* 移动端横向滚动；桌面均匀铺开 */}
-              <div className="-mx-1 overflow-x-auto pb-2">
-                <div className="relative min-w-[640px] px-1 md:min-w-0">
+              {/* 移动端横向滑动；桌面均匀铺开 */}
+              <div className="-mx-1 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch]">
+                <div className="relative min-w-[560px] px-1 sm:min-w-[640px] md:min-w-0">
                   <div className="absolute left-3 right-3 top-[7px] h-px bg-[#C9A96E]/35 md:left-4 md:right-4" />
-                  <ol className="relative grid grid-cols-6 gap-2">
+                  <ol className="relative grid grid-cols-6 gap-1.5 sm:gap-2">
                     {overview.milestones.map((m) => (
                       <li
                         key={m.date + m.label}
                         className="flex flex-col items-center text-center"
                       >
-                        <span className="relative z-[1] mb-4 flex h-[15px] w-[15px] items-center justify-center rounded-full border border-[#C9A96E] bg-bg">
+                        <span className="relative z-[1] mb-3 flex h-[15px] w-[15px] items-center justify-center rounded-full border border-[#C9A96E] bg-bg sm:mb-4">
                           <span className="h-1.5 w-1.5 rounded-full bg-[#C9A96E]" />
                         </span>
-                        <p className="mb-1.5 text-[11px] font-medium tabular-nums text-text-primary md:text-xs">
+                        <p className="mb-1 text-[10px] font-medium tabular-nums text-text-primary sm:mb-1.5 sm:text-[11px] md:text-xs">
                           {m.date}
                         </p>
-                        <p className="max-w-[7.5rem] text-[11px] leading-snug text-muted md:text-xs">
+                        <p className="max-w-[6.5rem] text-[10px] leading-snug text-muted sm:max-w-[7.5rem] sm:text-[11px] md:text-xs">
                           {m.label}
                         </p>
                       </li>
@@ -224,7 +224,7 @@ export function CaseHero({ study }: Props) {
 
 function PillarIcon({ index }: { index: number }) {
   const common =
-    "h-8 w-8 shrink-0 rounded-full border border-[#C9A96E]/35 flex items-center justify-center text-[#C9A96E]";
+    "mt-0.5 h-7 w-7 shrink-0 rounded-full border border-[#C9A96E]/35 flex items-center justify-center text-[#C9A96E] sm:mt-0 sm:h-8 sm:w-8";
   if (index === 0) {
     return (
       <span className={common} aria-hidden>
