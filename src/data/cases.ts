@@ -34,8 +34,8 @@ export type CaseOverview = {
   roleTitle: string;
   roleDesc: string;
   roleDuties: string[];
-  /** 项目背景段落 */
-  background: string[];
+  /** 项目背景段落；可标 bold */
+  background: Array<string | { text: string; bold?: boolean }>;
   aiTools: string[];
   /** 品牌大事件时间线 */
   milestones?: CaseMilestone[];
@@ -69,8 +69,7 @@ export const CASES: CaseStudy[] = [
     slug: "ling-ling-jiu",
     title: "酃酃酒",
     subtitle: "东方米酒品牌视觉体系建设与数字内容创新",
-    cover:
-      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1400&q=80",
+    cover: "/50795.PNG",
     role: "创意设计师",
     keywords: [
       "东方文化视觉转译",
@@ -102,9 +101,12 @@ export const CASES: CaseStudy[] = [
       background: [
         "酃酃酒源于拥有千年历史的酃酒文化，以东方米酒为核心定位，探索传统酿造文化与现代消费趋势之间的新连接。",
         "随着年轻消费群体与数字传播渠道的发展，品牌需要建立更符合当代审美的视觉表达方式，将传统文化资产转化为年轻化、数字化的品牌内容。",
-        "本项目围绕品牌视觉体系、新媒体传播内容及动态视觉表达展开设计，通过东方文化符号与现代视觉语言结合，构建适用于多渠道传播的品牌视觉体验。",
+        {
+          text: "本项目围绕品牌视觉体系、新媒体传播内容及动态视觉表达展开设计，通过东方文化符号与现代视觉语言结合，构建适用于多渠道传播的品牌视觉体验。",
+          bold: true,
+        },
       ],
-      aiTools: ["Midjourney", "即梦", "GPT", "可灵"],
+      aiTools: ["Midjourney", "即梦", "Chat GPT", "可灵"],
       milestones: [
         { date: "2022.05.18", label: "品牌创立" },
         { date: "2023.06.16", label: "全球首发上市" },

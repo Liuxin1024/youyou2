@@ -9,8 +9,8 @@ const goldMuted = "text-[#C9A96E]/80";
 const AI_TOOL_ICONS: Record<string, string> = {
   Midjourney: "/icons/ai/midjourney.svg",
   即梦: "/icons/ai/jimeng.svg",
-  GPT: "/icons/ai/openai.svg",
-  可灵: "/icons/ai/kling.svg",
+  "Chat GPT": "/icons/ai/openai.svg",
+  可灵: "/icons/ai/keling.svg",
 };
 
 type Props = {
@@ -31,7 +31,6 @@ export function CaseHero({ study }: Props) {
             alt=""
             className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/85 to-bg/30" />
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/50" />
         </div>
 
@@ -55,11 +54,11 @@ export function CaseHero({ study }: Props) {
             Case Study
           </p>
 
-          <h1 className="text-5xl font-medium tracking-tight text-text-primary md:text-7xl lg:text-8xl">
+          <h1 className="text-5xl font-bold tracking-tight text-text-primary md:text-7xl lg:text-8xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
             {study.title}
           </h1>
           <p
-            className={`mt-2 font-display text-2xl italic md:text-3xl lg:text-4xl ${gold}`}
+            className={`mt-2 text-2xl font-bold tracking-wide md:text-3xl lg:text-4xl ${gold} [font-family:'Heiti_SC','STHeiti','SimHei','PingFang_SC','Microsoft_YaHei',sans-serif]`}
           >
             {overview.englishName}
           </p>
@@ -171,14 +170,20 @@ export function CaseHero({ study }: Props) {
             项目背景
           </h2>
           <div className="mb-10 flex flex-col gap-5">
-            {overview.background.map((para) => (
-              <p
-                key={para.slice(0, 24)}
-                className="text-sm leading-[1.85] text-muted md:text-[15px]"
-              >
-                {para}
-              </p>
-            ))}
+            {overview.background.map((para) => {
+              const text = typeof para === "string" ? para : para.text;
+              const bold = typeof para === "object" && para.bold;
+              return (
+                <p
+                  key={text.slice(0, 24)}
+                  className={`text-sm leading-[1.85] md:text-[15px] ${
+                    bold ? "font-semibold text-text-primary" : "text-muted"
+                  }`}
+                >
+                  {text}
+                </p>
+              );
+            })}
           </div>
 
           {overview.milestones && overview.milestones.length > 0 && (
