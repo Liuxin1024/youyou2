@@ -19,6 +19,28 @@ export type CaseShowcaseBlock = {
   media?: string[];
 };
 
+/** 详情页第一屏（概览区）——文案以文档为准 */
+export type CaseMilestone = {
+  date: string;
+  label: string;
+};
+
+export type CaseOverview = {
+  englishName: string;
+  /** 项目定位 / 副标题 */
+  positioning: string;
+  /** 四个关键词支柱 */
+  pillars: string[];
+  roleTitle: string;
+  roleDesc: string;
+  roleDuties: string[];
+  /** 项目背景段落 */
+  background: string[];
+  aiTools: string[];
+  /** 品牌大事件时间线 */
+  milestones?: CaseMilestone[];
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -27,6 +49,8 @@ export type CaseStudy = {
   role: string;
   keywords: string[];
   summary: string;
+  /** 第一屏完整结构；已发布案例必填 */
+  overview?: CaseOverview;
   strategy: CaseStrategyStep[];
   system: CaseSystemItem[];
   showcase: CaseShowcaseBlock[];
@@ -44,13 +68,52 @@ export const CASES: CaseStudy[] = [
   {
     slug: "ling-ling-jiu",
     title: "酃酃酒",
-    subtitle: "Ling Ling Jiu · 现代东方米酒品牌视觉与全渠道内容重构",
+    subtitle: "东方米酒品牌视觉体系建设与数字内容创新",
     cover:
       "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1400&q=80",
-    role: "创意设计师（全权主导公众号内容传播、动态视觉及视频号视觉产出）",
-    keywords: ["日系简约", "新东方美学", "社媒长图动效", "品牌视觉一致性"],
+    role: "创意设计师",
+    keywords: [
+      "东方文化视觉转译",
+      "品牌视觉体系建设",
+      "数字内容传播设计",
+      "AI辅助视觉创作",
+    ],
     summary:
-      "酃酒拥有千年宫廷文化底蕴，但在面对年轻消费群体时，需要摆脱老气感。本次设计以「日系简约 + 现代东方」的视觉语汇，重新诠释古酒风雅，并通过动态组件与长图叙事，搭建多渠道统一的视觉传播体系。",
+      "本案例以品牌视觉体系建设、新媒体内容传播及数字视觉表达为核心，呈现传统东方酒文化在现代消费语境下的视觉探索。",
+    overview: {
+      englishName: "LingLingJiu",
+      positioning: "东方米酒品牌视觉体系建设与数字内容创新",
+      pillars: [
+        "东方文化视觉转译",
+        "品牌视觉体系建设",
+        "数字内容传播设计",
+        "AI辅助视觉创作",
+      ],
+      roleTitle: "创意设计师",
+      roleDesc:
+        "负责酃酃酒品牌视觉内容体系建设，围绕品牌定位进行视觉语言探索与数字传播设计。",
+      roleDuties: [
+        "品牌视觉延展设计",
+        "新媒体内容视觉输出",
+        "动态视觉设计",
+        "视频内容视觉包装",
+        "AI辅助视觉创作探索",
+      ],
+      background: [
+        "酃酃酒源于拥有千年历史的酃酒文化，以东方米酒为核心定位，探索传统酿造文化与现代消费趋势之间的新连接。",
+        "随着年轻消费群体与数字传播渠道的发展，品牌需要建立更符合当代审美的视觉表达方式，将传统文化资产转化为年轻化、数字化的品牌内容。",
+        "本项目围绕品牌视觉体系、新媒体传播内容及动态视觉表达展开设计，通过东方文化符号与现代视觉语言结合，构建适用于多渠道传播的品牌视觉体验。",
+      ],
+      aiTools: ["Midjourney", "即梦", "GPT", "可灵"],
+      milestones: [
+        { date: "2022.05.18", label: "品牌创立" },
+        { date: "2023.06.16", label: "全球首发上市" },
+        { date: "2023.11", label: "全球独立站上线" },
+        { date: "2024.05", label: "亮相 ProWine Singapore" },
+        { date: "2025.01", label: "「十六度」上新 获高新技术企业认证" },
+        { date: "2026.01", label: "荣膺「2025年度消费创新引领奖」" },
+      ],
+    },
     strategy: [
       {
         title: "品牌痛点",

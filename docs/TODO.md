@@ -17,15 +17,15 @@
 
 ### 酃酃酒（ling-ling-jiu）— 内容待补
 
-- [ ] CaseHero：封面换真实 KV / 主视觉
+- [x] 第一屏概览区：按设计图布局 + 文档文案重写
+- [x] 品牌大事件时间线（设计图节点文案）
+- [ ] CaseHero 封面换真实 KV / 酒液主视觉（现为占位图）
 - [ ] CaseStrategy：可按需微调三步文案
 - [ ] CaseSystem：补色彩板、字体样张、组件截图
 - [ ] CaseShowcase 长图区：手机 Mockup + 公众号长图 / 动效
 - [ ] CaseShowcase 动态网格：视频号 / GIF（注意体积与国内加载）
 - [ ] CaseTakeaway：确认最终复盘文案
 - [ ] 其余核心项目：在 `CASES` 追加数据并开放详情
-
-### 结构说明（勿拆散）
 
 1. 概览 CaseHero  
 2. 策略 CaseStrategy  
