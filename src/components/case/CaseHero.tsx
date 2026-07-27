@@ -23,67 +23,84 @@ export function CaseHero({ study }: Props) {
 
   return (
     <header className="bg-bg">
-      {/* —— 顶部主视觉 —— */}
-      <div className="relative min-h-[52vh] overflow-hidden md:min-h-[58vh]">
+      {/* —— 第一屏主视觉：文案左上 + 关键词条沉底，同层背景图 —— */}
+      <div className="relative flex min-h-[560px] flex-col overflow-hidden bg-bg md:min-h-0 md:h-[min(62vw,680px)]">
         <div className="absolute inset-0">
           <img
             src={study.cover}
             alt=""
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover object-[center_28%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/50" />
+          {/* 左侧渐变：保证标题区可读 */}
+          <div className="absolute inset-0 bg-gradient-to-r from-bg from-[8%] via-bg/70 via-[36%] to-transparent to-[70%]" />
+          {/* 底部渐变：托住关键词条 */}
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent to-[55%]" />
         </div>
 
-        {/* 右侧水印大字 */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-4 top-1/2 hidden -translate-y-1/2 select-none font-display text-[7rem] leading-none text-white/[0.04] md:block lg:text-[10rem]"
-        >
-          {study.title}
-        </div>
-
-        <div className="relative mx-auto flex max-w-[1200px] flex-col justify-end px-6 pb-10 pt-24 md:px-10 md:pb-14 md:pt-32 lg:px-16">
-          <Link
-            to="/#work"
-            className="mb-8 inline-flex w-fit items-center gap-2 text-sm text-muted transition-colors hover:text-text-primary"
+        {/* 右侧品牌 logo / 水印 */}
+        {study.watermark ? (
+          <img
+            src={study.watermark}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-[42%] hidden w-[140px] -translate-y-1/2 select-none opacity-[0.22] md:block md:right-8 md:w-[180px] lg:right-12 lg:w-[220px]"
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-4 top-[40%] hidden -translate-y-1/2 select-none font-display text-[7rem] leading-none text-white/[0.04] md:block lg:text-[10rem]"
           >
-            <span aria-hidden>←</span> 返回核心项目
-          </Link>
-
-          <p className={`mb-5 text-[11px] uppercase tracking-[0.35em] ${gold}`}>
-            Case Study
-          </p>
-
-          <h1 className="text-5xl font-bold tracking-tight text-text-primary md:text-7xl lg:text-8xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
             {study.title}
-          </h1>
-          <p
-            className={`mt-2 text-2xl font-bold tracking-wide md:text-3xl lg:text-4xl ${gold} [font-family:'Heiti_SC','STHeiti','SimHei','PingFang_SC','Microsoft_YaHei',sans-serif]`}
-          >
-            {overview.englishName}
-          </p>
-          <p className="mt-5 max-w-xl text-base text-text-primary/90 md:text-lg">
-            {overview.positioning}
-          </p>
-        </div>
-      </div>
+          </div>
+        )}
 
-      {/* —— 四关键词支柱（与下方内容同宽） —— */}
-      <div className="mx-auto mt-6 max-w-[1200px] px-6 md:mt-8 md:px-10 lg:px-16">
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-stroke/80 bg-stroke/40 md:grid-cols-4">
-          {overview.pillars.map((pillar, i) => (
-            <div
-              key={pillar}
-              className="flex items-start gap-2.5 bg-bg px-3 py-4 sm:items-center sm:gap-3 sm:px-5 sm:py-5 md:px-6 md:py-6"
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1200px] flex-1 flex-col px-6 pb-6 pt-16 md:px-10 md:pb-8 md:pt-14 lg:px-16 lg:pt-16">
+          {/* 左上文案 */}
+          <div className="flex flex-col justify-start">
+            <Link
+              to="/#work"
+              className="mb-6 inline-flex w-fit items-center gap-2 text-sm text-muted transition-colors hover:text-text-primary md:mb-8"
             >
-              <PillarIcon index={i} />
-              <span
-                className={`text-xs leading-snug sm:text-sm md:text-[15px] ${goldMuted}`}
-              >
-                {pillar}
-              </span>
+              <span aria-hidden>←</span> 返回核心项目
+            </Link>
+
+            <p
+              className={`mb-4 text-[11px] uppercase tracking-[0.35em] ${gold} md:mb-5`}
+            >
+              Case Study
+            </p>
+
+            <h1 className="text-5xl font-bold tracking-tight text-text-primary md:text-6xl lg:text-7xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+              {study.title}
+            </h1>
+            <p
+              className={`mt-2 text-2xl font-bold tracking-wide md:text-3xl lg:text-4xl ${gold} [font-family:'Heiti_SC','STHeiti','SimHei','PingFang_SC','Microsoft_YaHei',sans-serif]`}
+            >
+              {overview.englishName}
+            </p>
+            <p className="mt-4 max-w-xl text-base text-text-primary/90 md:mt-5 md:text-lg">
+              {overview.positioning}
+            </p>
+          </div>
+
+          {/* 关键词条：沉在第一屏背景底部 */}
+          <div className="mt-auto pt-10">
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md md:grid-cols-4">
+              {overview.pillars.map((pillar, i) => (
+                <div
+                  key={pillar}
+                  className="flex items-start gap-2.5 bg-bg/55 px-3 py-4 sm:items-center sm:gap-3 sm:px-5 sm:py-5 md:px-6 md:py-5"
+                >
+                  <PillarIcon index={i} />
+                  <span
+                    className={`text-xs leading-snug sm:text-sm md:text-[15px] ${goldMuted}`}
+                  >
+                    {pillar}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

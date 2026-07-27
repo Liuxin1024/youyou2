@@ -46,6 +46,8 @@ export type CaseStudy = {
   title: string;
   subtitle: string;
   cover: string;
+  /** 第一屏右侧水印 / logo */
+  watermark?: string;
   role: string;
   keywords: string[];
   summary: string;
@@ -70,6 +72,7 @@ export const CASES: CaseStudy[] = [
     title: "酃酃酒",
     subtitle: "东方米酒品牌视觉体系建设与数字内容创新",
     cover: "/50795.PNG",
+    watermark: "/case/ling-ling-jiu-mark.png",
     role: "创意设计师",
     keywords: [
       "东方文化视觉转译",
