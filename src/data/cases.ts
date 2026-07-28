@@ -235,7 +235,7 @@ export const CASES: CaseStudy[] = [
           { label: "内容结构优化", icon: "layout" },
           { label: "提升阅读体验", icon: "eye" },
         ],
-        media: "/50948.PNG",
+        media: "/50955.PNG",
         mediaPosition: "center top",
       },
       {

@@ -112,8 +112,8 @@ function WorkflowPanel({ step }: { step: CaseStrategyStep }) {
               ) : (
                 <span className="flex-1" />
               )}
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#C9A96E]/35 md:h-11 md:w-11">
-                <StrategyIcon id={node.icon} className="h-5 w-5" />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#C9A96E]/40 md:h-12 md:w-12">
+                <StrategyIcon id={node.icon} className="h-7 w-7 md:h-8 md:w-8" />
               </div>
               {i < step.workflow!.length - 1 ? (
                 <span
@@ -286,7 +286,7 @@ export function CaseStrategy({ steps, summary, watermarkChar }: Props) {
             设计策略与视觉推导
           </h2>
           {summary && (
-            <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-muted md:text-sm">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted md:mt-6 md:text-lg">
               {summary}
             </p>
           )}
