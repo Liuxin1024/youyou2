@@ -1,6 +1,58 @@
-export type CaseStrategyStep = {
+export type StrategyIconId =
+  | "layers"
+  | "users"
+  | "device"
+  | "leaf"
+  | "palette"
+  | "grid"
+  | "play"
+  | "layout"
+  | "eye"
+  | "spark"
+  | "image"
+  | "cube"
+  | "chart"
+  | "ai"
+  | "explore"
+  | "edit"
+  | "check";
+
+export type CaseStrategyPoint = {
+  label: string;
+  icon: StrategyIconId;
+};
+
+export type CaseStrategyApplication = {
   title: string;
   body: string;
+  icon: StrategyIconId;
+};
+
+export type CaseStrategyWorkflowStep = {
+  label: string;
+  icon: StrategyIconId;
+};
+
+export type CaseStrategyStep = {
+  index: string;
+  title: string;
+  subtitle: string;
+  /** 正文段落，文档为准 */
+  paragraphs: string[];
+  /** 「通过：」下列点 */
+  bullets?: string[];
+  /** 图标要点文案 */
+  points?: CaseStrategyPoint[];
+  /** AI 应用方向（含说明） */
+  applications?: CaseStrategyApplication[];
+  /** AI 流程节点 */
+  workflow?: CaseStrategyWorkflowStep[];
+  /** 右侧配图 */
+  media?: string;
+  /** object-position，如 center / 60% 40% */
+  mediaPosition?: string;
+  /** 无 media 时的占位说明 */
+  mediaHint?: string;
 };
 
 export type CaseSystemItem = {
@@ -53,6 +105,8 @@ export type CaseStudy = {
   summary: string;
   /** 第一屏完整结构；已发布案例必填 */
   overview?: CaseOverview;
+  /** 策略屏导语 */
+  strategySummary?: string;
   strategy: CaseStrategyStep[];
   system: CaseSystemItem[];
   showcase: CaseShowcaseBlock[];
@@ -119,18 +173,106 @@ export const CASES: CaseStudy[] = [
         { date: "2026.01", label: "荣膺「2025年度消费创新引领奖」" },
       ],
     },
+    strategySummary:
+      "从品牌文化、产品升级与数字传播场景出发，探索传统米酒品牌年轻化视觉表达路径。",
     strategy: [
       {
-        title: "品牌痛点",
-        body: "传统黄酒 / 米酒视觉过于沉闷，缺乏现代社媒（公众号 / 视频号）的呼吸感与传播力。",
+        index: "01",
+        title: "品牌挑战",
+        subtitle: "传统文化如何适应新的消费场景",
+        paragraphs: [
+          "酃酃酒承载千年酃酒文化，同时面向年轻消费市场进行品牌升级。",
+          "在保持东方米酒文化基因的基础上，品牌需要建立更符合数字传播环境的视觉表达方式，让传统文化内容更容易被年轻用户理解与接受。",
+        ],
+        points: [
+          { label: "传统文化底蕴深厚", icon: "layers" },
+          { label: "年轻消费群体崛起", icon: "users" },
+          { label: "数字传播环境变化", icon: "device" },
+        ],
+        media: "/50946.JPG",
+        mediaPosition: "center center",
       },
       {
+        index: "02",
         title: "视觉策略",
-        body: "留白与留香：借鉴日系极简的「留白」艺术，结合传统米酒的微醺感，打造极具呼吸感的版式；提取琥珀酒色、清透米白与低饱和自然色，建立优雅、无负担的视觉基调。",
+        subtitle: "东方文化 × 现代审美 × 内容传播",
+        // 第一段引言；有 bullets 时其余段落排在「通过」列表之后（与文档一致）
+        paragraphs: [
+          "围绕酃酃酒「东方米酒」的品牌属性，从传统酿造文化中提取自然、克制、雅致的视觉感受。",
+          "建立适用于品牌内容传播的视觉语言。",
+          "同时结合不同传播场景，对视觉元素进行灵活应用，提高品牌内容输出的一致性。",
+        ],
+        bullets: [
+          "留白式版面结构",
+          "低饱和色彩体系",
+          "东方元素视觉转译",
+          "品牌视觉模块化延展",
+        ],
+        points: [
+          { label: "东方美学提取", icon: "leaf" },
+          { label: "低饱和色彩体系", icon: "palette" },
+          { label: "视觉模块化延展", icon: "grid" },
+        ],
+        media: "/50947.JPG",
+        mediaPosition: "center center",
       },
       {
-        title: "动态表达",
-        body: "引入轻量化动态组件，让静态的长图与海报「活起来」，提升公众号用户的停留时长与阅读体验。",
+        index: "03",
+        title: "数字内容表达",
+        subtitle: "从静态视觉到动态传播",
+        paragraphs: [
+          "针对公众号、视频号等数字内容渠道，对品牌视觉资产进行动态化延展。",
+          "让品牌故事以更具互动性的方式呈现，提高数字内容的阅读体验与传播效率。",
+        ],
+        bullets: [
+          "轻量级动态效果",
+          "内容节奏设计",
+          "图文结构优化",
+          "视觉信息层级整理",
+        ],
+        points: [
+          { label: "轻量级动效设计", icon: "play" },
+          { label: "内容结构优化", icon: "layout" },
+          { label: "提升阅读体验", icon: "eye" },
+        ],
+        media: "/50948.PNG",
+        mediaPosition: "center top",
+      },
+      {
+        index: "04",
+        title: "AI辅助创意探索",
+        subtitle: "AI赋能视觉创意流程",
+        paragraphs: [
+          "在品牌内容设计过程中，引入 AI 工具辅助视觉探索，将人工设计经验与智能生成能力结合。",
+        ],
+        applications: [
+          {
+            title: "概念方向探索",
+            body: "通过 AI 快速生成不同视觉方向，辅助前期创意发散。",
+            icon: "spark",
+          },
+          {
+            title: "场景氛围构建",
+            body: "利用 AI 探索产品场景、品牌氛围及视觉情绪表达。",
+            icon: "image",
+          },
+          {
+            title: "视觉元素延展",
+            body: "辅助生成品牌内容中的视觉素材，提高设计迭代效率。",
+            icon: "cube",
+          },
+          {
+            title: "动态内容测试",
+            body: "结合 AI 视频工具进行视觉动态效果探索。",
+            icon: "chart",
+          },
+        ],
+        workflow: [
+          { label: "AI生成概念", icon: "ai" },
+          { label: "多方案探索", icon: "explore" },
+          { label: "人工优化", icon: "edit" },
+          { label: "落地应用", icon: "check" },
+        ],
       },
     ],
     system: [

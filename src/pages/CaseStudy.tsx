@@ -31,7 +31,11 @@ export default function CaseStudyPage() {
   return (
     <main className="min-h-screen bg-bg text-text-primary">
       <CaseHero study={study} />
-      <CaseStrategy steps={study.strategy} />
+      <CaseStrategy
+        steps={study.strategy}
+        summary={study.strategySummary}
+        watermarkChar={study.title}
+      />
       <CaseSystem items={study.system} />
       <CaseShowcase blocks={study.showcase} />
       <CaseTakeaway text={study.takeaway} />
