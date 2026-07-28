@@ -7,7 +7,6 @@ import {
 } from "../data/cases";
 import { CaseHero } from "../components/case/CaseHero";
 import { CaseStrategy } from "../components/case/CaseStrategy";
-import { CaseSystem } from "../components/case/CaseSystem";
 import { CaseShowcase } from "../components/case/CaseShowcase";
 import { CaseTakeaway } from "../components/case/CaseTakeaway";
 import { CaseFooterNav } from "../components/case/CaseFooterNav";
@@ -36,7 +35,6 @@ export default function CaseStudyPage() {
         summary={study.strategySummary}
         watermarkChar={study.title}
       />
-      <CaseSystem items={study.system} />
       <CaseShowcase blocks={study.showcase} />
       <CaseTakeaway text={study.takeaway} />
       <CaseFooterNav prev={prev} next={next} />

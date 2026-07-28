@@ -51,15 +51,10 @@ export type CaseStrategyStep = {
   media?: string;
   /** object-position，如 center / 60% 40% */
   mediaPosition?: string;
+  /** cover 裁切铺满；contain 尽量完整展示（宽图推荐） */
+  mediaFit?: "cover" | "contain";
   /** 无 media 时的占位说明 */
   mediaHint?: string;
-};
-
-export type CaseSystemItem = {
-  title: string;
-  body: string;
-  /** 占位图，后续替换为本地资源 */
-  image?: string;
 };
 
 export type CaseShowcaseBlock = {
@@ -108,7 +103,6 @@ export type CaseStudy = {
   /** 策略屏导语 */
   strategySummary?: string;
   strategy: CaseStrategyStep[];
-  system: CaseSystemItem[];
   showcase: CaseShowcaseBlock[];
   takeaway: string;
   /** 列表卡片用 */
@@ -236,7 +230,8 @@ export const CASES: CaseStudy[] = [
           { label: "提升阅读体验", icon: "eye" },
         ],
         media: "/50955.PNG",
-        mediaPosition: "center top",
+        mediaPosition: "center center",
+        mediaFit: "contain",
       },
       {
         index: "04",
@@ -275,20 +270,6 @@ export const CASES: CaseStudy[] = [
         ],
       },
     ],
-    system: [
-      {
-        title: "色彩与字体规范",
-        body: "标准字排版层级（Headline / Subtitle / Body）与规范色块。",
-      },
-      {
-        title: "社媒动态组件库",
-        body: "动态图标、微光特效、流动液体元件、引导点击的 GIF 元素等。",
-      },
-      {
-        title: "视频号视觉框架",
-        body: "动态封面模板、片头片尾 Packaging、统一的字幕与画框规范。",
-      },
-    ],
     showcase: [
       {
         kind: "longform",
@@ -323,7 +304,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    system: [],
     showcase: [],
     takeaway: "",
     span: "md:col-span-5",
@@ -339,7 +319,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    system: [],
     showcase: [],
     takeaway: "",
     span: "md:col-span-5",
@@ -355,7 +334,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    system: [],
     showcase: [],
     takeaway: "",
     span: "md:col-span-7",

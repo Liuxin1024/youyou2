@@ -61,12 +61,16 @@ function MediaPlaceholder({ hint }: { hint?: string }) {
 function StepMedia({
   src,
   position = "center center",
+  fit = "cover",
   onOpen,
 }: {
   src: string;
   position?: string;
+  fit?: "cover" | "contain";
   onOpen: () => void;
 }) {
+  const isContain = fit === "contain";
+
   return (
     <button
       type="button"
@@ -77,14 +81,20 @@ function StepMedia({
       <img
         src={src}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full ${
+          isContain ? "object-contain" : "object-cover"
+        }`}
         style={{ objectPosition: position }}
       />
-      {/* 左→右渐变：与卡片灰底衔接 */}
+      {/* 左→右渐变：与卡片灰底衔接；contain 时稍弱，少挡内容 */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
-        style={{ background: cardGradient }}
+        style={{
+          background: isContain
+            ? `linear-gradient(to right, ${cardBg} 0%, rgb(18 18 18 / 0.75) 10%, transparent 28%)`
+            : cardGradient,
+        }}
       />
     </button>
   );
@@ -310,6 +320,7 @@ export function CaseStrategy({ steps, summary, watermarkChar }: Props) {
                     <StepMedia
                       src={step.media}
                       position={step.mediaPosition}
+                      fit={step.mediaFit}
                       onOpen={() => setLightbox(step.media!)}
                     />
                   ) : step.workflow?.length ? (
