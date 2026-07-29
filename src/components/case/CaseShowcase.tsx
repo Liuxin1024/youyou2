@@ -1,6 +1,11 @@
+import { useEffect, useState } from "react";
 import type {
+  CaseShowcaseApplication,
+  CaseShowcaseApplicationBlock,
   CaseShowcaseEvolution,
   CaseShowcaseProcessStep,
+  CaseShowcaseValue,
+  CaseShowcaseValueItem,
 } from "../../data/cases";
 
 const gold = "text-[#C9A96E]";
@@ -15,161 +20,455 @@ const PROCESS_ICONS: Record<CaseShowcaseProcessStep["icon"], string> = {
 
 type Props = {
   evolution?: CaseShowcaseEvolution;
+  application?: CaseShowcaseApplication;
+  value?: CaseShowcaseValue;
 };
 
-export function CaseShowcase({ evolution }: Props) {
-  if (!evolution) return null;
+export function CaseShowcase({ evolution, application, value }: Props) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+
+  if (!evolution && !application && !value) return null;
 
   return (
     <section className="relative overflow-hidden border-b border-stroke py-12 md:py-16">
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
-        {/* —— 标题区：无 04 —— */}
-        <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <div className="mb-2.5 flex items-center gap-3">
-              <span className={`h-px w-7 ${gold} bg-current`} />
-              <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
-                {evolution.eyebrow}
-              </span>
-            </div>
-            <h2 className="text-2xl tracking-tight text-text-primary md:text-[1.85rem] lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
-              {evolution.title}
-            </h2>
-            <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>
-              {evolution.subtitle}
-            </p>
-            {evolution.intro.length > 0 && (
-              <div className="mt-4 space-y-2 text-[13px] leading-relaxed text-muted md:text-sm">
-                {evolution.intro.map((p) => (
-                  <p key={p}>{p}</p>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {(evolution.period || evolution.periodNote) && (
-            <div className="shrink-0 text-left md:text-right">
-              {evolution.period && (
-                <p className={`text-sm tracking-wide ${gold}`}>{evolution.period}</p>
-              )}
-              {evolution.periodNote && (
-                <p className="mt-1 text-xs text-muted">{evolution.periodNote}</p>
-              )}
-            </div>
-          )}
-        </header>
-
-        {/*
-          五列竖屏（桌面）：
-          1 原视觉状态 | 2 手机长图 | 3 优化思路 | 4 手机长图 | 5 优化后视觉表达
-          五个盒子统一固定高度
-        */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,0.65fr)_minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-2.5 xl:gap-3">
-          {/* 1 · BEFORE 文案 */}
-          <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
-            <ColumnLabel
-              en={evolution.before.label}
-              zh={evolution.before.title}
-              size="lg"
-            />
-            <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
-              {evolution.before.body}
-            </p>
-            <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
-              {evolution.before.points.map((pt) => (
-                <li key={pt} className="flex items-start gap-2">
-                  <StatusIcon kind="x" />
-                  <span className="text-[13px] leading-snug text-muted md:text-[14px]">
-                    {pt}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </article>
-
-          {/* 2 · BEFORE 手机框 */}
-          <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
-            <PhoneFrame src={evolution.before.phone} hint="原视觉长图 · 待补" />
-          </div>
-
-          {/* 3 · PROCESS */}
-          <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2 py-4 sm:col-span-2 md:h-[520px] md:rounded-2xl md:px-2.5 md:py-5 lg:col-span-1 lg:h-[560px]">
-            <ColumnLabel
-              en={evolution.process.label}
-              zh={evolution.process.title}
-              center
-            />
-            <p
-              className={`mt-3 text-center text-[12px] leading-snug md:text-[13px] ${gold}`}
-            >
-              {evolution.process.thesis}
-            </p>
-            <ol className="mt-5 flex flex-1 flex-col items-center justify-center gap-0">
-              {evolution.process.steps.map((step, i) => (
-                <li
-                  key={step.index}
-                  className="flex w-full flex-col items-center"
-                >
-                  <div className="flex flex-col items-center gap-1.5 text-center">
-                    <div
-                      className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder}`}
-                    >
-                      <img
-                        src={PROCESS_ICONS[step.icon]}
-                        alt=""
-                        aria-hidden
-                        className="h-6 w-6"
-                      />
-                    </div>
-                    <p className={`text-[10px] tracking-wider ${goldMuted}`}>
-                      {step.index}
-                    </p>
-                    <p className="text-[12px] text-text-primary md:text-[13px]">
-                      {step.label}
-                    </p>
-                  </div>
-                  {i < evolution.process.steps.length - 1 && (
-                    <span
-                      aria-hidden
-                      className="my-2 h-5 w-px border-l border-dashed border-[#C9A96E]/40"
-                    />
-                  )}
-                </li>
-              ))}
-            </ol>
-          </article>
-
-          {/* 4 · AFTER 手机框 */}
-          <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
-            <PhoneFrame src={evolution.after.phone} hint="优化后长图 · 待补" />
-          </div>
-
-          {/* 5 · AFTER 文案 */}
-          <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
-            <ColumnLabel
-              en={evolution.after.label}
-              zh={evolution.after.title}
-              size="lg"
-            />
-            <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
-              {evolution.after.body}
-            </p>
-            <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
-              {evolution.after.points.map((pt) => (
-                <li key={pt} className="flex items-start gap-2">
-                  <StatusIcon kind="check" />
-                  <span className="text-[13px] leading-snug text-muted md:text-[14px]">
-                    {pt}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        </div>
+        {evolution && <EvolutionBlock evolution={evolution} />}
+        {application && (
+          <ApplicationBlock data={application} onOpenImage={setLightbox} />
+        )}
+        {value && <ValueBlock data={value} />}
       </div>
+
+      {lightbox && (
+        <button
+          type="button"
+          className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/85 p-4 md:p-8"
+          onClick={() => setLightbox(null)}
+          aria-label="关闭大图"
+        >
+          <img
+            src={lightbox}
+            alt=""
+            className="max-h-[88vh] max-w-full object-contain shadow-2xl"
+          />
+        </button>
+      )}
     </section>
   );
 }
+
+/* ───────────────── 上半：品牌数字视觉升级 ───────────────── */
+
+function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
+  return (
+    <>
+      <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl">
+          <div className="mb-2.5 flex items-center gap-3">
+            <span className={`h-px w-7 ${gold} bg-current`} />
+            <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
+              {evolution.eyebrow}
+            </span>
+          </div>
+          <h2 className="text-2xl tracking-tight text-text-primary md:text-[1.85rem] lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+            {evolution.title}
+          </h2>
+          <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>
+            {evolution.subtitle}
+          </p>
+          {evolution.intro.length > 0 && (
+            <div className="mt-4 space-y-2 text-[13px] leading-relaxed text-muted md:text-sm">
+              {evolution.intro.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {(evolution.period || evolution.periodNote) && (
+          <div className="shrink-0 text-left md:text-right">
+            {evolution.period && (
+              <p className={`text-sm tracking-wide ${gold}`}>{evolution.period}</p>
+            )}
+            {evolution.periodNote && (
+              <p className="mt-1 text-xs text-muted">{evolution.periodNote}</p>
+            )}
+          </div>
+        )}
+      </header>
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,0.65fr)_minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-2.5 xl:gap-3">
+        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
+          <ColumnLabel
+            en={evolution.before.label}
+            zh={evolution.before.title}
+            size="lg"
+          />
+          <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
+            {evolution.before.body}
+          </p>
+          <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
+            {evolution.before.points.map((pt) => (
+              <li key={pt} className="flex items-start gap-2">
+                <StatusIcon kind="x" />
+                <span className="text-[13px] leading-snug text-muted md:text-[14px]">
+                  {pt}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
+          <PhoneFrame src={evolution.before.phone} hint="原视觉长图 · 待补" />
+        </div>
+
+        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2 py-4 sm:col-span-2 md:h-[520px] md:rounded-2xl md:px-2.5 md:py-5 lg:col-span-1 lg:h-[560px]">
+          <ColumnLabel
+            en={evolution.process.label}
+            zh={evolution.process.title}
+            center
+          />
+          <p
+            className={`mt-3 text-center text-[12px] leading-snug md:text-[13px] ${gold}`}
+          >
+            {evolution.process.thesis}
+          </p>
+          <ol className="mt-5 flex flex-1 flex-col items-center justify-center gap-0">
+            {evolution.process.steps.map((step, i) => (
+              <li key={step.index} className="flex w-full flex-col items-center">
+                <div className="flex flex-col items-center gap-1.5 text-center">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder}`}
+                  >
+                    <img
+                      src={PROCESS_ICONS[step.icon]}
+                      alt=""
+                      aria-hidden
+                      className="h-6 w-6"
+                    />
+                  </div>
+                  <p className={`text-[10px] tracking-wider ${goldMuted}`}>
+                    {step.index}
+                  </p>
+                  <p className="text-[12px] text-text-primary md:text-[13px]">
+                    {step.label}
+                  </p>
+                </div>
+                {i < evolution.process.steps.length - 1 && (
+                  <span
+                    aria-hidden
+                    className="my-2 h-5 w-px border-l border-dashed border-[#C9A96E]/40"
+                  />
+                )}
+              </li>
+            ))}
+          </ol>
+        </article>
+
+        <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
+          <PhoneFrame src={evolution.after.phone} hint="优化后长图 · 待补" />
+        </div>
+
+        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
+          <ColumnLabel
+            en={evolution.after.label}
+            zh={evolution.after.title}
+            size="lg"
+          />
+          <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
+            {evolution.after.body}
+          </p>
+          <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
+            {evolution.after.points.map((pt) => (
+              <li key={pt} className="flex items-start gap-2">
+                <StatusIcon kind="check" />
+                <span className="text-[13px] leading-snug text-muted md:text-[14px]">
+                  {pt}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </>
+  );
+}
+
+/* ───────────────── 下半：数字内容应用 ───────────────── */
+
+function ApplicationBlock({
+  data,
+  onOpenImage,
+}: {
+  data: CaseShowcaseApplication;
+  onOpenImage: (src: string) => void;
+}) {
+  const wechatBlocks = data.blocks.filter((b) => b.kind === "wechat");
+  const secondaryBlocks = data.blocks.filter((b) => b.kind !== "wechat");
+
+  return (
+    <div className="mt-16 border-t border-stroke/60 pt-12 md:mt-20 md:pt-16">
+      <header className="mb-8 md:mb-10">
+        <div className="mb-2.5 flex items-center gap-3">
+          <span className={`h-px w-7 ${gold} bg-current`} />
+          <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
+            {data.eyebrow}
+          </span>
+        </div>
+        <h2 className="text-2xl tracking-tight text-text-primary md:text-[1.85rem] lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+          {data.title}
+        </h2>
+        <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>{data.subtitle}</p>
+        {data.intro && (
+          <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-muted md:text-sm">
+            {data.intro}
+          </p>
+        )}
+      </header>
+
+      {/* 第一屏：公众号 | 电商详情页 */}
+      {wechatBlocks.length > 0 && (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-5">
+          {wechatBlocks.map((block) => (
+            <ApplicationCard
+              key={block.index}
+              block={block}
+              onOpenImage={onOpenImage}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 第二屏：视频号 | 传播物料 */}
+      {secondaryBlocks.length > 0 && (
+        <div className="mt-10 grid grid-cols-1 gap-6 md:mt-14 md:grid-cols-2 lg:gap-5">
+          {secondaryBlocks.map((block) => (
+            <ApplicationCard
+              key={block.index}
+              block={block}
+              onOpenImage={onOpenImage}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ApplicationCard({
+  block,
+  className = "",
+  onOpenImage,
+}: {
+  block: CaseShowcaseApplicationBlock;
+  className?: string;
+  onOpenImage?: (src: string) => void;
+}) {
+  return (
+    <article className={`flex flex-col ${className}`}>
+      <div className="mb-3 flex items-baseline gap-2">
+        <span className={`font-display text-lg italic ${gold}`}>{block.index}</span>
+        <div>
+          <h3 className="text-base text-text-primary md:text-lg [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+            {block.title}
+          </h3>
+          <p className={`text-[10px] uppercase tracking-[0.18em] ${goldMuted}`}>
+            {block.englishTitle}
+          </p>
+        </div>
+      </div>
+      {block.body && (
+        <p className="mb-3 text-[12px] leading-relaxed text-muted md:text-[13px]">
+          {block.body}
+        </p>
+      )}
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl bg-white/[0.04]">
+        {block.cover ? (
+          <button
+            type="button"
+            onClick={() => onOpenImage?.(block.cover!)}
+            aria-label="点击查看大图"
+            className="relative w-full cursor-pointer overflow-hidden bg-black/20 text-left"
+          >
+            <img
+              src={block.cover}
+              alt=""
+              className="block h-auto w-full"
+            />
+          </button>
+        ) : (
+          <div className="flex-1 p-3 md:p-4">
+            {block.kind === "wechat" && <WechatMedia block={block} />}
+            {block.kind === "video" && (
+              <ThumbGrid block={block} cols={3} aspect="video" />
+            )}
+            {block.kind === "marketing" && (
+              <ThumbGrid block={block} cols={4} aspect="poster" />
+            )}
+          </div>
+        )}
+        <p className="border-t border-white/[0.06] bg-black/25 px-3 py-2.5 text-center text-[11px] leading-snug text-muted md:text-xs">
+          {block.caption}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function WechatMedia({ block }: { block: CaseShowcaseApplicationBlock }) {
+  const stripCount = block.stripCount ?? block.strips?.length ?? 4;
+  const strips = block.strips ?? Array.from({ length: stripCount }, () => "");
+
+  return (
+    <div className="flex h-[300px] items-stretch gap-2.5 md:h-[360px] lg:h-[400px]">
+      <div className="h-full w-[36%] max-w-[180px] shrink-0">
+        <PhoneFrame src={block.phone} hint="公众号长图" compact />
+      </div>
+      <div className="flex min-w-0 flex-1 gap-2">
+        {strips.map((src, i) => (
+          <div
+            key={i}
+            className="flex min-w-0 flex-1 overflow-hidden rounded-md bg-black/30"
+          >
+            {src ? (
+              <img src={src} alt="" className="h-full w-full object-cover object-top" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center px-1">
+                <span className={`text-center text-[9px] leading-tight ${goldMuted}`}>
+                  长图
+                  <br />
+                  {i + 1}
+                </span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ThumbGrid({
+  block,
+  cols,
+  aspect,
+}: {
+  block: CaseShowcaseApplicationBlock;
+  cols: number;
+  aspect: "video" | "poster";
+}) {
+  const count = block.thumbCount ?? block.thumbs?.length ?? cols * 2;
+  const thumbs = block.thumbs ?? Array.from({ length: count }, () => "");
+  const aspectClass = aspect === "video" ? "aspect-[4/3]" : "aspect-[3/4]";
+
+  return (
+    <div
+      className="grid gap-1.5"
+      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+    >
+      {thumbs.map((src, i) => (
+        <div
+          key={i}
+          className={`relative overflow-hidden rounded-md bg-black/35 ${aspectClass}`}
+        >
+          {src ? (
+            <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          ) : null}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/25">
+            <PlayMark />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PlayMark() {
+  return (
+    <span
+      aria-hidden
+      className="flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-black/30"
+    >
+      <svg viewBox="0 0 12 12" className="h-3 w-3 translate-x-px fill-white/90">
+        <path d="M3.5 2.2v7.6L10 6 3.5 2.2Z" />
+      </svg>
+    </span>
+  );
+}
+
+/* ───────────────── 设计价值 ───────────────── */
+
+function ValueBlock({ data }: { data: CaseShowcaseValue }) {
+  return (
+    <div
+      className={`mt-12 rounded-xl border ${goldBorder} px-4 py-5 md:mt-16 md:rounded-2xl md:px-6 md:py-6`}
+    >
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
+        <div className="shrink-0 lg:w-[140px]">
+          <p className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
+            {data.eyebrow}
+          </p>
+          <h3 className={`mt-1 text-lg md:text-xl ${gold} [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]`}>
+            {data.title}
+          </h3>
+        </div>
+        <ul className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          {data.items.map((item) => (
+            <li key={item.title} className="flex items-start gap-2.5">
+              <ValueIcon icon={item.icon} />
+              <div>
+                <p className="text-[13px] text-text-primary md:text-sm">{item.title}</p>
+                <p className="mt-0.5 text-[11px] leading-snug text-muted md:text-xs">
+                  {item.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ValueIcon({ icon }: { icon: CaseShowcaseValueItem["icon"] }) {
+  const path =
+    icon === "brand"
+      ? "M24 10c-4 0-7 3.2-7 7.2 0 2.4 1.2 4.5 3 5.7V34h8V22.9c1.8-1.2 3-3.3 3-5.7C31 13.2 28 10 24 10Zm-3 26h6v2h-6v-2Z"
+      : icon === "read"
+        ? "M10 14h10v20H10V14Zm18 0h10v20H28V14ZM14 18h2v2h-2v-2Zm18 0h2v2h-2v-2ZM14 23h6v1.5h-6V23Zm18 0h6v1.5h-6V23ZM14 28h5v1.5h-5V28Zm18 0h5v1.5h-5V28Z"
+        : icon === "culture"
+          ? "M24 8l12 6v8c0 8-5.5 14-12 16-6.5-2-12-8-12-16v-8l12-6Zm0 4.2L15 16.5v5.3c0 5.8 3.8 10.4 9 12.2 5.2-1.8 9-6.4 9-12.2v-5.3L24 12.2Z"
+          : "M12 14h16l6 6v14H12V14Zm16 1.5V22h6.5L28 15.5ZM16 26h12v1.5H16V26Zm0 4h8v1.5h-8V30Z";
+
+  return (
+    <span
+      aria-hidden
+      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border ${goldBorder}`}
+    >
+      <svg viewBox="0 0 48 48" className="h-5 w-5" fill="#C9A96E">
+        <path d={path} />
+      </svg>
+    </span>
+  );
+}
+
+/* ───────────────── 共用 ───────────────── */
 
 function ColumnLabel({
   en,
@@ -240,13 +539,28 @@ function StatusIcon({ kind }: { kind: "x" | "check" }) {
   );
 }
 
-/** 手机框：高度对齐左右文案盒；长图在框内滚动，不撑高整行 */
-function PhoneFrame({ src, hint }: { src?: string; hint: string }) {
+function PhoneFrame({
+  src,
+  hint,
+  compact,
+}: {
+  src?: string;
+  hint: string;
+  compact?: boolean;
+}) {
   return (
     <div className="flex h-full min-h-0 w-full flex-col">
-      <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[1.35rem] border border-white/15 bg-[#0a0a0a] p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
-        <div className="mx-auto mb-1.5 h-1 w-10 shrink-0 rounded-full bg-white/15" />
-        <div className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain rounded-[1rem] bg-white/[0.04] [-webkit-overflow-scrolling:touch]">
+      <div
+        className={`flex h-full min-h-0 flex-col overflow-hidden border border-white/15 bg-[#0a0a0a] shadow-[0_12px_40px_rgba(0,0,0,0.45)] ${
+          compact ? "rounded-[1rem] p-1" : "rounded-[1.35rem] p-1.5"
+        }`}
+      >
+        <div
+          className={`mx-auto shrink-0 rounded-full bg-white/15 ${
+            compact ? "mb-1 h-0.5 w-7" : "mb-1.5 h-1 w-10"
+          }`}
+        />
+        <div className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain rounded-[0.85rem] bg-white/[0.04] [-webkit-overflow-scrolling:touch]">
           {src ? (
             <img
               src={src}
@@ -255,7 +569,7 @@ function PhoneFrame({ src, hint }: { src?: string; hint: string }) {
               draggable={false}
             />
           ) : (
-            <div className="flex h-full min-h-[200px] items-center justify-center px-3 text-center">
+            <div className="flex h-full min-h-[120px] items-center justify-center px-2 text-center">
               <p className={`text-[10px] leading-snug tracking-wide ${goldMuted}`}>
                 {hint}
               </p>

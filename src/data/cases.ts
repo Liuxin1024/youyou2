@@ -96,7 +96,47 @@ export type CaseShowcaseEvolution = {
   };
 };
 
-/** @deprecated 旧落地块结构，后续 SECTION 02 可再扩展 */
+export type CaseShowcaseApplicationBlock = {
+  index: string;
+  title: string;
+  englishTitle: string;
+  body?: string;
+  /** 底部说明条 */
+  caption: string;
+  kind: "wechat" | "video" | "marketing";
+  /** 单图铺满（有则不再用手机+长图条） */
+  cover?: string;
+  /** 公众号主手机长图 */
+  phone?: string;
+  /** 旁侧长图条数 / 素材 */
+  strips?: string[];
+  stripCount?: number;
+  /** 视频号 / 物料缩略图 */
+  thumbs?: string[];
+  thumbCount?: number;
+};
+
+export type CaseShowcaseApplication = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  intro?: string;
+  blocks: CaseShowcaseApplicationBlock[];
+};
+
+export type CaseShowcaseValueItem = {
+  title: string;
+  body: string;
+  icon: "brand" | "read" | "culture" | "spread";
+};
+
+export type CaseShowcaseValue = {
+  eyebrow: string;
+  title: string;
+  items: CaseShowcaseValueItem[];
+};
+
+/** @deprecated 旧落地块结构 */
 export type CaseShowcaseBlock = {
   kind: "longform" | "motion-grid";
   title: string;
@@ -144,6 +184,10 @@ export type CaseStudy = {
   strategy: CaseStrategyStep[];
   /** 落地展示 · 品牌数字视觉升级（设计图上半） */
   showcaseEvolution?: CaseShowcaseEvolution;
+  /** 落地展示 · 数字内容应用（设计图下半） */
+  showcaseApplication?: CaseShowcaseApplication;
+  /** 落地展示 · 设计价值 */
+  showcaseValue?: CaseShowcaseValue;
   takeaway: string;
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5";
@@ -354,6 +398,76 @@ export const CASES: CaseStudy[] = [
         ],
         phone: "/xian.jpg",
       },
+    },
+    showcaseApplication: {
+      eyebrow: "CONTENT APPLICATION",
+      title: "数字内容应用",
+      subtitle: "多场景视觉落地，持续输出品牌价值",
+      intro: "以实际传播场景为基础，持续输出品牌数字内容视觉资产。",
+      blocks: [
+        {
+          index: "01",
+          title: "微信公众号内容设计",
+          englishTitle: "WeChat Official Account Design",
+          body: "围绕品牌故事、产品内容及营销节点进行视觉设计。",
+          caption: "建立统一视觉风格，提高阅读体验与品牌认知",
+          kind: "wechat",
+          cover: "/01.png",
+        },
+        {
+          index: "02",
+          title: "电商详情页设计",
+          englishTitle: "E-commerce Detail Page Design",
+          body: "围绕品牌故事、产品内容及营销节点进行视觉设计。",
+          caption: "建立统一视觉风格，提高阅读体验与品牌认知",
+          kind: "wechat",
+          cover: "/02.png",
+        },
+        {
+          index: "03",
+          title: "视频号视觉包装",
+          englishTitle: "Short Video Visual Design",
+          body: "建立品牌视频号内容视觉模板，并完成多期达人探店内容输出。",
+          caption: "统一视觉语言，强化品牌识别与系列感",
+          kind: "video",
+          cover: "/03.png",
+        },
+        {
+          index: "04",
+          title: "品牌传播物料",
+          englishTitle: "Marketing Visual Assets",
+          body: "覆盖产品推广、节日营销、品牌活动与社交媒体传播。",
+          caption: "多场景延展应用，提升品牌传播效率",
+          kind: "marketing",
+          cover: "/04.png",
+        },
+      ],
+    },
+    showcaseValue: {
+      eyebrow: "DESIGN VALUE",
+      title: "设计价值",
+      items: [
+        {
+          title: "品牌调性统一",
+          body: "建立东方米酒视觉识别体系",
+          icon: "brand",
+        },
+        {
+          title: "阅读体验提升",
+          body: "优化信息层级与视觉节奏",
+          icon: "read",
+        },
+        {
+          title: "文化价值传递",
+          body: "将传统文化转化为现代视觉语言",
+          icon: "culture",
+        },
+        {
+          title: "传播效率提升",
+          body: "提高内容吸引力与用户互动",
+          icon: "spread",
+        },
+      ],
     },
     takeaway:
       "通过将日系极简质感引入传统米酒品牌，结合公众号长图与动态组件的交互设计，为酃酃酒建立了具备高辨识度的全渠道视觉资产，实现了品牌文化向现代社媒语言的成功转化。",
