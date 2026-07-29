@@ -57,12 +57,51 @@ export type CaseStrategyStep = {
   mediaHint?: string;
 };
 
+export type CaseShowcaseProcessStep = {
+  index: string;
+  label: string;
+  /** 复用策略区 icon id，或本地路径 */
+  icon: "layers" | "leaf" | "device";
+};
+
+export type CaseShowcaseEvolution = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  period?: string;
+  periodNote?: string;
+  /** 区块导语，文档为准 */
+  intro: string[];
+  before: {
+    label: string;
+    title: string;
+    body: string;
+    points: string[];
+    /** 手机框内长图，后续补 */
+    phone?: string;
+  };
+  process: {
+    label: string;
+    title: string;
+    thesis: string;
+    steps: CaseShowcaseProcessStep[];
+  };
+  after: {
+    label: string;
+    title: string;
+    body: string;
+    points: string[];
+    /** 手机框内长图，后续补 */
+    phone?: string;
+  };
+};
+
+/** @deprecated 旧落地块结构，后续 SECTION 02 可再扩展 */
 export type CaseShowcaseBlock = {
   kind: "longform" | "motion-grid";
   title: string;
   body: string;
   callouts?: string[];
-  /** 占位媒体，后续替换 */
   media?: string[];
 };
 
@@ -103,7 +142,8 @@ export type CaseStudy = {
   /** 策略屏导语 */
   strategySummary?: string;
   strategy: CaseStrategyStep[];
-  showcase: CaseShowcaseBlock[];
+  /** 落地展示 · 品牌数字视觉升级（设计图上半） */
+  showcaseEvolution?: CaseShowcaseEvolution;
   takeaway: string;
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5";
@@ -270,24 +310,51 @@ export const CASES: CaseStudy[] = [
         ],
       },
     ],
-    showcase: [
-      {
-        kind: "longform",
-        title: "微信公众号故事化长图",
-        body: "网页端以手机比例容器呈现长图叙事节奏；右侧说明设计亮点。动效与真图后续补齐。",
-        callouts: [
-          "动态组件应用：酒滴、微醺汽泡、渐隐文字，引导阅读节奏",
-          "信息层级：将「千年贡酒」历史文化转化为轻量化图文板块",
+    showcaseEvolution: {
+      eyebrow: "DIGITAL VISUAL UPGRADE",
+      title: "品牌数字视觉升级",
+      subtitle: "从信息展示到沉浸式文化体验的升级",
+      period: "2025.07 — Present",
+      periodNote: "新媒体视觉设计",
+      intro: [
+        "针对品牌公众号内容传播需求，对原有品牌文化内容进行视觉优化。",
+        "通过东方文化视觉转译、信息层级调整以及内容叙事优化，将传统文化内容转化为更符合数字阅读场景的品牌体验。",
+      ],
+      before: {
+        label: "BEFORE",
+        title: "原视觉状态",
+        body: "原有内容以品牌文化介绍和产品信息传递为核心，通过大量文字与历史资料建立品牌认知。",
+        points: [
+          "信息密度较高，阅读节奏较弱",
+          "视觉元素缺少统一的品牌语言",
+          "文化内容与产品体验之间连接不足",
+          "用户情绪感受和浏览停留空间有限",
         ],
-        media: [],
+        phone: "/yuan.jpg",
       },
-      {
-        kind: "motion-grid",
-        title: "视频号与社媒动态视觉",
-        body: "2–3 个无声视频 / GIF 动画网格占位，展示动态封面与流媒体视觉统一性。",
-        media: [],
+      process: {
+        label: "DESIGN THINKING",
+        title: "优化思路",
+        thesis: "从「信息展示」转向「品牌叙事」",
+        steps: [
+          { index: "01", label: "内容结构优化", icon: "layers" },
+          { index: "02", label: "东方视觉语言建立", icon: "leaf" },
+          { index: "03", label: "数字阅读体验优化", icon: "device" },
+        ],
       },
-    ],
+      after: {
+        label: "AFTER",
+        title: "优化后视觉表达",
+        body: "通过重新设计内容结构与视觉语言，将传统酿酒文化转化为更具现代传播力的数字内容。",
+        points: [
+          "建立统一的品牌视觉调性",
+          "提升文化内容的阅读吸引力",
+          "强化东方米酒的品牌认知",
+          "增强公众号内容传播表现力",
+        ],
+        phone: "/xian.jpg",
+      },
+    },
     takeaway:
       "通过将日系极简质感引入传统米酒品牌，结合公众号长图与动态组件的交互设计，为酃酃酒建立了具备高辨识度的全渠道视觉资产，实现了品牌文化向现代社媒语言的成功转化。",
     span: "md:col-span-7",
@@ -304,7 +371,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    showcase: [],
     takeaway: "",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
@@ -319,7 +385,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    showcase: [],
     takeaway: "",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
@@ -334,7 +399,6 @@ export const CASES: CaseStudy[] = [
     keywords: ["占位"],
     summary: "此案例详情页尚未搭建，仅作列表占位。",
     strategy: [],
-    showcase: [],
     takeaway: "",
     span: "md:col-span-7",
     aspect: "aspect-[16/10]",

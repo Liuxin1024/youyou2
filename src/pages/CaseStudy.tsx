@@ -35,7 +35,7 @@ export default function CaseStudyPage() {
         summary={study.strategySummary}
         watermarkChar={study.title}
       />
-      <CaseShowcase blocks={study.showcase} />
+      <CaseShowcase evolution={study.showcaseEvolution} />
       <CaseTakeaway text={study.takeaway} />
       <CaseFooterNav prev={prev} next={next} />
     </main>

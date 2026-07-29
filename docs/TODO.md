@@ -22,8 +22,8 @@
 - [ ] CaseHero 封面换真实 KV / 酒液主视觉（现为占位图）
 - [x] CaseStrategy：按设计图 4 步布局 + 文档文案重写（右侧媒体占位待补图）
 - [x] CaseSystem（视觉规范与组件库）：本案例不展示，已移除
-- [ ] CaseShowcase 长图区：手机 Mockup + 公众号长图 / 动效
-- [ ] CaseShowcase 动态网格：视频号 / GIF（注意体积与国内加载）
+- [x] CaseShowcase 上半：品牌数字视觉升级（Before / Process / After，文案按文档；长图待补）
+- [ ] CaseShowcase 下半：新媒体视觉内容应用（公众号 / 视频号 / 传播物料）
 - [ ] CaseTakeaway：确认最终复盘文案
 - [ ] 其余核心项目：在 `CASES` 追加数据并开放详情
 
