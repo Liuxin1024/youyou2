@@ -87,7 +87,7 @@ export function CaseShowcase({ evolution, application, value, ai }: Props) {
 function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
   return (
     <>
-      <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+      <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-start md:justify-between">
         <div className="max-w-2xl">
           <div className="mb-2.5 flex items-center gap-3">
             <span className={`h-px w-7 ${gold} bg-current`} />
@@ -111,7 +111,7 @@ function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
         </div>
 
         {(evolution.period || evolution.periodNote) && (
-          <div className="shrink-0 text-left md:text-right">
+          <div className="shrink-0 text-left md:pt-1 md:text-right">
             {evolution.period && (
               <p className={`text-sm tracking-wide ${gold}`}>{evolution.period}</p>
             )}
