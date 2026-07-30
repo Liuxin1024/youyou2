@@ -24,6 +24,7 @@
 - [x] CaseSystem（视觉规范与组件库）：本案例不展示，已移除
 - [x] CaseShowcase 上半：品牌数字视觉升级（Before / Process / After，文案按文档；长图待补）
 - [x] CaseShowcase 下半：数字内容应用 + 设计价值（01–04 单图 + 灯箱）
+- [x] CaseShowcase：AI辅助视觉创意探索（文案落地；概念格 / 应用竖图占位待补）
 - [ ] CaseShowcase 图片加载白屏：`01–04.png` 等大图解码前露白底，需优化（占位底色 / blur 缩略图 / 预加载 / 骨架屏）
 - [ ] CaseTakeaway：确认最终复盘文案
 - [ ] 其余核心项目：在 `CASES` 追加数据并开放详情

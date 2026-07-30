@@ -136,6 +136,53 @@ export type CaseShowcaseValue = {
   items: CaseShowcaseValueItem[];
 };
 
+/** 落地展示 · AI辅助视觉创意探索 */
+export type CaseShowcaseAi = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  /** 右上角品牌标语，如「酿 · 东方米酒」 */
+  brandMark?: string;
+  /** 品牌标语上方英文，如 LINGLINGJIU */
+  brandMarkEn?: string;
+  concept: {
+    index: string;
+    title: string;
+    englishTitle: string;
+    body: string;
+    keywordsLabel: string;
+    keywords: string[];
+    /** 有则用图；空字符串 / 缺省用占位。默认 6 格 */
+    images?: string[];
+    imageCount?: number;
+  };
+  workflow: {
+    index: string;
+    title: string;
+    englishTitle: string;
+    body?: string;
+    steps: { label: string; body?: string }[];
+  };
+  application: {
+    index: string;
+    title: string;
+    englishTitle: string;
+    body: string;
+    /** 单张竖图；空则占位 */
+    image?: string;
+  };
+  tools: {
+    eyebrow: string;
+    title: string;
+    items: string[];
+    note?: string;
+  };
+  quote: string;
+  /** 金句区背景图 */
+  quoteBackground?: string;
+};
+
 /** @deprecated 旧落地块结构 */
 export type CaseShowcaseBlock = {
   kind: "longform" | "motion-grid";
@@ -188,6 +235,8 @@ export type CaseStudy = {
   showcaseApplication?: CaseShowcaseApplication;
   /** 落地展示 · 设计价值 */
   showcaseValue?: CaseShowcaseValue;
+  /** 落地展示 · AI辅助视觉创意探索 */
+  showcaseAi?: CaseShowcaseAi;
   takeaway: string;
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5";
@@ -468,6 +517,51 @@ export const CASES: CaseStudy[] = [
           icon: "spread",
         },
       ],
+    },
+    showcaseAi: {
+      eyebrow: "AI-ENHANCED DESIGN PROCESS",
+      title: "AI辅助视觉创意探索",
+      subtitle: "AI赋能视觉创意流程",
+      intro:
+        "在品牌视觉设计过程中，引入AI工具辅助创意探索与视觉验证。通过快速生成不同视觉方向，提高概念探索效率，并结合设计判断完成视觉优化与商业化表达。",
+      brandMarkEn: "LINGLINGJIU",
+      brandMark: "酿 · 东方米酒",
+      concept: {
+        index: "01",
+        title: "概念探索",
+        englishTitle: "CONCEPT EXPLORATION",
+        body: "从抽象想法到视觉方向验证。利用AI快速探索不同视觉语言，辅助建立品牌视觉方向。",
+        keywordsLabel: "KEYWORDS 关键词",
+        keywords: ["米酒文化", "年轻消费场景", "光影氛围", "情绪化表达"],
+        images: ["/05.png"],
+      },
+      workflow: {
+        index: "02",
+        title: "创意流程",
+        englishTitle: "AI WORKFLOW",
+        body: "通过AI工具提高视觉探索效率，同时结合人工设计判断完成方案深化。",
+        steps: [
+          { label: "品牌需求分析", body: "梳理品牌定位与传播目标" },
+          { label: "关键词提炼", body: "提炼视觉方向与情绪词" },
+          { label: "AI视觉探索", body: "多方向快速生成与验证" },
+          { label: "方案筛选优化", body: "结合设计判断收敛方向" },
+          { label: "设计深化落地", body: "人工深化并商业化表达" },
+        ],
+      },
+      application: {
+        index: "03",
+        title: "应用延展",
+        englishTitle: "VISUAL APPLICATION",
+        body: "将AI探索转化为品牌视觉资产。",
+        image: "/06.png",
+      },
+      tools: {
+        eyebrow: "AI TOOLS",
+        title: "使用工具",
+        items: ["即梦", "ChatGPT", "Photoshop", "Illustrator"],
+      },
+      quote: "AI是创意的放大器，而设计师的思考，决定了最终的价值",
+      quoteBackground: "/07.png",
     },
     takeaway:
       "通过将日系极简质感引入传统米酒品牌，结合公众号长图与动态组件的交互设计，为酃酃酒建立了具备高辨识度的全渠道视觉资产，实现了品牌文化向现代社媒语言的成功转化。",

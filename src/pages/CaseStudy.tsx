@@ -39,6 +39,7 @@ export default function CaseStudyPage() {
         evolution={study.showcaseEvolution}
         application={study.showcaseApplication}
         value={study.showcaseValue}
+        ai={study.showcaseAi}
       />
       <CaseTakeaway text={study.takeaway} />
       <CaseFooterNav prev={prev} next={next} />

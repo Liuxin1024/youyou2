@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type {
+  CaseShowcaseAi,
   CaseShowcaseApplication,
   CaseShowcaseApplicationBlock,
   CaseShowcaseEvolution,
@@ -18,13 +19,22 @@ const PROCESS_ICONS: Record<CaseShowcaseProcessStep["icon"], string> = {
   device: "/icons/strategy/device.svg",
 };
 
+const AI_TOOL_ICONS: Record<string, string> = {
+  Midjourney: "/icons/ai/midjourney.svg",
+  即梦: "/icons/ai/jimeng.svg",
+  "Chat GPT": "/icons/ai/openai.svg",
+  ChatGPT: "/icons/ai/openai.svg",
+  可灵: "/icons/ai/keling.svg",
+};
+
 type Props = {
   evolution?: CaseShowcaseEvolution;
   application?: CaseShowcaseApplication;
   value?: CaseShowcaseValue;
+  ai?: CaseShowcaseAi;
 };
 
-export function CaseShowcase({ evolution, application, value }: Props) {
+export function CaseShowcase({ evolution, application, value, ai }: Props) {
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
@@ -41,7 +51,7 @@ export function CaseShowcase({ evolution, application, value }: Props) {
     };
   }, [lightbox]);
 
-  if (!evolution && !application && !value) return null;
+  if (!evolution && !application && !value && !ai) return null;
 
   return (
     <section className="relative overflow-hidden border-b border-stroke py-12 md:py-16">
@@ -51,6 +61,7 @@ export function CaseShowcase({ evolution, application, value }: Props) {
           <ApplicationBlock data={application} onOpenImage={setLightbox} />
         )}
         {value && <ValueBlock data={value} />}
+        {ai && <AiExplorationBlock data={ai} onOpenImage={setLightbox} />}
       </div>
 
       {lightbox && (
@@ -464,6 +475,283 @@ function ValueIcon({ icon }: { icon: CaseShowcaseValueItem["icon"] }) {
       <svg viewBox="0 0 48 48" className="h-5 w-5" fill="#C9A96E">
         <path d={path} />
       </svg>
+    </span>
+  );
+}
+
+/* ───────────────── AI辅助视觉创意探索 ───────────────── */
+
+function AiExplorationBlock({
+  data,
+  onOpenImage,
+}: {
+  data: CaseShowcaseAi;
+  onOpenImage: (src: string) => void;
+}) {
+  const conceptImages =
+    data.concept.images ??
+    Array.from({ length: data.concept.imageCount ?? 6 }, () => "");
+
+  return (
+    <div className="mt-16 border-t border-stroke/60 pt-12 md:mt-20 md:pt-16">
+      <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-start md:justify-between">
+        <div className="min-w-0 max-w-2xl flex-1">
+          <div className="mb-2.5 flex items-center gap-3">
+            <span className={`h-px w-7 ${gold} bg-current`} />
+            <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
+              {data.eyebrow}
+            </span>
+          </div>
+          <h2 className="text-2xl tracking-tight text-text-primary md:text-[1.85rem] lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+            {data.title}
+          </h2>
+          <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>{data.subtitle}</p>
+          <p className="mt-3 text-[13px] leading-relaxed text-muted md:text-sm">
+            {data.intro}
+          </p>
+        </div>
+
+        {(data.brandMark || data.brandMarkEn) && (
+          <div className="shrink-0 text-left md:pt-1 md:text-right">
+            {data.brandMarkEn && (
+              <p className={`text-[11px] uppercase tracking-[0.28em] ${goldMuted}`}>
+                {data.brandMarkEn}
+              </p>
+            )}
+            {data.brandMark && (
+              <p
+                className={`mt-1 text-sm tracking-wide text-text-primary md:text-base [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]`}
+              >
+                {data.brandMark}
+              </p>
+            )}
+          </div>
+        )}
+      </header>
+
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.7fr)_minmax(0,1.2fr)] lg:grid-rows-[auto_auto_auto] lg:gap-x-5 lg:gap-y-3">
+        {/* 01 概念探索 */}
+        <article className="flex flex-col lg:row-span-3 lg:grid lg:grid-rows-subgrid">
+          <AiColumnHeading
+            index={data.concept.index}
+            title={data.concept.title}
+            english={data.concept.englishTitle}
+          />
+          <p className="mt-3 text-[12px] leading-relaxed text-muted lg:mt-0 md:text-[13px]">
+            {data.concept.body}
+          </p>
+          <div className="mt-4 flex min-h-0 flex-col lg:mt-0">
+            {conceptImages.length === 1 && conceptImages[0] ? (
+              <button
+                type="button"
+                onClick={() => onOpenImage(conceptImages[0])}
+                aria-label="点击查看大图"
+                className="block w-full shrink-0 cursor-pointer overflow-hidden rounded-xl bg-black/20 text-left"
+              >
+                <img
+                  src={conceptImages[0]}
+                  alt=""
+                  className="aspect-[1366/1801] w-full object-contain object-top"
+                />
+              </button>
+            ) : (
+              <div className="grid shrink-0 grid-cols-3 gap-2">
+                {conceptImages.map((src, i) => (
+                  <div
+                    key={i}
+                    className="aspect-[3/4] overflow-hidden rounded-md bg-black/35"
+                  >
+                    {src ? (
+                      <button
+                        type="button"
+                        onClick={() => onOpenImage(src)}
+                        aria-label="点击查看大图"
+                        className="h-full w-full cursor-pointer"
+                      >
+                        <img
+                          src={src}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      </button>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </article>
+
+        {/* 02 创意流程 */}
+        <article className="flex flex-col lg:row-span-3 lg:grid lg:grid-rows-subgrid">
+          <AiColumnHeading
+            index={data.workflow.index}
+            title={data.workflow.title}
+            english={data.workflow.englishTitle}
+          />
+          <p className="mt-3 text-[12px] leading-relaxed text-muted lg:mt-0 md:text-[13px]">
+            {data.workflow.body ?? ""}
+          </p>
+          <ol className="mt-5 flex min-h-0 flex-1 flex-col justify-between gap-1 lg:mt-0">
+            {data.workflow.steps.map((step, i) => (
+              <li key={step.label} className="flex min-h-0 flex-1 gap-3">
+                <div className="flex w-9 shrink-0 flex-col items-center">
+                  <span
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border ${goldBorder} text-[11px] ${gold}`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {i < data.workflow.steps.length - 1 && (
+                    <span
+                      aria-hidden
+                      className="my-1 w-px flex-1 border-l border-dashed border-[#C9A96E]/40"
+                    />
+                  )}
+                </div>
+                <div className="min-w-0 pt-1.5">
+                  <p className="text-[13px] text-text-primary md:text-sm">
+                    {step.label}
+                  </p>
+                  {step.body && (
+                    <p className="mt-0.5 text-[11px] leading-snug text-muted md:text-xs">
+                      {step.body}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </article>
+
+        {/* 03 应用延展 · 媒体区高度 = 01 图 + 关键词 */}
+        <article className="flex flex-col lg:row-span-3 lg:grid lg:grid-rows-subgrid">
+          <AiColumnHeading
+            index={data.application.index}
+            title={data.application.title}
+            english={data.application.englishTitle}
+          />
+          <p className="mt-3 text-[12px] leading-relaxed text-muted lg:mt-0 md:text-[13px]">
+            {data.application.body}
+          </p>
+          <div className="mt-4 min-h-0 self-stretch overflow-hidden rounded-xl bg-black/35 lg:mt-0 lg:h-full">
+            {data.application.image ? (
+              <button
+                type="button"
+                onClick={() => onOpenImage(data.application.image!)}
+                aria-label="点击查看大图"
+                className="block h-full w-full cursor-pointer text-left"
+              >
+                <img
+                  src={data.application.image}
+                  alt=""
+                  className="aspect-[1366/1801] h-full w-full object-contain object-top"
+                />
+              </button>
+            ) : (
+              <div className="flex h-full min-h-[280px] w-full items-center justify-center px-3 text-center">
+                <p className={`text-[11px] leading-snug ${goldMuted}`}>
+                  应用延展竖图
+                  <br />
+                  待补
+                </p>
+              </div>
+            )}
+          </div>
+        </article>
+      </div>
+
+      {/* 底部：工具 + 金句（整块右侧背景） */}
+      <div className="relative mt-10 overflow-hidden border-t border-stroke/50 pt-8 md:mt-12 md:pt-10">
+        {data.quoteBackground && (
+          <img
+            src={data.quoteBackground}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 h-full w-[70%] max-w-[720px] object-contain object-right-bottom opacity-45 md:w-[58%]"
+          />
+        )}
+        <div className="relative z-[1] grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:gap-10">
+          <div>
+            <p className={`text-[10px] uppercase tracking-[0.22em] ${goldMuted}`}>
+              {data.tools.eyebrow}
+            </p>
+            <h3
+              className={`mt-1 text-base md:text-lg ${gold} [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]`}
+            >
+              {data.tools.title}
+            </h3>
+            <ul className="mt-4 flex flex-wrap gap-5 md:gap-6">
+              {data.tools.items.map((tool) => (
+                <li key={tool} className="flex flex-col items-center gap-2">
+                  <AiToolMark name={tool} />
+                  <span className="text-[11px] text-muted">{tool}</span>
+                </li>
+              ))}
+            </ul>
+            {data.tools.note && (
+              <p className="mt-3 text-[11px] leading-relaxed text-muted md:text-xs">
+                {data.tools.note}
+              </p>
+            )}
+          </div>
+          <blockquote className="flex min-h-[140px] items-center border-t border-stroke/40 pt-6 md:min-h-[160px] md:border-l md:border-t-0 md:pl-8 md:pt-0">
+            <p
+              className={`max-w-[36em] text-base leading-relaxed md:text-lg lg:text-xl ${gold} [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]`}
+            >
+              “{data.quote}”
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AiColumnHeading({
+  index,
+  title,
+  english,
+}: {
+  index: string;
+  title: string;
+  english: string;
+}) {
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className={`font-display text-lg italic ${gold}`}>{index}</span>
+      <div>
+        <h3 className="text-base text-text-primary md:text-lg [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+          {title}
+        </h3>
+        <p className={`text-[10px] uppercase tracking-[0.18em] ${goldMuted}`}>
+          {english}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function AiToolMark({ name }: { name: string }) {
+  const src = AI_TOOL_ICONS[name];
+  if (src) {
+    return (
+      <span
+        className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder} bg-white/[0.03]`}
+      >
+        <img src={src} alt="" className="h-5 w-5 object-contain" />
+      </span>
+    );
+  }
+
+  const initial =
+    name === "Photoshop" ? "Ps" : name === "Illustrator" ? "Ai" : name.slice(0, 2);
+
+  return (
+    <span
+      aria-hidden
+      className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder} bg-white/[0.03] text-[11px] tracking-wide ${gold}`}
+    >
+      {initial}
     </span>
   );
 }
