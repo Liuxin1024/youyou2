@@ -36,7 +36,7 @@ export function CaseFooterNav({ prev, next }: Props) {
               {next.title} →
             </Link>
           ) : (
-            <span className="text-sm text-muted/40">更多案例待补充</span>
+            <span className="text-sm text-muted/50">下一个项目 →</span>
           )}
         </div>
       </div>

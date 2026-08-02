@@ -183,6 +183,26 @@ export type CaseShowcaseAi = {
   quoteBackground?: string;
 };
 
+/** 项目总结收尾屏（设计图上+下；中间「我的设计方法」不做） */
+export type CaseProjectSummary = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  brandMarkEn: string;
+  brandMark: string;
+  backgroundImage: string;
+  closing: {
+    logo: string;
+    logoEn: string;
+    line1: string;
+    line2: string;
+    line3: string;
+    /** 后期补山水底图；缺省为纯深色 */
+    backgroundImage?: string;
+  };
+};
+
 /** @deprecated 旧落地块结构 */
 export type CaseShowcaseBlock = {
   kind: "longform" | "motion-grid";
@@ -237,6 +257,8 @@ export type CaseStudy = {
   showcaseValue?: CaseShowcaseValue;
   /** 落地展示 · AI辅助视觉创意探索 */
   showcaseAi?: CaseShowcaseAi;
+  /** 有则渲染 CaseSummary，替代通用 takeaway 复盘块 */
+  projectSummary?: CaseProjectSummary;
   takeaway: string;
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5";
@@ -561,7 +583,23 @@ export const CASES: CaseStudy[] = [
         items: ["即梦", "ChatGPT", "Photoshop", "Illustrator"],
       },
       quote: "AI是创意的放大器，而设计师的思考，决定了最终的价值",
-      quoteBackground: "/07.png",
+      quoteBackground: "/09.PNG",
+    },
+    projectSummary: {
+      eyebrow: "07 PROJECT SUMMARY",
+      title: "项目总结",
+      subtitle: "从品牌内容到数字体验的视觉升级",
+      body: "围绕酃酃酒品牌数字传播场景，优化内容表达方式，建立符合年轻消费者阅读习惯的视觉体系，实现品牌文化传递、内容传播与商业转化的有效连接。",
+      brandMarkEn: "LINGLINGJIU",
+      brandMark: "酃·东方米酒",
+      backgroundImage: "/08.jpeg",
+      closing: {
+        logo: "酃酃酒",
+        logoEn: "LINGLINGJIU",
+        line1: "DESIGN IS NOT ONLY ABOUT VISUALS,",
+        line2: "IT IS ABOUT BUILDING CONNECTIONS.",
+        line3: "设计不仅是视觉表达，更是连接品牌与用户的方式。",
+      },
     },
     takeaway:
       "通过将日系极简质感引入传统米酒品牌，结合公众号长图与动态组件的交互设计，为酃酃酒建立了具备高辨识度的全渠道视觉资产，实现了品牌文化向现代社媒语言的成功转化。",
