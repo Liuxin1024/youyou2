@@ -35,11 +35,10 @@ export function CaseHero({ study }: Props) {
           <img
             src={study.cover}
             alt=""
-            className={`h-full w-full object-cover ${
-              pillarLayout === "icons"
+            className={`h-full w-full object-cover ${pillarLayout === "icons"
                 ? "object-[72%_28%] md:object-[68%_30%]"
                 : "object-[center_28%]"
-            }`}
+              }`}
           />
           {/* 左侧渐变：保证标题区可读 */}
           <div
@@ -101,14 +100,18 @@ export function CaseHero({ study }: Props) {
               {overview.englishName}
             </p>
             <p
-              className={`mt-4 max-w-xl text-text-primary/90 md:mt-5 ${
-                pillarLayout === "icons"
+              className={`mt-4 max-w-xl text-text-primary/90 md:mt-5 ${pillarLayout === "icons"
                   ? "text-xl md:text-2xl lg:text-3xl"
                   : "text-base md:text-lg"
-              }`}
+                }`}
             >
               {overview.positioning}
             </p>
+            {overview.positioningDesc && (
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted md:mt-4 md:text-base">
+                {overview.positioningDesc}
+              </p>
+            )}
           </div>
 
           {/* 关键词条：沉在第一屏左侧（icons）或通栏（cards） */}
@@ -240,9 +243,8 @@ export function CaseHero({ study }: Props) {
                 return (
                   <p
                     key={text.slice(0, 24)}
-                    className={`text-sm leading-[1.85] md:text-[15px] ${
-                      bold ? "font-semibold text-text-primary" : "text-muted"
-                    }`}
+                    className={`text-sm leading-[1.85] md:text-[15px] ${bold ? "font-semibold text-text-primary" : "text-muted"
+                      }`}
                   >
                     {text}
                   </p>

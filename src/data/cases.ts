@@ -222,6 +222,8 @@ export type CaseOverview = {
   englishName: string;
   /** 项目定位 / 副标题 */
   positioning: string;
+  /** 定位下的补充说明（可选，字号小于 positioning） */
+  positioningDesc?: string;
   /** 四个关键词支柱 */
   pillars: string[];
   /** 底栏样式：cards=项目1毛玻璃格；icons=圆形图标条（设计图混合） */
@@ -644,14 +646,16 @@ export const CASES: CaseStudy[] = [
     overview: {
       englishName: "JIAOBEN",
       positioning: "医研护肤品牌视觉升级",
+      positioningDesc:
+        "本项目围绕品牌视觉优化、产品视觉表达以及数字内容建设展开，探索医研品牌在新时代消费环境下的视觉升级路径。",
       pillarLayout: "icons",
       pillars: ["医研背书", "安全有效", "温和亲肤", "肌肤自信"],
     },
     roleScope: {
       eyebrow: "MY ROLE",
-      title: "我的角色",
+      title: "视觉设计师",
       description:
-        "视觉设计师，负责娇本品牌数字视觉体系建设与商业内容设计，参与品牌视觉升级、新品视觉探索及多渠道视觉落地。",
+        "负责娇本品牌数字视觉体系建设与商业内容设计，参与品牌视觉升级、新品视觉探索及多渠道视觉落地。",
       image: "/11.png",
       responsibilitiesEyebrow: "RESPONSIBILITIES",
       responsibilitiesTitle: "职责范围",
