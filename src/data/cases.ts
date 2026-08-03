@@ -224,14 +224,38 @@ export type CaseOverview = {
   positioning: string;
   /** 四个关键词支柱 */
   pillars: string[];
-  roleTitle: string;
-  roleDesc: string;
-  roleDuties: string[];
+  /** 底栏样式：cards=项目1毛玻璃格；icons=圆形图标条（设计图混合） */
+  pillarLayout?: "cards" | "icons";
+  /** 以下 Role / 背景区块字段；缺省则只渲染主视觉 */
+  roleTitle?: string;
+  roleDesc?: string;
+  roleDuties?: string[];
   /** 项目背景段落；可标 bold */
-  background: Array<string | { text: string; bold?: boolean }>;
-  aiTools: string[];
+  background?: Array<string | { text: string; bold?: boolean }>;
+  aiTools?: string[];
   /** 品牌大事件时间线 */
   milestones?: CaseMilestone[];
+};
+
+/** 角色 + 职责范围屏（娇本等；不含顶栏概述 / 底栏工具） */
+export type CaseRoleScopeItem = {
+  index: string;
+  englishTitle: string;
+  chineseTitle: string;
+  /** 缺省则深色占位 */
+  image?: string;
+  bullets: string[];
+};
+
+export type CaseRoleScope = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  /** 角色区右侧大图；缺省占位 */
+  image?: string;
+  responsibilitiesEyebrow: string;
+  responsibilitiesTitle: string;
+  items: CaseRoleScopeItem[];
 };
 
 export type CaseStudy = {
@@ -246,6 +270,8 @@ export type CaseStudy = {
   summary: string;
   /** 第一屏完整结构；已发布案例必填 */
   overview?: CaseOverview;
+  /** 我的角色 + 职责范围（独立一屏） */
+  roleScope?: CaseRoleScope;
   /** 策略屏导语 */
   strategySummary?: string;
   strategy: CaseStrategyStep[];
@@ -606,21 +632,86 @@ export const CASES: CaseStudy[] = [
     span: "md:col-span-7",
     aspect: "aspect-[16/10]",
   },
-  // 其余三个列表位仍用占位，暂无详情页
   {
-    slug: "urban-architecture",
-    title: "Urban Architecture",
-    subtitle: "占位案例 · 待补充",
-    cover:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80",
-    role: "待补充",
-    keywords: ["占位"],
-    summary: "此案例详情页尚未搭建，仅作列表占位。",
+    slug: "jiaoben",
+    title: "娇本",
+    subtitle: "医研护肤品牌视觉升级",
+    cover: "/10.JPG",
+    role: "视觉设计师",
+    keywords: ["医研背书", "安全有效", "温和亲肤", "肌肤自信"],
+    summary:
+      "本项目围绕品牌视觉优化、产品视觉表达以及数字内容建设展开，探索医研品牌在新时代消费环境下的视觉升级路径。",
+    overview: {
+      englishName: "JIAOBEN",
+      positioning: "医研护肤品牌视觉升级",
+      pillarLayout: "icons",
+      pillars: ["医研背书", "安全有效", "温和亲肤", "肌肤自信"],
+    },
+    roleScope: {
+      eyebrow: "MY ROLE",
+      title: "我的角色",
+      description:
+        "视觉设计师，负责娇本品牌数字视觉体系建设与商业内容设计，参与品牌视觉升级、新品视觉探索及多渠道视觉落地。",
+      image: "/11.png",
+      responsibilitiesEyebrow: "RESPONSIBILITIES",
+      responsibilitiesTitle: "职责范围",
+      items: [
+        {
+          index: "01",
+          englishTitle: "BRAND VISUAL",
+          chineseTitle: "品牌视觉升级",
+          image: "/12.JPG",
+          bullets: [
+            "参与新品 Logo 视觉设计",
+            "参与原产品包装升级方向优化",
+            "建立品牌视觉表达规范",
+            "输出品牌视觉延展物料",
+          ],
+        },
+        {
+          index: "02",
+          englishTitle: "DIGITAL CONTENT",
+          chineseTitle: "数字内容设计",
+          image: "/13.JPG",
+          bullets: [
+            "负责公众号视觉内容设计",
+            "从 0-1 参与视频号内容视觉搭建",
+            "设计达人探店内容视觉体系",
+            "输出多平台视觉内容模板",
+          ],
+        },
+        {
+          index: "03",
+          englishTitle: "COMMERCIAL DESIGN",
+          chineseTitle: "商业视觉应用",
+          image: "/14.JPG",
+          bullets: [
+            "电商详情页视觉设计",
+            "产品宣传海报与主图设计",
+            "活动物料设计及视觉延展",
+            "产品拍摄方案视觉策划",
+          ],
+        },
+        {
+          index: "04",
+          englishTitle: "AI VISUAL EXPLORATION",
+          chineseTitle: "AI 视觉探索",
+          image: "/15.JPG",
+          bullets: [
+            "利用 AI 辅助品牌概念探索",
+            "产品场景与氛围视觉创意验证",
+            "快速生成多方向视觉提案",
+            "提升视觉探索效率与可能性",
+          ],
+        },
+      ],
+    },
     strategy: [],
     takeaway: "",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
   },
+  // 其余列表位仍用占位，暂无详情页
   {
     slug: "human-perspective",
     title: "Human Perspective",
@@ -651,9 +742,9 @@ export const CASES: CaseStudy[] = [
   },
 ];
 
-/** 已开放详情页的案例（strategy 非空视为可进入） */
+/** 已开放详情页的案例（有 overview 或 strategy 即可进入） */
 export function getPublishedCases() {
-  return CASES.filter((c) => c.strategy.length > 0);
+  return CASES.filter((c) => Boolean(c.overview) || c.strategy.length > 0);
 }
 
 export function getCaseBySlug(slug: string) {

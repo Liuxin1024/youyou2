@@ -8,9 +8,20 @@ import { Explorations } from "../components/Explorations";
 import { Stats } from "../components/Stats";
 import { Contact } from "../components/Contact";
 
+/**
+ * SPA 会话内记住：开场 loading 只在本页首次挂载时播一次。
+ * 从案例页客户端路由返回时 Index 会重挂，但不会重播。
+ * 整页硬刷新会重置，可再播一次（进度跟真实加载，通常很快）。
+ */
+let homeIntroDone = false;
+
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(true);
-  const handleComplete = useCallback(() => setIsLoading(false), []);
+  const [isLoading, setIsLoading] = useState(() => !homeIntroDone);
+
+  const handleComplete = useCallback(() => {
+    homeIntroDone = true;
+    setIsLoading(false);
+  }, []);
 
   return (
     <>

@@ -2,17 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const WORDS = ["Design", "Create", "Inspire"];
-const DURATION_MS = 1000;
-const EXIT_DELAY_MS = 150;
+/** 就绪后短暂停留再退出，避免闪一下就没 */
+const EXIT_DELAY_MS = 120;
+/** 极端情况兜底，防止一直卡在 loading */
+const SAFETY_MS = 8000;
 
 type LoadingScreenProps = {
   onComplete: () => void;
 };
 
+/**
+ * 进度跟真实就绪挂钩（fonts + window load），不跑固定时长。
+ * 首页已经很快时，会迅速冲到 100 并退出。
+ */
 export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [count, setCount] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
   const doneRef = useRef(false);
+  const settledRef = useRef(false);
+  const progressRef = useRef(0);
   const frameRef = useRef(0);
   const exitTimerRef = useRef<number | null>(null);
 
@@ -23,6 +31,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     if (exitTimerRef.current !== null) {
       window.clearTimeout(exitTimerRef.current);
     }
+    progressRef.current = 100;
     setCount(100);
     exitTimerRef.current = window.setTimeout(onComplete, EXIT_DELAY_MS);
   };
@@ -30,22 +39,53 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   useEffect(() => {
     const start = performance.now();
 
+    const markSettled = () => {
+      settledRef.current = true;
+    };
+
+    const fontsReady =
+      document.fonts?.ready ?? Promise.resolve(undefined);
+    const pageReady =
+      document.readyState === "complete"
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => {
+            window.addEventListener("load", () => resolve(), { once: true });
+          });
+
+    void Promise.all([fontsReady, pageReady]).then(markSettled);
+    const safetyTimer = window.setTimeout(markSettled, SAFETY_MS);
+
     const tick = (now: number) => {
       if (doneRef.current) return;
-      const progress = Math.min((now - start) / DURATION_MS, 1);
-      setCount(Math.floor(progress * 100));
 
-      if (progress < 1) {
-        frameRef.current = requestAnimationFrame(tick);
+      const elapsed = now - start;
+      let next = progressRef.current;
+
+      if (settledRef.current) {
+        // 就绪后快速收尾到 100
+        next = Math.min(100, next + Math.max(6, (100 - next) * 0.28));
+        if (next >= 99.5) {
+          progressRef.current = 100;
+          setCount(100);
+          finish();
+          return;
+        }
       } else {
-        finish();
+        // 等待期：按真实耗时渐近逼近 90，不设固定总时长
+        const creeping = (1 - Math.exp(-elapsed / 700)) * 90;
+        next = Math.max(next, creeping);
       }
+
+      progressRef.current = next;
+      setCount(Math.floor(next));
+      frameRef.current = requestAnimationFrame(tick);
     };
 
     frameRef.current = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frameRef.current);
+      window.clearTimeout(safetyTimer);
       if (exitTimerRef.current !== null) {
         window.clearTimeout(exitTimerRef.current);
       }

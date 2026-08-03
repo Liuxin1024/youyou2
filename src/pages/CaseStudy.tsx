@@ -6,6 +6,7 @@ import {
   getPublishedCases,
 } from "../data/cases";
 import { CaseHero } from "../components/case/CaseHero";
+import { CaseRoleScope } from "../components/case/CaseRoleScope";
 import { CaseStrategy } from "../components/case/CaseStrategy";
 import { CaseShowcase } from "../components/case/CaseShowcase";
 import { CaseTakeaway } from "../components/case/CaseTakeaway";
@@ -31,6 +32,7 @@ export default function CaseStudyPage() {
   return (
     <main className="min-h-screen bg-bg text-text-primary">
       <CaseHero study={study} />
+      {study.roleScope && <CaseRoleScope data={study.roleScope} />}
       <CaseStrategy
         steps={study.strategy}
         summary={study.strategySummary}
