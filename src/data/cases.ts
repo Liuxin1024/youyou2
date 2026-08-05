@@ -260,6 +260,91 @@ export type CaseRoleScope = {
   items: CaseRoleScopeItem[];
 };
 
+/** 项目背景 + 设计挑战（娇本职责范围下一屏） */
+export type CaseContextIssue = {
+  title: string;
+  /** 第二行文案（横排卡片用） */
+  subtitle?: string;
+  /** 可选图标 id，组件内映射 */
+  icon?: "layers" | "grid" | "drop";
+};
+
+export type CaseContextCompare = {
+  eyebrow: string;
+  title: string;
+  /** 缺省占位 */
+  image?: string;
+  bullets: string[];
+};
+
+export type CaseContextKeyword = {
+  en: string;
+  zh: string;
+};
+
+export type CaseProjectContext = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  intro: string[];
+  issuesIntro?: string;
+  issues: CaseContextIssue[];
+  /** 右上图区；缺省占位。优先用第一张铺满右侧与左栏等高 */
+  images?: string[];
+  challenge: {
+    eyebrow: string;
+    title: string;
+    /** 挑战主文案；可用「」标注强调词 */
+    body: string;
+    keywordsLabel?: string;
+    keywords: CaseContextKeyword[];
+    /** 下半屏右侧图 */
+    image?: string;
+    before?: CaseContextCompare;
+    after?: CaseContextCompare;
+  };
+};
+
+/** 视觉策略屏（PAGE 03） */
+export type CaseVisualStrategyPillar = {
+  title: string;
+  tags: string[];
+  /** 圆标下方补充要点 */
+  points?: string[];
+};
+
+export type CaseVisualStrategyItem = {
+  index: string;
+  title: string;
+  englishTitle: string;
+  body?: string;
+  bullets: string[];
+  /** 缺省占位 */
+  image?: string;
+};
+
+export type CaseVisualStrategy = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  sectionEyebrow: string;
+  sectionTitle: string;
+  sectionBody: string;
+  /** 五列区小标题 */
+  directionEyebrow?: string;
+  directionTitle?: string;
+  /** 中轴三角：医研 — 核心 — 年轻美学 */
+  balance?: {
+    left: CaseVisualStrategyPillar;
+    center: { brand: string; brandEn: string; label: string; thesis: string };
+    right: CaseVisualStrategyPillar;
+  };
+  items: CaseVisualStrategyItem[];
+  keywordsEyebrow: string;
+  keywordsTitle: string;
+  keywords: CaseContextKeyword[];
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -274,6 +359,10 @@ export type CaseStudy = {
   overview?: CaseOverview;
   /** 我的角色 + 职责范围（独立一屏） */
   roleScope?: CaseRoleScope;
+  /** 项目背景 + 设计挑战 */
+  projectContext?: CaseProjectContext;
+  /** 视觉策略屏 */
+  visualStrategy?: CaseVisualStrategy;
   /** 策略屏导语 */
   strategySummary?: string;
   strategy: CaseStrategyStep[];
@@ -291,6 +380,8 @@ export type CaseStudy = {
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5";
   aspect: "aspect-[16/10]" | "aspect-[4/5]";
+  /** 列表封面 object-position，默认 center */
+  coverPosition?: string;
 };
 
 /**
@@ -710,10 +801,127 @@ export const CASES: CaseStudy[] = [
         },
       ],
     },
+    projectContext: {
+      eyebrow: "PROJECT BACKGROUND",
+      title: "项目背景",
+      subtitle: "从医研专业到年轻美学表达",
+      intro: [
+        "娇本作为医研护肤品牌，拥有专业研发背景与医学背书。",
+        "但随着消费人群年轻化以及数字内容传播方式变化，原有视觉表达存在：",
+      ],
+      issues: [
+        {
+          title: "品牌专业感较强",
+          subtitle: "但情绪连接不足",
+          icon: "layers",
+        },
+        {
+          title: "产品信息完整",
+          subtitle: "但视觉传播效率有限",
+          icon: "grid",
+        },
+        {
+          title: "医学属性明显",
+          subtitle: "但缺少年轻消费者认同感",
+          icon: "drop",
+        },
+      ],
+      images: ["/17.png"],
+      challenge: {
+        eyebrow: "DESIGN CHALLENGE",
+        title: "设计挑战",
+        body: "如何在保持「专业、安全、有效」品牌基因的基础上，建立更符合年轻消费市场的视觉语言？",
+        keywordsLabel: "视觉关键词：",
+        keywords: [
+          { en: "MEDICAL", zh: "专业医学感" },
+          { en: "SAFETY", zh: "安全信任感" },
+          { en: "PURE", zh: "纯净护肤感" },
+          { en: "MODERN", zh: "现代女性审美" },
+          { en: "CONFIDENCE", zh: "肌肤自信" },
+        ],
+        image: "/16.png",
+      },
+    },
+    visualStrategy: {
+      eyebrow: "VISUAL STRATEGY",
+      title: "视觉策略",
+      lead: "在保留医研品牌信任感的基础上，建立更符合年轻消费者认知的视觉语言。",
+      sectionEyebrow: "VISUAL SYSTEM OPTIMIZATION STRATEGY",
+      sectionTitle: "视觉体系优化策略",
+      sectionBody:
+        "视觉优化围绕「专业可信」与「现代美学」之间的平衡展开，通过视觉语言重构、产品表达优化以及数字内容适配，提升品牌在多元消费场景中的识别度与传播效率。",
+      directionEyebrow: "VISUAL DIRECTION",
+      directionTitle: "视觉优化方向",
+      balance: {
+        left: {
+          title: "医研信任感",
+          tags: ["专业", "安全", "有效"],
+          points: ["医研背景", "科学验证", "功效保障"],
+        },
+        center: {
+          brand: "娇本",
+          brandEn: "JIAOBEN",
+          label: "视觉策略核心",
+          thesis: "平衡医学专业与现代美学表达",
+        },
+        right: {
+          title: "年轻美学力",
+          tags: ["纯净", "轻盈", "自信"],
+          points: ["现代美学", "情绪共鸣", "生活方式"],
+        },
+      },
+      items: [
+        {
+          index: "01",
+          title: "弱化医疗感，强化品牌亲和力",
+          englishTitle: "SOFTEN MEDICAL TONE",
+          image: "/18.png",
+          bullets: ["柔和光影", "简洁构图", "高级留白"],
+        },
+        {
+          index: "02",
+          title: "建立统一产品视觉语言",
+          englishTitle: "UNIFIED PRODUCT VISUALS",
+          image: "/19.png",
+          bullets: ["色彩体系", "产品构图", "光影风格"],
+        },
+        {
+          index: "03",
+          title: "强化产品价值具象表达",
+          englishTitle: "VISUALIZE PRODUCT BENEFITS",
+          image: "/20.png",
+          bullets: ["成分视觉化", "使用场景表达", "产品质感呈现"],
+        },
+        {
+          index: "04",
+          title: "优化情绪表达，增强用户连接",
+          englishTitle: "ENHANCE EMOTIONAL CONNECTION",
+          image: "/21.png",
+          bullets: ["生活场景", "肌肤状态", "日常自信"],
+        },
+        {
+          index: "05",
+          title: "适配多渠道内容传播",
+          englishTitle: "ADAPT TO MULTIPLE CHANNELS",
+          image: "/22.png",
+          bullets: ["多触点应用", "电商与新媒体", "活动传播延展"],
+        },
+      ],
+      keywordsEyebrow: "KEYWORDS",
+      keywordsTitle: "视觉关键词",
+      keywords: [
+        { en: "PURE", zh: "纯净" },
+        { en: "SAFE", zh: "安全" },
+        { en: "SCIENTIFIC", zh: "科学" },
+        { en: "LIGHT", zh: "轻盈" },
+        { en: "CONFIDENT", zh: "自信" },
+      ],
+    },
     strategy: [],
     takeaway: "",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
+    coverPosition: "object-[85%_30%]",
   },
   // 其余列表位仍用占位，暂无详情页
   {

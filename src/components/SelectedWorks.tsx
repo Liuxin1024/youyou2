@@ -47,7 +47,10 @@ export function SelectedWorks() {
                 <img
                   src={project.cover}
                   alt={project.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className={cn(
+                    "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105",
+                    project.coverPosition ?? "object-center",
+                  )}
                 />
                 <div
                   className="pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply"

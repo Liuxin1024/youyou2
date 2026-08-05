@@ -7,6 +7,8 @@ import {
 } from "../data/cases";
 import { CaseHero } from "../components/case/CaseHero";
 import { CaseRoleScope } from "../components/case/CaseRoleScope";
+import { CaseProjectContext } from "../components/case/CaseProjectContext";
+import { CaseVisualStrategy } from "../components/case/CaseVisualStrategy";
 import { CaseStrategy } from "../components/case/CaseStrategy";
 import { CaseShowcase } from "../components/case/CaseShowcase";
 import { CaseTakeaway } from "../components/case/CaseTakeaway";
@@ -33,6 +35,12 @@ export default function CaseStudyPage() {
     <main className="min-h-screen bg-bg text-text-primary">
       <CaseHero study={study} />
       {study.roleScope && <CaseRoleScope data={study.roleScope} />}
+      {study.projectContext && (
+        <CaseProjectContext data={study.projectContext} />
+      )}
+      {study.visualStrategy && (
+        <CaseVisualStrategy data={study.visualStrategy} />
+      )}
       <CaseStrategy
         steps={study.strategy}
         summary={study.strategySummary}

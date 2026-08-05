@@ -10,7 +10,7 @@ type Props = {
 
 export function CaseRoleScope({ data }: Props) {
   return (
-    <section className="border-b border-stroke bg-bg pb-12 pt-6 md:pb-16 md:pt-8 lg:pb-20 lg:pt-10">
+    <section className="border-b border-stroke bg-bg pb-6 pt-6 md:pb-8 md:pt-8 lg:pb-10 lg:pt-10">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         {/* —— 我的角色 —— */}
         <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-12 md:gap-8 lg:gap-10">
