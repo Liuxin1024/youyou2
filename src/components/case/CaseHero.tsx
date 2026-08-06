@@ -75,7 +75,7 @@ export function CaseHero({ study }: Props) {
           </div>
         ) : null}
 
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1200px] flex-1 flex-col px-6 pb-8 pt-16 md:px-10 md:pb-10 md:pt-14 lg:px-16 lg:pb-12 lg:pt-16">
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1280px] flex-1 flex-col px-6 pb-8 pt-16 md:px-10 md:pb-10 md:pt-14 lg:px-16 lg:pb-12 lg:pt-16">
           {/* 左上文案 */}
           <div className="flex flex-col justify-start">
             <Link
@@ -155,7 +155,7 @@ export function CaseHero({ study }: Props) {
 
       {/* —— 双栏：角色 / AI · 项目背景（等高拉伸） —— */}
       {showDetail && (
-        <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-stretch gap-5 px-6 py-8 md:grid-cols-12 md:gap-6 md:px-10 md:py-12 lg:px-16">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-stretch gap-5 px-6 py-8 md:grid-cols-12 md:gap-6 md:px-10 md:py-12 lg:gap-8 lg:px-16">
           <div className="flex min-h-0 flex-col gap-5 md:col-span-5 md:h-full">
             <div
               className={`flex flex-1 flex-col rounded-2xl border ${goldBorder} bg-surface/50 p-6 md:p-8`}

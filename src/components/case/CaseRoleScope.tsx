@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { CaseRoleScope, CaseRoleScopeItem } from "../../data/cases";
 
 const gold = "text-[#C9A96E]";
@@ -9,9 +10,25 @@ type Props = {
 };
 
 export function CaseRoleScope({ data }: Props) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+
   return (
     <section className="border-b border-stroke bg-bg pb-6 pt-6 md:pb-8 md:pt-8 lg:pb-10 lg:pt-10">
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
         {/* —— 我的角色 —— */}
         <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-12 md:gap-8 lg:gap-10">
           <div className="md:col-span-5 lg:col-span-5">
@@ -33,6 +50,7 @@ export function CaseRoleScope({ data }: Props) {
               src={data.image}
               aspect="aspect-[2/1] md:aspect-[21/9]"
               objectPosition="object-[center_22%]"
+              onOpen={data.image ? () => setLightbox(data.image!) : undefined}
             />
           </div>
         </div>
@@ -53,18 +71,43 @@ export function CaseRoleScope({ data }: Props) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-2.5 xl:gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-3 xl:gap-4">
             {data.items.map((item) => (
-              <ResponsibilityCard key={item.index} item={item} />
+              <ResponsibilityCard
+                key={item.index}
+                item={item}
+                onOpenImage={setLightbox}
+              />
             ))}
           </div>
         </div>
       </div>
+
+      {lightbox && (
+        <button
+          type="button"
+          className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/85 p-4 md:p-8"
+          onClick={() => setLightbox(null)}
+          aria-label="关闭大图"
+        >
+          <img
+            src={lightbox}
+            alt=""
+            className="max-h-[88vh] max-w-full object-contain shadow-2xl"
+          />
+        </button>
+      )}
     </section>
   );
 }
 
-function ResponsibilityCard({ item }: { item: CaseRoleScopeItem }) {
+function ResponsibilityCard({
+  item,
+  onOpenImage,
+}: {
+  item: CaseRoleScopeItem;
+  onOpenImage: (src: string) => void;
+}) {
   return (
     <article
       className={`flex h-full flex-col overflow-hidden rounded-2xl border ${goldBorder}`}
@@ -99,6 +142,7 @@ function ResponsibilityCard({ item }: { item: CaseRoleScopeItem }) {
           aspect="aspect-[1193/645]"
           fit="contain"
           rounded={false}
+          onOpen={item.image ? () => onOpenImage(item.image!) : undefined}
         />
       </div>
 
@@ -123,6 +167,7 @@ function MediaSlot({
   objectPosition = "object-center",
   rounded = true,
   fit = "cover",
+  onOpen,
 }: {
   src?: string;
   aspect: string;
@@ -130,9 +175,27 @@ function MediaSlot({
   /** false：左右贴齐父级（职责卡图片） */
   rounded?: boolean;
   fit?: "cover" | "contain";
+  onOpen?: () => void;
 }) {
   const radius = rounded ? "rounded-xl" : "rounded-none";
   const objectFit = fit === "contain" ? "object-contain" : "object-cover";
+
+  if (src && onOpen) {
+    return (
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label="点击查看大图"
+        className={`${aspect} block w-full cursor-pointer overflow-hidden ${radius} bg-black/30 text-left`}
+      >
+        <img
+          src={src}
+          alt=""
+          className={`h-full w-full ${objectFit} ${objectPosition}`}
+        />
+      </button>
+    );
+  }
 
   if (src) {
     return (

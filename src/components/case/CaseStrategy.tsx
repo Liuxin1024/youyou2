@@ -285,7 +285,7 @@ export function CaseStrategy({ steps, summary, watermarkChar }: Props) {
           {mark}
         </div>
 
-        <div className="relative z-10 mx-auto flex h-full min-h-[220px] max-w-[1200px] flex-col justify-center px-6 py-10 md:min-h-[280px] md:px-10 md:py-14 lg:min-h-[300px] lg:px-16">
+        <div className="relative z-10 mx-auto flex h-full min-h-[220px] max-w-[1280px] flex-col justify-center px-6 py-10 md:min-h-[280px] md:px-10 md:py-14 lg:min-h-[300px] lg:px-16">
           <div className="mb-2.5 flex items-center gap-3">
             <span className={`h-px w-7 ${gold} bg-current`} />
             <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
@@ -303,7 +303,7 @@ export function CaseStrategy({ steps, summary, watermarkChar }: Props) {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-10 md:px-10 md:pb-14 lg:px-16">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 pb-10 md:px-10 md:pb-14 lg:px-16">
         <ol className="space-y-3 md:space-y-4">
           {steps.map((step) => (
             <li

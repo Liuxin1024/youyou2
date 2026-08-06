@@ -7,7 +7,7 @@ export function CaseTakeaway({ text }: Props) {
 
   return (
     <section className="border-b border-stroke py-16 md:py-24">
-      <div className="mx-auto max-w-[1100px] px-6 md:px-10 lg:px-16">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
         <div className="mb-8">
           <div className="mb-4 flex items-center gap-3">
             <span className="h-px w-8 bg-stroke" />

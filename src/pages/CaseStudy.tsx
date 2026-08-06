@@ -41,6 +41,10 @@ export default function CaseStudyPage() {
       {study.visualStrategy && (
         <CaseVisualStrategy data={study.visualStrategy} />
       )}
+      {/* 娇本：数字内容应用紧接视觉优化方向下方 */}
+      {study.visualStrategy && study.showcaseApplication && (
+        <CaseShowcase application={study.showcaseApplication} />
+      )}
       <CaseStrategy
         steps={study.strategy}
         summary={study.strategySummary}
@@ -48,7 +52,9 @@ export default function CaseStudyPage() {
       />
       <CaseShowcase
         evolution={study.showcaseEvolution}
-        application={study.showcaseApplication}
+        application={
+          study.visualStrategy ? undefined : study.showcaseApplication
+        }
         value={study.showcaseValue}
         ai={study.showcaseAi}
       />

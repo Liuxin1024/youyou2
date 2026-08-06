@@ -116,12 +116,27 @@ export type CaseShowcaseApplicationBlock = {
   thumbCount?: number;
 };
 
+/** 一行一文案 + 左右双图 */
+export type CaseShowcaseApplicationRow = {
+  index: string;
+  title: string;
+  englishTitle: string;
+  body?: string;
+  /** 两张图各自底部说明；与 images 一一对应 */
+  captions?: [string?, string?];
+  /** 两张图；缺省 / 空字符串用占位 */
+  images?: [string?, string?];
+};
+
 export type CaseShowcaseApplication = {
   eyebrow: string;
   title: string;
   subtitle: string;
   intro?: string;
-  blocks: CaseShowcaseApplicationBlock[];
+  /** 经典双卡布局（每卡一文案一图） */
+  blocks?: CaseShowcaseApplicationBlock[];
+  /** 一行一文案对应两张图 */
+  rows?: CaseShowcaseApplicationRow[];
 };
 
 export type CaseShowcaseValueItem = {
@@ -333,6 +348,8 @@ export type CaseVisualStrategy = {
   /** 五列区小标题 */
   directionEyebrow?: string;
   directionTitle?: string;
+  /** 右侧配图；有则优先于 balance 示意 */
+  image?: string;
   /** 中轴三角：医研 — 核心 — 年轻美学 */
   balance?: {
     left: CaseVisualStrategyPillar;
@@ -826,11 +843,11 @@ export const CASES: CaseStudy[] = [
           icon: "drop",
         },
       ],
-      images: ["/17.png"],
+      images: ["/23.jpg"],
       challenge: {
         eyebrow: "DESIGN CHALLENGE",
         title: "设计挑战",
-        body: "如何在保持「专业、安全、有效」品牌基因的基础上，建立更符合年轻消费市场的视觉语言？",
+        body: "如何在保持「专业、安全、有效」\n品牌基因的基础上，\n建立更符合年轻消费市场的视觉语言？",
         keywordsLabel: "视觉关键词：",
         keywords: [
           { en: "MEDICAL", zh: "专业医学感" },
@@ -839,7 +856,26 @@ export const CASES: CaseStudy[] = [
           { en: "MODERN", zh: "现代女性审美" },
           { en: "CONFIDENCE", zh: "肌肤自信" },
         ],
-        image: "/16.png",
+        before: {
+          eyebrow: "BEFORE",
+          title: "旧有视觉印象",
+          image: "/24.png",
+          bullets: [
+            "医学感强，距离感高",
+            "视觉风格偏传统",
+            "缺乏情感价值连接",
+          ],
+        },
+        after: {
+          eyebrow: "AFTER",
+          title: "目前视觉方向",
+          image: "/25.png",
+          bullets: [
+            "专业可信，亲和温暖",
+            "视觉语言更现代轻盈",
+            "建立与年轻消费者的情感连接",
+          ],
+        },
       },
     },
     visualStrategy: {
@@ -852,30 +888,13 @@ export const CASES: CaseStudy[] = [
         "视觉优化围绕「专业可信」与「现代美学」之间的平衡展开，通过视觉语言重构、产品表达优化以及数字内容适配，提升品牌在多元消费场景中的识别度与传播效率。",
       directionEyebrow: "VISUAL DIRECTION",
       directionTitle: "视觉优化方向",
-      balance: {
-        left: {
-          title: "医研信任感",
-          tags: ["专业", "安全", "有效"],
-          points: ["医研背景", "科学验证", "功效保障"],
-        },
-        center: {
-          brand: "娇本",
-          brandEn: "JIAOBEN",
-          label: "视觉策略核心",
-          thesis: "平衡医学专业与现代美学表达",
-        },
-        right: {
-          title: "年轻美学力",
-          tags: ["纯净", "轻盈", "自信"],
-          points: ["现代美学", "情绪共鸣", "生活方式"],
-        },
-      },
+      image: "/27.png",
       items: [
         {
           index: "01",
           title: "弱化医疗感，强化品牌亲和力",
           englishTitle: "SOFTEN MEDICAL TONE",
-          image: "/18.png",
+          image: "/28.png",
           bullets: ["柔和光影", "简洁构图", "高级留白"],
         },
         {
@@ -915,6 +934,49 @@ export const CASES: CaseStudy[] = [
         { en: "SCIENTIFIC", zh: "科学" },
         { en: "LIGHT", zh: "轻盈" },
         { en: "CONFIDENT", zh: "自信" },
+      ],
+    },
+    showcaseApplication: {
+      eyebrow: "CONTENT APPLICATION",
+      title: "数字内容应用",
+      subtitle: "多场景视觉落地，持续输出品牌价值",
+      intro: "以实际传播场景为基础，持续输出品牌数字内容视觉资产。",
+      rows: [
+        {
+          index: "01",
+          title: "微信公众号与电商详情",
+          englishTitle: "WeChat & E-commerce Design",
+          body: "围绕品牌故事、产品内容及营销节点进行视觉设计，建立统一视觉风格，提高阅读体验与品牌认知。",
+          images: ["/2.1.jpg", "/2.2.jpg"],
+        },
+        {
+          index: "02",
+          title: "视频号与品牌传播物料",
+          englishTitle: "Short Video & Marketing Assets",
+          body: "建立品牌视频号内容视觉模板，并覆盖产品推广、节日营销、品牌活动与社交媒体传播。",
+          images: ["/2.3.jpg", "/2.4.jpg"],
+        },
+        {
+          index: "03",
+          title: "产品视觉与场景延展",
+          englishTitle: "Product Visual & Scene Extension",
+          body: "围绕产品卖点与使用场景输出视觉内容，强化品牌在多触点中的识别度与传播表现。",
+          images: ["/2.5.jpg", "/2.6.jpg"],
+        },
+        {
+          index: "04",
+          title: "电商详情页视觉设计",
+          englishTitle: "E-commerce Detail Page Design",
+          body: "围绕产品卖点与转化路径完成详情页视觉设计，提升信息传达效率与购买决策体验。",
+          images: ["/详情页1.jpg", "/详情页2.jpg"],
+        },
+        {
+          index: "05",
+          title: "详情页视觉延展",
+          englishTitle: "Detail Page Visual Extension",
+          body: "延续详情页视觉语言，补充卖点图与场景表达，强化产品认知与转化链路。",
+          images: ["/详情页3.jpg", "/详情页4.jpg"],
+        },
       ],
     },
     strategy: [],

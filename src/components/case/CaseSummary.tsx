@@ -29,7 +29,7 @@ export function CaseSummary({ data }: Props) {
           <div className="absolute inset-x-0 top-0 h-1/5 bg-gradient-to-b from-bg/25 to-transparent" />
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col px-6 pb-10 pt-14 md:px-10 md:pb-12 md:pt-16 lg:px-16 lg:pb-14 lg:pt-20">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-6 pb-10 pt-14 md:px-10 md:pb-12 md:pt-16 lg:px-16 lg:pb-14 lg:pt-20">
           {/* 顶栏：左标题簇 / 右品牌标 */}
           <div className="flex items-start justify-between gap-8">
             <div className="max-w-[22rem] md:max-w-[26rem] lg:max-w-[28rem]">

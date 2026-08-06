@@ -9,7 +9,7 @@ type Props = {
 export function CaseFooterNav({ prev, next }: Props) {
   return (
     <footer className="py-12 md:py-16">
-      <div className="mx-auto flex max-w-[1100px] flex-col gap-6 px-6 sm:flex-row sm:items-center sm:justify-between md:px-10 lg:px-16">
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-6 sm:flex-row sm:items-center sm:justify-between md:px-10 lg:px-16">
         <Link
           to="/#work"
           className="text-sm text-muted transition-colors hover:text-text-primary"

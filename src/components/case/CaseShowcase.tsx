@@ -3,6 +3,7 @@ import type {
   CaseShowcaseAi,
   CaseShowcaseApplication,
   CaseShowcaseApplicationBlock,
+  CaseShowcaseApplicationRow,
   CaseShowcaseEvolution,
   CaseShowcaseProcessStep,
   CaseShowcaseValue,
@@ -58,7 +59,11 @@ export function CaseShowcase({ evolution, application, value, ai }: Props) {
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
         {evolution && <EvolutionBlock evolution={evolution} />}
         {application && (
-          <ApplicationBlock data={application} onOpenImage={setLightbox} />
+          <ApplicationBlock
+            data={application}
+            onOpenImage={setLightbox}
+            stacked={Boolean(evolution)}
+          />
         )}
         {value && <ValueBlock data={value} />}
         {ai && <AiExplorationBlock data={ai} onOpenImage={setLightbox} />}
@@ -225,15 +230,26 @@ function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
 function ApplicationBlock({
   data,
   onOpenImage,
+  stacked = false,
 }: {
   data: CaseShowcaseApplication;
   onOpenImage: (src: string) => void;
+  /** 叠在进化区下方时加顶部分隔 */
+  stacked?: boolean;
 }) {
-  const wechatBlocks = data.blocks.filter((b) => b.kind === "wechat");
-  const secondaryBlocks = data.blocks.filter((b) => b.kind !== "wechat");
+  const rows = data.rows;
+  const blocks = data.blocks ?? [];
+  const wechatBlocks = blocks.filter((b) => b.kind === "wechat");
+  const secondaryBlocks = blocks.filter((b) => b.kind !== "wechat");
 
   return (
-    <div className="mt-16 border-t border-stroke/60 pt-12 md:mt-20 md:pt-16">
+    <div
+      className={
+        stacked
+          ? "mt-16 border-t border-stroke/60 pt-12 md:mt-20 md:pt-16"
+          : undefined
+      }
+    >
       <header className="mb-8 md:mb-10">
         <div className="mb-2.5 flex items-center gap-3">
           <span className={`h-px w-7 ${gold} bg-current`} />
@@ -252,32 +268,107 @@ function ApplicationBlock({
         )}
       </header>
 
-      {/* 第一屏：公众号 | 电商详情页 */}
-      {wechatBlocks.length > 0 && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-5">
-          {wechatBlocks.map((block) => (
-            <ApplicationCard
-              key={block.index}
-              block={block}
+      {rows && rows.length > 0 ? (
+        <div className="flex flex-col gap-10 md:gap-14">
+          {rows.map((row) => (
+            <ApplicationRow
+              key={row.index}
+              row={row}
               onOpenImage={onOpenImage}
             />
           ))}
         </div>
-      )}
+      ) : (
+        <>
+          {wechatBlocks.length > 0 && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-6">
+              {wechatBlocks.map((block) => (
+                <ApplicationCard
+                  key={block.index}
+                  block={block}
+                  onOpenImage={onOpenImage}
+                />
+              ))}
+            </div>
+          )}
 
-      {/* 第二屏：视频号 | 传播物料 */}
-      {secondaryBlocks.length > 0 && (
-        <div className="mt-10 grid grid-cols-1 gap-6 md:mt-14 md:grid-cols-2 lg:gap-5">
-          {secondaryBlocks.map((block) => (
-            <ApplicationCard
-              key={block.index}
-              block={block}
-              onOpenImage={onOpenImage}
-            />
-          ))}
-        </div>
+          {secondaryBlocks.length > 0 && (
+            <div className="mt-10 grid grid-cols-1 gap-6 md:mt-14 md:grid-cols-2 lg:gap-6">
+              {secondaryBlocks.map((block) => (
+                <ApplicationCard
+                  key={block.index}
+                  block={block}
+                  onOpenImage={onOpenImage}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
+  );
+}
+
+function ApplicationRow({
+  row,
+  onOpenImage,
+}: {
+  row: CaseShowcaseApplicationRow;
+  onOpenImage: (src: string) => void;
+}) {
+  const images = [row.images?.[0], row.images?.[1]];
+
+  return (
+    <article className="flex flex-col">
+      <div className="mb-3 flex items-baseline gap-2 md:mb-4">
+        <span className={`font-display text-lg italic ${gold}`}>{row.index}</span>
+        <div>
+          <h3 className="text-base text-text-primary md:text-lg [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+            {row.title}
+          </h3>
+          <p className={`text-[10px] uppercase tracking-[0.18em] ${goldMuted}`}>
+            {row.englishTitle}
+          </p>
+        </div>
+      </div>
+      {row.body && (
+        <p className="mb-4 max-w-3xl text-[12px] leading-relaxed text-muted md:mb-5 md:text-[13px]">
+          {row.body}
+        </p>
+      )}
+
+      {/* 双图：位置与原先一行两卡的图区一致；底注跟图走 */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-6">
+        {images.map((src, i) => (
+          <div key={i} className="overflow-hidden rounded-xl bg-white/[0.04]">
+            {src ? (
+              <button
+                type="button"
+                onClick={() => onOpenImage(src)}
+                aria-label="点击查看大图"
+                className="relative block w-full cursor-pointer overflow-hidden bg-black/20 text-left"
+              >
+                <img src={src} alt="" className="block h-auto w-full" />
+              </button>
+            ) : (
+              <div
+                className="flex aspect-[16/10] items-center justify-center border border-dashed border-white/10 bg-black/35"
+                aria-hidden
+              >
+                <span className="text-[10px] uppercase tracking-[0.25em] text-white/25">
+                  Image
+                </span>
+              </div>
+            )}
+            {row.captions?.[i] && (
+              <p className="border-t border-white/[0.06] bg-black/25 px-3 py-2.5 text-center text-[11px] leading-snug text-muted md:text-xs">
+                {row.captions[i]}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </article>
   );
 }
 

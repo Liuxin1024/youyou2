@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import type {
   CaseVisualStrategy as CaseVisualStrategyData,
   CaseVisualStrategyItem,
-  CaseVisualStrategyPillar,
 } from "../../data/cases";
 
 const gold = "text-[#C9A96E]";
@@ -16,19 +16,46 @@ type Props = {
 };
 
 export function CaseVisualStrategy({ data }: Props) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
+
   return (
     <section className="border-b border-stroke bg-bg py-10 md:py-12 lg:py-14">
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        {/* —— 上：文案左 + 平衡图右 —— */}
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
+        {/* —— 上：图靠右，高度随左侧文案盒子 —— */}
+        <div className="relative">
+          {data.image && (
+            <img
+              src={data.image}
+              alt=""
+              className="pointer-events-none absolute bottom-0 right-0 top-0 h-full w-auto max-w-[58%] object-contain object-right"
+            />
+          )}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-r from-bg from-[8%] via-bg/65 via-[40%] to-transparent to-[68%]"
+          />
+          <div className="relative z-[1] flex max-w-[min(100%,420px)] flex-col justify-center py-8 md:py-10">
             <p className={`mb-2 text-[11px] uppercase tracking-[0.35em] ${gold}`}>
               {data.eyebrow}
             </p>
-            <h2 className="mb-5 text-3xl font-bold text-text-primary md:text-4xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+            <h2 className="mb-4 text-3xl font-bold text-text-primary md:mb-5 md:text-4xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
               {data.title}
             </h2>
-            <div className="mb-4">
+            <div className="mb-3 md:mb-4">
               <h3 className="text-base text-text-primary md:text-lg">
                 {data.sectionTitle}
               </h3>
@@ -46,12 +73,6 @@ export function CaseVisualStrategy({ data }: Props) {
               {data.sectionBody}
             </p>
           </div>
-
-          {data.balance && (
-            <div className="lg:col-span-7">
-              <BalanceDiagram balance={data.balance} />
-            </div>
-          )}
         </div>
 
         {/* —— 中：五个优化方向 —— */}
@@ -75,121 +96,34 @@ export function CaseVisualStrategy({ data }: Props) {
 
           <div className="-mx-6 overflow-x-auto px-6 md:mx-0 md:overflow-visible md:px-0">
             {/* subgrid：五卡上/中/下三行横对齐 */}
-            <div className="grid min-w-[880px] grid-cols-5 gap-x-4 gap-y-0 md:min-w-0 md:gap-x-3 lg:gap-x-5">
+            <div className="grid min-w-[880px] grid-cols-5 gap-x-4 gap-y-0 md:min-w-0 md:gap-x-4 lg:gap-x-5 xl:gap-x-6">
               {data.items.map((item) => (
-                <StrategyColumn key={item.index} item={item} />
+                <StrategyColumn
+                  key={item.index}
+                  item={item}
+                  onOpenImage={setLightbox}
+                />
               ))}
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
-}
 
-function BalanceDiagram({
-  balance,
-}: {
-  balance: NonNullable<CaseVisualStrategyData["balance"]>;
-}) {
-  return (
-    <div className="flex items-start justify-between gap-1 pt-2 sm:gap-2 md:gap-1 lg:pt-0">
-      <BalanceNode pillar={balance.left} icon="shield" />
-      <ChevronPair className="mt-[2.1rem] sm:mt-[2.35rem]" />
-      <BalanceCore center={balance.center} />
-      <ChevronPair className="mt-[2.1rem] sm:mt-[2.35rem]" />
-      <BalanceNode pillar={balance.right} icon="person" />
-    </div>
-  );
-}
-
-function ChevronPair({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden
-      className={`shrink-0 text-base tracking-tighter sm:text-lg ${goldMuted} ${className}`}
-    >
-      ››
-    </span>
-  );
-}
-
-function BalanceNode({
-  pillar,
-  icon,
-}: {
-  pillar: CaseVisualStrategyPillar;
-  icon: "shield" | "person";
-}) {
-  return (
-    <div className="flex w-[28%] max-w-[150px] flex-col items-center text-center">
-      <span
-        className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border border-[#C9A96E]/45 text-[#C9A96E] sm:h-[4.5rem] sm:w-[4.5rem]"
-        aria-hidden
-      >
-        {icon === "shield" ? (
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.3"
-          >
-            <path d="M12 3l7 3v5c0 5-3.2 8.5-7 10-3.8-1.5-7-5-7-10V6l7-3z" />
-            <path d="M12 9v6M9 12h6" />
-          </svg>
-        ) : (
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.3"
-          >
-            <circle cx="12" cy="8" r="3.2" />
-            <path d="M5 19c0-3.2 3-5.2 7-5.2s7 2 7 5.2" />
-          </svg>
-        )}
-      </span>
-      <p className="text-[13px] text-text-primary sm:text-sm">{pillar.title}</p>
-      <p className={`mt-1 text-[10px] leading-relaxed ${goldMuted}`}>
-        {pillar.tags.join(" | ")}
-      </p>
-      {pillar.points && pillar.points.length > 0 && (
-        <ul className="mt-2.5 flex flex-col gap-0.5">
-          {pillar.points.map((p) => (
-            <li key={p} className="text-[11px] leading-snug text-muted/85">
-              · {p}
-            </li>
-          ))}
-        </ul>
+      {lightbox && (
+        <button
+          type="button"
+          className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/85 p-4 md:p-8"
+          onClick={() => setLightbox(null)}
+          aria-label="关闭大图"
+        >
+          <img
+            src={lightbox}
+            alt=""
+            className="max-h-[88vh] max-w-full object-contain shadow-2xl"
+          />
+        </button>
       )}
-    </div>
-  );
-}
-
-function BalanceCore({
-  center,
-}: {
-  center: NonNullable<CaseVisualStrategyData["balance"]>["center"];
-}) {
-  return (
-    <div className="flex w-[36%] max-w-[210px] flex-col items-center text-center">
-      <div className="flex aspect-square w-full max-w-[180px] flex-col items-center justify-center rounded-full border border-[#C9A96E]/40 bg-[#C9A96E]/08 px-3 py-4 sm:max-w-[190px] sm:px-4">
-        <p className="text-lg font-bold text-text-primary [font-family:'Songti_SC','STSong','SimSun',serif] sm:text-xl">
-          {center.brand}
-        </p>
-        <p className={`mt-0.5 text-[10px] tracking-[0.22em] ${gold}`}>
-          {center.brandEn}
-        </p>
-        <p className={`mt-2.5 text-[11px] ${goldMuted}`}>{center.label}</p>
-      </div>
-      <p className="mt-3 max-w-[10.5rem] text-[11px] leading-snug text-muted sm:text-xs">
-        {center.thesis}
-      </p>
-    </div>
+    </section>
   );
 }
 
@@ -199,7 +133,13 @@ function splitTitleByComma(title: string): [string, string] | null {
   return [title.slice(0, i + 1), title.slice(i + 1).trim()];
 }
 
-function StrategyColumn({ item }: { item: CaseVisualStrategyItem }) {
+function StrategyColumn({
+  item,
+  onOpenImage,
+}: {
+  item: CaseVisualStrategyItem;
+  onOpenImage: (src: string) => void;
+}) {
   const titleLines = splitTitleByComma(item.title);
 
   return (
@@ -235,11 +175,18 @@ function StrategyColumn({ item }: { item: CaseVisualStrategyItem }) {
       {/* 中：图片通栏 */}
       <div className="aspect-square overflow-hidden bg-black/25">
         {item.image ? (
-          <img
-            src={item.image}
-            alt=""
-            className="h-full w-full object-cover"
-          />
+          <button
+            type="button"
+            onClick={() => onOpenImage(item.image!)}
+            aria-label="点击查看大图"
+            className="block h-full w-full cursor-pointer text-left"
+          >
+            <img
+              src={item.image}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </button>
         ) : (
           <div
             className="flex h-full items-center justify-center border border-dashed border-white/10"
