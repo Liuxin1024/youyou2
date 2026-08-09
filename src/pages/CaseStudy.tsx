@@ -6,6 +6,8 @@ import {
   getPublishedCases,
 } from "../data/cases";
 import { CaseHero } from "../components/case/CaseHero";
+import { CaseHeroHongmao } from "../components/case/CaseHeroHongmao";
+import { CaseHongmaoStrategy } from "../components/case/CaseHongmaoStrategy";
 import { CaseRoleScope } from "../components/case/CaseRoleScope";
 import { CaseProjectContext } from "../components/case/CaseProjectContext";
 import { CaseVisualStrategy } from "../components/case/CaseVisualStrategy";
@@ -31,10 +33,18 @@ export default function CaseStudyPage() {
   }
 
   const { prev, next } = getAdjacentCases(slug);
+  const pageBg = study.editorialHero ? "bg-[#0B1E19]" : "bg-bg";
 
   return (
-    <main className="min-h-screen bg-bg text-text-primary">
-      <CaseHero study={study} />
+    <main className={`min-h-screen text-text-primary ${pageBg}`}>
+      {study.editorialHero ? (
+        <CaseHeroHongmao study={study} />
+      ) : (
+        <CaseHero study={study} />
+      )}
+      {study.editorialStrategy && (
+        <CaseHongmaoStrategy data={study.editorialStrategy} />
+      )}
       {study.roleScope && <CaseRoleScope data={study.roleScope} />}
       {study.projectContext && (
         <CaseProjectContext data={study.projectContext} />

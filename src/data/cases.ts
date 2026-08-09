@@ -369,6 +369,87 @@ export type CaseVisualStrategy = {
   keywords: CaseContextKeyword[];
 };
 
+/** 项目3等：编辑式第一屏（深绿主视觉 + 米色概览条） */
+export type CaseEditorialHeroPillar = {
+  titleZh: string;
+  titleEn: string;
+  body: string;
+  icon: "pen" | "cube" | "tablet" | "leaf";
+};
+
+export type CaseEditorialHero = {
+  eyebrow: string;
+  projectIndex: string;
+  projectLabel: string;
+  title: string;
+  subtitleZh: string;
+  subtitleEn: string;
+  body: string;
+  period: string;
+  roleLabel: string;
+  brandName: string;
+  brandTagline: string;
+  /** 主视觉背景；缺省为深绿占位 */
+  cover?: string;
+  /** 右下角叠加小图（如产品包装） */
+  productImage?: string;
+  overviewTitleZh: string;
+  overviewTitleEn: string;
+  pillars: CaseEditorialHeroPillar[];
+};
+
+/** 项目3 · 设计策略第二屏 */
+export type CaseEditorialStrategyStep = {
+  title: string;
+  subtitle: string;
+  body: string;
+};
+
+export type CaseEditorialStrategyKeyword = {
+  en: string;
+  zh: string;
+  icon: "mountain" | "sun" | "scroll" | "vessel" | "leaf" | "bottle";
+};
+
+export type CaseEditorialStrategyElement = {
+  title: string;
+  subtitle: string;
+  /** 圆形缩略图；缺省占位 */
+  images?: string[];
+  /** 占位圆点数，默认 3 */
+  thumbCount?: number;
+  /** 底部色带，如 ["#2F5D4A", "#C9A96E"] */
+  colors: string[];
+};
+
+export type CaseEditorialStrategyStyle = {
+  title: string;
+  body: string;
+  icon: "mountain" | "crane" | "lotus" | "cloud";
+};
+
+export type CaseEditorialStrategy = {
+  topBarLeft: string;
+  topBarRight: string;
+  title: string;
+  body: string;
+  /** 右上大图；缺省占位 */
+  heroImage?: string;
+  sectionIndex: string;
+  thinkingTitle: string;
+  thinkingTitleEn: string;
+  steps: CaseEditorialStrategyStep[];
+  keywordsTitle: string;
+  keywordsTitleEn: string;
+  keywords: CaseEditorialStrategyKeyword[];
+  elementsTitle: string;
+  elementsTitleEn: string;
+  elements: CaseEditorialStrategyElement[];
+  stylesTitle: string;
+  stylesTitleEn: string;
+  styles: CaseEditorialStrategyStyle[];
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -381,6 +462,10 @@ export type CaseStudy = {
   summary: string;
   /** 第一屏完整结构；已发布案例必填 */
   overview?: CaseOverview;
+  /** 编辑式第一屏（与 overview 二选一；有则走 CaseHeroHongmao） */
+  editorialHero?: CaseEditorialHero;
+  /** 鸿茅等：设计策略第二屏 */
+  editorialStrategy?: CaseEditorialStrategy;
   /** 我的角色 + 职责范围（独立一屏） */
   roleScope?: CaseRoleScope;
   /** 项目背景 + 设计挑战 */
@@ -1008,21 +1093,159 @@ export const CASES: CaseStudy[] = [
     aspect: "aspect-[4/5]",
     coverPosition: "object-[85%_30%]",
   },
-  // 其余列表位仍用占位，暂无详情页
   {
-    slug: "human-perspective",
-    title: "Human Perspective",
-    subtitle: "占位案例 · 待补充",
-    cover:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80",
-    role: "待补充",
-    keywords: ["占位"],
-    summary: "此案例详情页尚未搭建，仅作列表占位。",
+    slug: "hongmao-yaojiu",
+    title: "鸿茅药酒",
+    subtitle: "东方文化品牌插画体系设计",
+    cover: "/30.jpg",
+    role: "插画设计师",
+    keywords: ["插画创作", "包装应用", "品宣物料", "文化传递"],
+    summary:
+      "本项目以东方文化为根基，围绕品牌历史与养生理念，构建一套可延展的插画视觉体系，并落地于包装、品宣与文化传播场景。",
+    editorialHero: {
+      eyebrow: "PORTFOLIO DESIGN WORKS",
+      projectIndex: "03",
+      projectLabel: "PROJECT THREE",
+      title: "鸿茅药酒",
+      subtitleZh: "东方文化品牌 插画体系设计",
+      subtitleEn: "ORIENTAL CULTURAL BRAND ILLUSTRATION SYSTEM DESIGN",
+      body: "本项目以东方文化为根基，深入挖掘品牌历史与养生理念，构建一套兼具叙事性与延展性的插画视觉体系。通过山水、祥瑞与器物符号的现代表达，强化中华老字号的文化辨识度，并服务于包装、品宣与多场景传播。",
+      period: "2020 - 2021",
+      roleLabel: "插画设计师 / ILLUSTRATOR",
+      brandName: "鸿茅药酒",
+      brandTagline: "始于1739 · 中华老字号",
+      cover: "/30.jpg",
+      productImage: "/31.png",
+      overviewTitleZh: "项目概览",
+      overviewTitleEn: "PROJECT OVERVIEW",
+      pillars: [
+        {
+          titleZh: "插画创作",
+          titleEn: "ILLUSTRATION DESIGN",
+          body: "东方符号与叙事插画，构建品牌视觉体系",
+          icon: "pen",
+        },
+        {
+          titleZh: "包装应用",
+          titleEn: "PACKAGING DESIGN",
+          body: "瓶贴、礼盒与产品包装视觉延展",
+          icon: "cube",
+        },
+        {
+          titleZh: "品宣物料",
+          titleEn: "PROMOTIONAL MATERIAL",
+          body: "海报、折页等品牌传播物料设计",
+          icon: "tablet",
+        },
+        {
+          titleZh: "文化传递",
+          titleEn: "CULTURAL COMMUNICATION",
+          body: "东方养生文化与品牌价值表达",
+          icon: "leaf",
+        },
+      ],
+    },
+    editorialStrategy: {
+      topBarLeft: "PROJECT 03 | 鸿茅药酒品牌插画体系设计",
+      topBarRight: "DESIGN STRATEGY",
+      title: "设计策略",
+      body: "以东方文化为根基，从品牌历史与养生理念中提炼视觉语言，构建可延展的插画体系，让老字号在当代传播中持续传递文化价值与品牌温度。",
+      heroImage: "/32.png",
+      sectionIndex: "02",
+      thinkingTitle: "设计思路",
+      thinkingTitleEn: "DESIGN THINKING",
+      steps: [
+        {
+          title: "文化挖掘",
+          subtitle: "CULTURE",
+          body: "梳理品牌历史与东方养生语境",
+        },
+        {
+          title: "元素提炼",
+          subtitle: "ELEMENT",
+          body: "提取山水、祥瑞与器物符号",
+        },
+        {
+          title: "视觉转译",
+          subtitle: "VISUAL",
+          body: "转化为当代插画视觉语言",
+        },
+        {
+          title: "应用延展",
+          subtitle: "EXTEND",
+          body: "落地包装、品宣与传播物料",
+        },
+      ],
+      keywordsTitle: "核心关键词",
+      keywordsTitleEn: "KEYWORDS",
+      keywords: [
+        { en: "ORIENTAL AESTHETICS", zh: "东方美学", icon: "mountain" },
+        { en: "SOLAR TERMS CULTURE", zh: "节气文化", icon: "sun" },
+        { en: "CULTURAL HERITAGE", zh: "文化传承", icon: "scroll" },
+        { en: "CRAFTSMANSHIP", zh: "匠心工艺", icon: "vessel" },
+        { en: "NATURAL WELLNESS", zh: "自然养生", icon: "leaf" },
+        { en: "BRAND IDENTITY", zh: "品牌识别", icon: "bottle" },
+      ],
+      elementsTitle: "视觉元素提炼",
+      elementsTitleEn: "VISUAL ELEMENT EXTRACTION",
+      elements: [
+        {
+          title: "自然意象",
+          subtitle: "山水 / 花草 / 云雾",
+          images: ["/ju1.png", "/ju2.png", "/ju3.png"],
+          colors: ["#1B3A2F", "#3D6B5A", "#C9A96E"],
+        },
+        {
+          title: "中药材元素",
+          subtitle: "草本植物 / 药材纹理",
+          images: ["/ju4.png", "/ju5.png", "/ju6.png"],
+          colors: ["#C4A574", "#8B1E1E", "#E8D5B5"],
+        },
+        {
+          title: "传统文化符号",
+          subtitle: "亭台楼阁 / 纹样 / 器物",
+          images: ["/ju7.png", "/ju8.png", "/ju9.png"],
+          colors: ["#8B1E1E", "#2F6B6B", "#C9A96E"],
+        },
+        {
+          title: "品牌元素",
+          subtitle: "鸿茅药酒 / 色彩基因",
+          images: ["/ju10.png", "/ju11.png"],
+          colors: ["#8B1E1E", "#C9A96E"],
+        },
+      ],
+      stylesTitle: "风格定位",
+      stylesTitleEn: "STYLE POSITIONING",
+      styles: [
+        {
+          title: "国风插画",
+          body: "以东方插画语言构建品牌气质",
+          icon: "mountain",
+        },
+        {
+          title: "色彩典雅",
+          body: "墨绿、朱红与暗金奠定调性",
+          icon: "crane",
+        },
+        {
+          title: "构图叙事",
+          body: "山水叙事强化品牌故事感",
+          icon: "lotus",
+        },
+        {
+          title: "健康养生",
+          body: "传递东方养生文化与信任感",
+          icon: "cloud",
+        },
+      ],
+    },
     strategy: [],
     takeaway: "",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
+    coverPosition: "object-center",
   },
+  // 其余列表位仍用占位，暂无详情页
   {
     slug: "brand-identity",
     title: "Brand Identity",
@@ -1039,9 +1262,14 @@ export const CASES: CaseStudy[] = [
   },
 ];
 
-/** 已开放详情页的案例（有 overview 或 strategy 即可进入） */
+/** 已开放详情页的案例（有 overview / editorialHero / strategy 即可进入） */
 export function getPublishedCases() {
-  return CASES.filter((c) => Boolean(c.overview) || c.strategy.length > 0);
+  return CASES.filter(
+    (c) =>
+      Boolean(c.overview) ||
+      Boolean(c.editorialHero) ||
+      c.strategy.length > 0,
+  );
 }
 
 export function getCaseBySlug(slug: string) {
