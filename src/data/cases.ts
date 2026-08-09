@@ -198,16 +198,23 @@ export type CaseShowcaseAi = {
   quoteBackground?: string;
 };
 
-/** 项目总结收尾屏（设计图上+下；中间「我的设计方法」不做） */
+/** 项目总结收尾屏 */
 export type CaseProjectSummary = {
+  /** 大号序号，如 06 */
+  index?: string;
   eyebrow: string;
   title: string;
+  /** 价值小标题，如「项目价值总结」 */
+  valueTitle?: string;
   subtitle: string;
-  body: string;
+  /** 正文；字符串或分段 */
+  body: string | string[];
   brandMarkEn: string;
   brandMark: string;
+  /** 竖排品牌标（娇本设计图） */
+  brandMarkVertical?: boolean;
   backgroundImage: string;
-  closing: {
+  closing?: {
     logo: string;
     logoEn: string;
     line1: string;
@@ -937,37 +944,38 @@ export const CASES: CaseStudy[] = [
       ],
     },
     showcaseApplication: {
-      eyebrow: "CONTENT APPLICATION",
-      title: "数字内容应用",
-      subtitle: "多场景视觉落地，持续输出品牌价值",
-      intro: "以实际传播场景为基础，持续输出品牌数字内容视觉资产。",
+      eyebrow: "VISUAL COMMUNICATION RESULTS",
+      title: "品牌数字内容应用",
+      subtitle: "将品牌视觉策略延展至数字传播场景，建立统一、高效的内容表达体系。",
+      intro:
+        "围绕品牌传播需求，将产品价值、品牌理念与用户沟通场景进行视觉转译，覆盖公众号、电商内容及社交传播等多个数字触点，提升品牌认知与内容体验。",
       rows: [
         {
           index: "01",
-          title: "微信公众号与电商详情",
-          englishTitle: "WeChat & E-commerce Design",
-          body: "围绕品牌故事、产品内容及营销节点进行视觉设计，建立统一视觉风格，提高阅读体验与品牌认知。",
+          title: "品牌宣传海报 & 公众号首屏内容",
+          englishTitle: "BRAND POSTERS & WECHAT OFFICIAL ACCOUNT VISUAL",
+          body: "围绕品牌核心价值，建立统一的视觉传播语言。针对品牌活动、新品推广及日常内容传播需求，对宣传海报与公众号首屏进行视觉优化。",
           images: ["/2.1.jpg", "/2.2.jpg"],
         },
         {
           index: "02",
-          title: "视频号与品牌传播物料",
-          englishTitle: "Short Video & Marketing Assets",
-          body: "建立品牌视频号内容视觉模板，并覆盖产品推广、节日营销、品牌活动与社交媒体传播。",
+          title: "公众号长图文详情展示",
+          englishTitle: "WECHAT LONG-FORM CONTENT DESIGN",
+          body: "通过内容结构优化，将产品卖点转化为用户可理解的信息体验。针对公众号深度内容传播场景，对长图文内容进行模块化设计。",
           images: ["/2.3.jpg", "/2.4.jpg"],
         },
         {
           index: "03",
           title: "产品视觉与场景延展",
-          englishTitle: "Product Visual & Scene Extension",
-          body: "围绕产品卖点与使用场景输出视觉内容，强化品牌在多触点中的识别度与传播表现。",
+          englishTitle: "PRODUCT VISUAL & SCENE EXTENSION",
+          body: "根据平台营销节点（618、双11、年货节等）进行主题视觉策划，将产品卖点、优惠信息与场景化内容结合，形成适用于天猫、京东等电商渠道的活动视觉资产。",
           images: ["/2.5.jpg", "/2.6.jpg"],
         },
         {
           index: "04",
           title: "电商详情页视觉设计",
-          englishTitle: "E-commerce Detail Page Design",
-          body: "围绕产品卖点与转化路径完成详情页视觉设计，提升信息传达效率与购买决策体验。",
+          englishTitle: "E-COMMERCE DETAIL PAGE DESIGN",
+          body: "通过梳理产品核心卖点、功能优势与用户关注点，将品牌故事、产品信息、使用场景转化为结构化视觉内容，提升页面阅读效率与购买转化体验。",
           images: ["/详情页1.jpg", "/详情页2.jpg"],
         },
         {
@@ -981,6 +989,21 @@ export const CASES: CaseStudy[] = [
     },
     strategy: [],
     takeaway: "",
+    projectSummary: {
+      index: "06",
+      eyebrow: "PROJECT SUMMARY",
+      title: "项目总结",
+      subtitle: "从品牌视觉优化，到数字内容生态构建",
+      body: [
+        "本项目围绕娇本品牌年轻化传播需求，对品牌视觉语言进行重新梳理与延展。",
+        "通过品牌视觉升级、新媒体内容体系建设、电商视觉优化以及 AI 辅助创意探索，逐步建立从品牌认知到用户触达的完整视觉链路。",
+        "在保持品牌专业属性与医研背景的基础上，探索更加年轻、清晰、高效的数字化视觉表达方式。",
+      ],
+      brandMark: "肌肤自信 / 源自娇本",
+      brandMarkEn: "MEDICAL RESEARCH SKINCARE BRAND",
+      brandMarkVertical: true,
+      backgroundImage: "/29.JPG",
+    },
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
     coverPosition: "object-[85%_30%]",

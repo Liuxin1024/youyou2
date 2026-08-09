@@ -332,7 +332,7 @@ function ApplicationRow({
         </div>
       </div>
       {row.body && (
-        <p className="mb-4 max-w-3xl text-[12px] leading-relaxed text-muted md:mb-5 md:text-[13px]">
+        <p className="mb-4 max-w-5xl text-[12px] leading-relaxed text-muted md:mb-5 md:text-[13px]">
           {row.body}
         </p>
       )}
