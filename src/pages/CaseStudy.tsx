@@ -14,6 +14,7 @@ import { CaseShowcase } from "../components/case/CaseShowcase";
 import { CaseTakeaway } from "../components/case/CaseTakeaway";
 import { CaseSummary } from "../components/case/CaseSummary";
 import { CaseFooterNav } from "../components/case/CaseFooterNav";
+import { BackToTop } from "../components/BackToTop";
 
 export default function CaseStudyPage() {
   const { slug = "" } = useParams();
@@ -64,6 +65,7 @@ export default function CaseStudyPage() {
         <CaseTakeaway text={study.takeaway} />
       )}
       <CaseFooterNav prev={prev} next={next} />
+      <BackToTop />
     </main>
   );
 }

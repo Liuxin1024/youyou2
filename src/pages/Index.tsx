@@ -7,6 +7,7 @@ import { Capabilities } from "../components/Capabilities";
 import { Explorations } from "../components/Explorations";
 import { Stats } from "../components/Stats";
 import { Contact } from "../components/Contact";
+import { BackToTop } from "../components/BackToTop";
 
 /**
  * SPA 会话内记住：开场 loading 只在本页首次挂载时播一次。
@@ -51,6 +52,7 @@ export default function Index() {
             <Explorations />
             <Stats />
             <Contact />
+            <BackToTop />
           </motion.main>
         )}
       </AnimatePresence>
