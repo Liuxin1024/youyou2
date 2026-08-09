@@ -69,11 +69,11 @@ export function Hero() {
           >
             {ROLES[roleIndex]}
           </span>{" "}
-          ，生活在北京。
+          ，期待与您同行。
         </p>
 
         <p className="blur-in mb-12 max-w-md text-sm text-muted md:text-base">
-          跨足不同行业（保健酒、护肤品、快消酒饮），涵盖插画、品牌视觉、电商详情页及全渠道新媒体内容（双微、小红书、抖音、视频号）
+          跨足不同行业（保健品类、护肤品、快消酒饮），涵盖插画、品牌视觉、电商详情页及全渠道新媒体内容（双微、小红书、抖音、视频号）
         </p>
 
         <div className="blur-in inline-flex flex-wrap items-center justify-center gap-4">

@@ -54,10 +54,22 @@ export function CaseShowcase({ evolution, application, value, ai }: Props) {
 
   if (!evolution && !application && !value && !ai) return null;
 
+  /** 鸿茅并列系列屏：黑底 + 白手机壳 */
+  const parallelEvolution = Boolean(evolution && !evolution.process);
+
   return (
-    <section className="relative overflow-hidden border-b border-stroke py-12 md:py-16">
+    <section
+      className={`relative overflow-hidden border-b border-stroke py-12 md:py-16 ${
+        parallelEvolution ? "bg-black" : ""
+      }`}
+    >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
-        {evolution && <EvolutionBlock evolution={evolution} />}
+        {evolution && (
+          <EvolutionBlock
+            evolution={evolution}
+            phoneShell={parallelEvolution ? "light" : "dark"}
+          />
+        )}
         {application && (
           <ApplicationBlock
             data={application}
@@ -89,7 +101,57 @@ export function CaseShowcase({ evolution, application, value, ai }: Props) {
 
 /* ───────────────── 上半：品牌数字视觉升级 ───────────────── */
 
-function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
+function EvolutionBlock({
+  evolution,
+  phoneShell = "dark",
+}: {
+  evolution: CaseShowcaseEvolution;
+  phoneShell?: "dark" | "light";
+}) {
+  const process = evolution.process;
+  /** 无 process 时为并列系列（如鸿茅），不用 Before/After 对错图标 */
+  const parallelSeries = !process;
+  const gridClass = process
+    ? "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,0.65fr)_minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-2.5 xl:gap-3"
+    : "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)_minmax(0,1.25fr)] lg:gap-3 xl:gap-4";
+
+  const copyCardClass = parallelSeries
+    ? "flex h-[480px] flex-col overflow-y-auto rounded-2xl border border-[#C9A96E]/35 bg-gradient-to-b from-[#2C2418] via-[#1E1912] to-[#14110D] px-3 py-4 shadow-[inset_0_1px_0_rgba(201,169,110,0.18)] md:h-[520px] md:px-4 md:py-5 lg:h-[560px]"
+    : "flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]";
+
+  const afterCopy = (
+    <article className={copyCardClass}>
+      <ColumnLabel
+        en={evolution.after.label}
+        zh={evolution.after.title}
+        size="lg"
+      />
+      <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
+        {evolution.after.body}
+      </p>
+      <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
+        {evolution.after.points.map((pt) => (
+          <li key={pt} className="flex items-start gap-2">
+            <StatusIcon kind="check" />
+            <span className="text-[13px] leading-snug text-muted md:text-[14px]">
+              {pt}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+
+  const afterPhone = (
+    <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
+      <PhoneFrame
+        src={evolution.after.phone}
+        hint="优化后长图 · 待补"
+        shell={phoneShell}
+      />
+    </div>
+  );
+
   return (
     <>
       <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-start md:justify-between">
@@ -127,8 +189,8 @@ function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
         )}
       </header>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,0.65fr)_minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-2.5 xl:gap-3">
-        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
+      <div className={gridClass}>
+        <article className={copyCardClass}>
           <ColumnLabel
             en={evolution.before.label}
             zh={evolution.before.title}
@@ -140,7 +202,7 @@ function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
           <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
             {evolution.before.points.map((pt) => (
               <li key={pt} className="flex items-start gap-2">
-                <StatusIcon kind="x" />
+                <StatusIcon kind={parallelSeries ? "check" : "x"} />
                 <span className="text-[13px] leading-snug text-muted md:text-[14px]">
                   {pt}
                 </span>
@@ -150,76 +212,70 @@ function EvolutionBlock({ evolution }: { evolution: CaseShowcaseEvolution }) {
         </article>
 
         <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
-          <PhoneFrame src={evolution.before.phone} hint="原视觉长图 · 待补" />
+          <PhoneFrame
+            src={evolution.before.phone}
+            hint="原视觉长图 · 待补"
+            shell={phoneShell}
+          />
         </div>
 
-        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2 py-4 sm:col-span-2 md:h-[520px] md:rounded-2xl md:px-2.5 md:py-5 lg:col-span-1 lg:h-[560px]">
-          <ColumnLabel
-            en={evolution.process.label}
-            zh={evolution.process.title}
-            center
-          />
-          <p
-            className={`mt-3 text-center text-[12px] leading-snug md:text-[13px] ${gold}`}
-          >
-            {evolution.process.thesis}
-          </p>
-          <ol className="mt-5 flex flex-1 flex-col items-center justify-center gap-0">
-            {evolution.process.steps.map((step, i) => (
-              <li key={step.index} className="flex w-full flex-col items-center">
-                <div className="flex flex-col items-center gap-1.5 text-center">
-                  <div
-                    className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder}`}
-                  >
-                    <img
-                      src={PROCESS_ICONS[step.icon]}
-                      alt=""
-                      aria-hidden
-                      className="h-6 w-6"
-                    />
+        {process && (
+          <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2 py-4 sm:col-span-2 md:h-[520px] md:rounded-2xl md:px-2.5 md:py-5 lg:col-span-1 lg:h-[560px]">
+            <ColumnLabel
+              en={process.label}
+              zh={process.title}
+              center
+            />
+            <p
+              className={`mt-3 text-center text-[12px] leading-snug md:text-[13px] ${gold}`}
+            >
+              {process.thesis}
+            </p>
+            <ol className="mt-5 flex flex-1 flex-col items-center justify-center gap-0">
+              {process.steps.map((step, i) => (
+                <li key={step.index} className="flex w-full flex-col items-center">
+                  <div className="flex flex-col items-center gap-1.5 text-center">
+                    <div
+                      className={`flex h-11 w-11 items-center justify-center rounded-full border ${goldBorder}`}
+                    >
+                      <img
+                        src={PROCESS_ICONS[step.icon]}
+                        alt=""
+                        aria-hidden
+                        className="h-6 w-6"
+                      />
+                    </div>
+                    <p className={`text-[10px] tracking-wider ${goldMuted}`}>
+                      {step.index}
+                    </p>
+                    <p className="text-[12px] text-text-primary md:text-[13px]">
+                      {step.label}
+                    </p>
                   </div>
-                  <p className={`text-[10px] tracking-wider ${goldMuted}`}>
-                    {step.index}
-                  </p>
-                  <p className="text-[12px] text-text-primary md:text-[13px]">
-                    {step.label}
-                  </p>
-                </div>
-                {i < evolution.process.steps.length - 1 && (
-                  <span
-                    aria-hidden
-                    className="my-2 h-5 w-px border-l border-dashed border-[#C9A96E]/40"
-                  />
-                )}
-              </li>
-            ))}
-          </ol>
-        </article>
+                  {i < process.steps.length - 1 && (
+                    <span
+                      aria-hidden
+                      className="my-2 h-5 w-px border-l border-dashed border-[#C9A96E]/40"
+                    />
+                  )}
+                </li>
+              ))}
+            </ol>
+          </article>
+        )}
 
-        <div className="h-[480px] overflow-hidden md:h-[520px] lg:h-[560px]">
-          <PhoneFrame src={evolution.after.phone} hint="优化后长图 · 待补" />
-        </div>
-
-        <article className="flex h-[480px] flex-col overflow-y-auto rounded-xl bg-white/[0.045] px-2.5 py-4 md:h-[520px] md:rounded-2xl md:px-3 md:py-5 lg:h-[560px]">
-          <ColumnLabel
-            en={evolution.after.label}
-            zh={evolution.after.title}
-            size="lg"
-          />
-          <p className="mt-6 text-[14px] leading-relaxed text-muted md:mt-7 md:text-[15px]">
-            {evolution.after.body}
-          </p>
-          <ul className="mt-6 space-y-4 md:mt-7 md:space-y-5">
-            {evolution.after.points.map((pt) => (
-              <li key={pt} className="flex items-start gap-2">
-                <StatusIcon kind="check" />
-                <span className="text-[13px] leading-snug text-muted md:text-[14px]">
-                  {pt}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </article>
+        {/* 酃酃酒：图 | 文案；鸿茅（无 process）：文案 | 图 */}
+        {process ? (
+          <>
+            {afterPhone}
+            {afterCopy}
+          </>
+        ) : (
+          <>
+            {afterCopy}
+            {afterPhone}
+          </>
+        )}
       </div>
     </>
   );
@@ -922,24 +978,34 @@ function PhoneFrame({
   src,
   hint,
   compact,
+  shell = "dark",
 }: {
   src?: string;
   hint: string;
   compact?: boolean;
+  shell?: "dark" | "light";
 }) {
+  const light = shell === "light";
+
   return (
     <div className="flex h-full min-h-0 w-full flex-col">
       <div
-        className={`flex h-full min-h-0 flex-col overflow-hidden border border-white/15 bg-[#0a0a0a] shadow-[0_12px_40px_rgba(0,0,0,0.45)] ${
-          compact ? "rounded-[1rem] p-1" : "rounded-[1.35rem] p-1.5"
-        }`}
+        className={`flex h-full min-h-0 flex-col overflow-hidden ${
+          light
+            ? "border border-black/10 bg-[#f4f4f4] shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+            : "border border-white/15 bg-[#0a0a0a] shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+        } ${compact ? "rounded-[1rem] p-1" : "rounded-[1.35rem] p-1.5"}`}
       >
         <div
-          className={`mx-auto shrink-0 rounded-full bg-white/15 ${
-            compact ? "mb-1 h-0.5 w-7" : "mb-1.5 h-1 w-10"
-          }`}
+          className={`mx-auto shrink-0 rounded-full ${
+            light ? "bg-black/20" : "bg-white/15"
+          } ${compact ? "mb-1 h-0.5 w-7" : "mb-1.5 h-1 w-10"}`}
         />
-        <div className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain rounded-[0.85rem] bg-white/[0.04] [-webkit-overflow-scrolling:touch]">
+        <div
+          className={`relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain rounded-[0.85rem] [-webkit-overflow-scrolling:touch] ${
+            light ? "bg-white" : "bg-white/[0.04]"
+          }`}
+        >
           {src ? (
             <img
               src={src}

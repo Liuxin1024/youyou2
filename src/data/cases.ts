@@ -80,7 +80,8 @@ export type CaseShowcaseEvolution = {
     /** 手机框内长图，后续补 */
     phone?: string;
   };
-  process: {
+  /** 中间「优化思路」列；缺省则不渲染（如鸿茅） */
+  process?: {
     label: string;
     title: string;
     thesis: string;
@@ -1238,6 +1239,41 @@ export const CASES: CaseStudy[] = [
           icon: "cloud",
         },
       ],
+    },
+    // 文案/手机长图暂沿用结构占位，后续可继续替换
+    showcaseEvolution: {
+      eyebrow: "ILLUSTRATION SYSTEM",
+      title: "插画体系应用",
+      subtitle: "围绕鸿茅药酒东方养生文化定位",
+      intro: [
+        "提炼山水、草木、节气、人文等视觉元素，",
+        "建立统一的品牌插画资产体系，",
+        "并延展至包装、宣传物料及线上传播场景。",
+      ],
+      before: {
+        label: "HERITAGE SERIES",
+        title: "历史产地与酿造工艺",
+        body: "以草原水源、道地药材与古法酿造为叙事主线，将鸿茅药酒近三百年的产地记忆与工艺传承转译为可延展的插画长图。",
+        points: [
+          "草原地貌与好水好药的产地气质",
+          "六十七味道地药材的视觉呈现",
+          "名医智慧与古法工艺的场景叙事",
+          "由民间走入宫廷的品牌传承脉络",
+        ],
+        phone: "/L1.jpg",
+      },
+      after: {
+        label: "SOLAR TERMS",
+        title: "节气插画系列",
+        body: "围绕东方养生与时令节律，以统一插画语言演绎二十四节气场景，形成可连续输出的节气视觉资产。",
+        points: [
+          "节气主题与山水物候的视觉对应",
+          "统一构图与色彩体系便于系列延展",
+          "适配海报、社媒与品宣多场景投放",
+          "强化东方养生文化的品牌识别",
+        ],
+        phone: "/L2.jpg",
+      },
     },
     strategy: [],
     takeaway: "",
