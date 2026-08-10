@@ -510,7 +510,7 @@ export const CASES: CaseStudy[] = [
     slug: "ling-ling-jiu",
     title: "酃酃酒",
     subtitle: "东方米酒品牌视觉体系建设与数字内容创新",
-    cover: "/50795.PNG",
+    cover: "/35.JPG",
     watermark: "/case/ling-ling-jiu-mark.png",
     role: "创意设计师",
     keywords: [
