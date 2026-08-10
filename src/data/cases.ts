@@ -495,8 +495,8 @@ export type CaseStudy = {
   projectSummary?: CaseProjectSummary;
   takeaway: string;
   /** 列表卡片用 */
-  span: "md:col-span-7" | "md:col-span-5";
-  aspect: "aspect-[16/10]" | "aspect-[4/5]";
+  span: "md:col-span-7" | "md:col-span-5" | "md:col-span-12";
+  aspect: "aspect-[16/10]" | "aspect-[16/5]" | "aspect-[4/5]";
   /** 列表封面 object-position，默认 center */
   coverPosition?: string;
 };
@@ -1315,24 +1315,9 @@ export const CASES: CaseStudy[] = [
         line3: "从文化符号到品牌资产，建立东方品牌视觉表达的新方式。",
       },
     },
-    span: "md:col-span-5",
-    aspect: "aspect-[4/5]",
+    span: "md:col-span-12",
+    aspect: "aspect-[16/5]",
     coverPosition: "object-center",
-  },
-  // 其余列表位仍用占位，暂无详情页
-  {
-    slug: "brand-identity",
-    title: "Brand Identity",
-    subtitle: "占位案例 · 待补充",
-    cover:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80",
-    role: "待补充",
-    keywords: ["占位"],
-    summary: "此案例详情页尚未搭建，仅作列表占位。",
-    strategy: [],
-    takeaway: "",
-    span: "md:col-span-7",
-    aspect: "aspect-[16/10]",
   },
 ];
 

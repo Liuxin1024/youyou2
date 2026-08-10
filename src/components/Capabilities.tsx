@@ -6,6 +6,7 @@ const CAPABILITIES = [
     desc: "品牌插画、主视觉图形与系列化视觉资产",
     image:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80",
+    href: "https://huaban.com/boards/92742694",
   },
   {
     title: "品牌视觉",
@@ -18,6 +19,7 @@ const CAPABILITIES = [
     desc: "详情页策划、版式与卖点视觉表达",
     image:
       "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&q=80",
+    href: "https://huaban.com/boards/92708089",
   },
   {
     title: "新媒体内容",
@@ -28,6 +30,9 @@ const CAPABILITIES = [
 ] as const;
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const rowClassName =
+  "flex items-center gap-4 rounded-[40px] border border-stroke bg-surface/30 p-4 transition-colors hover:bg-surface sm:gap-6 sm:rounded-full";
 
 export function Capabilities() {
   return (
@@ -57,24 +62,39 @@ export function Capabilities() {
         </motion.div>
 
         <div className="flex flex-col gap-4">
-          {CAPABILITIES.map((item) => (
-            <div
-              key={item.title}
-              className="flex items-center gap-4 rounded-[40px] border border-stroke bg-surface/30 p-4 transition-colors hover:bg-surface sm:gap-6 sm:rounded-full"
-            >
-              <img
-                src={item.image}
-                alt=""
-                className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
-              />
-              <div className="min-w-0 flex-1">
-                <h3 className="text-sm text-text-primary sm:text-base md:text-lg">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-xs text-muted sm:text-sm">{item.desc}</p>
+          {CAPABILITIES.map((item) => {
+            const inner = (
+              <>
+                <img
+                  src={item.image}
+                  alt=""
+                  className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
+                />
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm text-text-primary sm:text-base md:text-lg">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-xs text-muted sm:text-sm">{item.desc}</p>
+                </div>
+              </>
+            );
+
+            return "href" in item ? (
+              <a
+                key={item.title}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={rowClassName}
+              >
+                {inner}
+              </a>
+            ) : (
+              <div key={item.title} className={rowClassName}>
+                {inner}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
