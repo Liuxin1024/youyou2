@@ -496,7 +496,7 @@ export type CaseStudy = {
   takeaway: string;
   /** 列表卡片用 */
   span: "md:col-span-7" | "md:col-span-5" | "md:col-span-12";
-  aspect: "aspect-[16/10]" | "aspect-[16/5]" | "aspect-[4/5]";
+  aspect: "aspect-[16/10]" | "aspect-[16/5]" | "aspect-[12/5]" | "aspect-[4/5]";
   /** 列表封面 object-position，默认 center */
   coverPosition?: string;
 };
@@ -1316,7 +1316,7 @@ export const CASES: CaseStudy[] = [
       },
     },
     span: "md:col-span-12",
-    aspect: "aspect-[16/5]",
+    aspect: "aspect-[12/5]",
     coverPosition: "object-center",
   },
 ];
