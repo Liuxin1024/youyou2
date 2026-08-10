@@ -218,13 +218,14 @@ export type CaseProjectSummary = {
   brandMarkVertical?: boolean;
   /** split：左文右图（默认）；stack：上文下图，图片完整展示 */
   layout?: "split" | "stack";
-  backgroundImage: string;
+  /** 右侧/下方配图；缺省为占位 */
+  backgroundImage?: string;
   closing?: {
     logo: string;
     logoEn: string;
-    line1: string;
-    line2: string;
-    line3: string;
+    line1?: string;
+    line2?: string;
+    line3?: string;
     /** 后期补山水底图；缺省为纯深色 */
     backgroundImage?: string;
   };
@@ -488,6 +489,8 @@ export type CaseStudy = {
   showcaseValue?: CaseShowcaseValue;
   /** 落地展示 · AI辅助视觉创意探索 */
   showcaseAi?: CaseShowcaseAi;
+  /** 鸿茅等：多场景视觉应用（上文下图） */
+  visualApplications?: CaseProjectSummary;
   /** 有则渲染 CaseSummary，替代通用 takeaway 复盘块 */
   projectSummary?: CaseProjectSummary;
   takeaway: string;
@@ -1280,7 +1283,7 @@ export const CASES: CaseStudy[] = [
     },
     strategy: [],
     takeaway: "",
-    projectSummary: {
+    visualApplications: {
       eyebrow: "MULTI-SCENARIO VISUAL APPLICATIONS",
       title: "多场景视觉应用",
       subtitle: "",
@@ -1289,6 +1292,28 @@ export const CASES: CaseStudy[] = [
       brandMarkEn: "HONGMAO YAOJIU",
       layout: "stack",
       backgroundImage: "/33.png",
+    },
+    projectSummary: {
+      eyebrow: "PROJECT SUMMARY",
+      title: "项目总结",
+      subtitle: "让传统文化成为品牌资产",
+      subtitleEn: "Turning Eastern Culture Into Brand Value",
+      body: [
+        "通过东方文化元素的重新提炼与视觉转译，",
+        "建立了一套具有品牌辨识度的插画体系。",
+        "从节气主题、产品包装到传播物料，",
+        "插画成为连接传统文化与现代消费者的重要视觉语言。",
+      ],
+      brandMark: "鸿茅药酒",
+      brandMarkEn: "HONGMAO YAOJIU",
+      backgroundImage: "/34.JPG",
+      closing: {
+        logo: "鸿茅药酒",
+        logoEn: "HONGMAO YAOJIU",
+        line1:
+          "From Cultural Heritage to Brand Value — Building a Contemporary Visual System for Eastern Brands",
+        line3: "从文化符号到品牌资产，建立东方品牌视觉表达的新方式。",
+      },
     },
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",

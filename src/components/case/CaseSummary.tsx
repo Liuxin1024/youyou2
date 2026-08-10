@@ -26,7 +26,6 @@ export function CaseSummary({ data }: Props) {
       <section className="border-b border-stroke bg-bg">
         <div className="mx-auto max-w-[1280px] px-6 py-12 md:px-10 md:py-14 lg:px-16 lg:py-16">
           <div className="flex flex-col gap-8 md:gap-10 lg:gap-12">
-            {/* 与「插画体系应用」一致：英文眉题 → 中文标题 → 副标 → 导语 */}
             <header className="max-w-2xl">
               <div className="mb-2.5">
                 <span
@@ -58,11 +57,15 @@ export function CaseSummary({ data }: Props) {
             </header>
 
             <div className="w-full overflow-hidden">
-              <img
-                src={data.backgroundImage}
-                alt=""
-                className="block h-auto w-full object-contain"
-              />
+              {data.backgroundImage ? (
+                <img
+                  src={data.backgroundImage}
+                  alt=""
+                  className="block h-auto w-full object-contain"
+                />
+              ) : (
+                <ImagePlaceholder className="aspect-[16/9] w-full" />
+              )}
             </div>
           </div>
         </div>
@@ -75,11 +78,15 @@ export function CaseSummary({ data }: Props) {
       <div className="relative flex min-h-[520px] flex-col overflow-hidden bg-bg md:min-h-[600px] lg:min-h-[640px]">
         {/* 右侧产品视觉 */}
         <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[62%] md:w-[58%] lg:w-[56%]">
-          <img
-            src={data.backgroundImage}
-            alt=""
-            className="h-full w-full object-cover object-[68%_center]"
-          />
+          {data.backgroundImage ? (
+            <img
+              src={data.backgroundImage}
+              alt=""
+              className="h-full w-full object-cover object-[68%_center]"
+            />
+          ) : (
+            <ImagePlaceholder className="h-full w-full" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-bg from-[0%] via-bg/85 via-[18%] to-transparent to-[48%] sm:from-bg sm:via-bg/70 sm:via-[22%] sm:to-transparent sm:to-[52%]" />
           <div className="absolute inset-x-0 bottom-0 h-1/5 bg-gradient-to-t from-bg/50 to-transparent" />
         </div>
@@ -130,9 +137,11 @@ export function CaseSummary({ data }: Props) {
                 </h3>
               )}
 
-              <p className="mt-2 text-base leading-snug text-text-primary/90 md:mt-2.5 md:text-lg">
-                {data.subtitle}
-              </p>
+              {data.subtitle && (
+                <p className="mt-2 text-base leading-snug text-text-primary/90 md:mt-2.5 md:text-lg">
+                  {data.subtitle}
+                </p>
+              )}
               {data.subtitleEn && (
                 <p
                   className={`mt-1.5 text-[11px] uppercase tracking-[0.18em] md:text-xs ${gold}`}
@@ -141,16 +150,18 @@ export function CaseSummary({ data }: Props) {
                 </p>
               )}
 
-              <div className="mt-6 flex flex-col gap-4 md:mt-7 md:gap-4.5">
-                {paragraphs.map((para) => (
-                  <p
-                    key={para.slice(0, 24)}
-                    className="text-[14px] leading-[1.9] text-muted md:text-[15px]"
-                  >
-                    {para}
-                  </p>
-                ))}
-              </div>
+              {paragraphs.length > 0 && (
+                <div className="mt-6 flex flex-col gap-4 md:mt-7 md:gap-4.5">
+                  {paragraphs.map((para) => (
+                    <p
+                      key={para.slice(0, 24)}
+                      className="text-[14px] leading-[1.9] text-muted md:text-[15px]"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
 
             {!vertical && (
@@ -167,26 +178,54 @@ export function CaseSummary({ data }: Props) {
             )}
           </div>
 
-          {data.closing && (
-            <div className="mt-auto max-w-[22rem] pt-16 md:max-w-[26rem] md:pt-20 lg:max-w-[28rem]">
-              <div className={`mb-5 h-px w-10 ${gold} bg-current opacity-60`} />
-              <p
-                className={`font-display text-[13px] uppercase leading-relaxed tracking-[0.06em] md:text-[15px] md:tracking-[0.08em] ${gold}`}
-              >
-                {data.closing.line1}
-              </p>
-              <p
-                className={`mt-1 font-display text-[13px] uppercase leading-relaxed tracking-[0.06em] md:text-[15px] md:tracking-[0.08em] ${gold}`}
-              >
-                {data.closing.line2}
-              </p>
-              <p className="mt-3 text-[16px] leading-relaxed text-text-primary/50 md:text-[16px]">
-                {data.closing.line3}
-              </p>
-            </div>
-          )}
+          {data.closing &&
+            (data.closing.line1 || data.closing.line2 || data.closing.line3) && (
+              <div className="mt-auto max-w-[22rem] pt-16 md:max-w-[26rem] md:pt-20 lg:max-w-[28rem]">
+                <div className={`mb-5 h-px w-10 ${gold} bg-current opacity-60`} />
+                {data.closing.line1 && (
+                  <p
+                    className={`font-display text-[13px] uppercase leading-relaxed tracking-[0.06em] md:text-[15px] md:tracking-[0.08em] ${gold}`}
+                  >
+                    {data.closing.line1}
+                  </p>
+                )}
+                {data.closing.line2 && (
+                  <p
+                    className={`mt-1 font-display text-[13px] uppercase leading-relaxed tracking-[0.06em] md:text-[15px] md:tracking-[0.08em] ${gold}`}
+                  >
+                    {data.closing.line2}
+                  </p>
+                )}
+                {data.closing.line3 && (
+                  <p
+                    className={`leading-relaxed text-text-primary/70 md:text-[16px] ${
+                      data.closing.line1 || data.closing.line2
+                        ? "mt-3 text-[16px] text-text-primary/50"
+                        : "text-[15px] md:text-base"
+                    }`}
+                  >
+                    {data.closing.line3}
+                  </p>
+                )}
+              </div>
+            )}
         </div>
       </div>
     </section>
+  );
+}
+
+function ImagePlaceholder({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`flex items-center justify-center border border-dashed border-[#C9A96E]/30 bg-white/[0.03] ${className}`}
+    >
+      <div className="px-4 text-center">
+        <p className={`text-[11px] uppercase tracking-[0.2em] ${goldMuted}`}>
+          IMAGE
+        </p>
+        <p className="mt-2 text-xs text-muted/60">项目总结配图 · 待补</p>
+      </div>
+    </div>
   );
 }

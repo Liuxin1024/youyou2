@@ -68,6 +68,9 @@ export default function CaseStudyPage() {
         value={study.showcaseValue}
         ai={study.showcaseAi}
       />
+      {study.visualApplications && (
+        <CaseSummary data={study.visualApplications} />
+      )}
       {study.projectSummary ? (
         <CaseSummary data={study.projectSummary} />
       ) : (
