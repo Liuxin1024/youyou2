@@ -60,39 +60,27 @@ export function Capabilities() {
         </motion.div>
 
         <div className="flex flex-col gap-4">
-          {CAPABILITIES.map((item) => {
-            const inner = (
-              <>
-                <img
-                  src={item.image}
-                  alt=""
-                  className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
-                />
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm text-text-primary sm:text-base md:text-lg">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-muted sm:text-sm">{item.desc}</p>
-                </div>
-              </>
-            );
-
-            return "href" in item ? (
-              <a
-                key={item.title}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={rowClassName}
-              >
-                {inner}
-              </a>
-            ) : (
-              <div key={item.title} className={rowClassName}>
-                {inner}
+          {CAPABILITIES.map((item) => (
+            <a
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={rowClassName}
+            >
+              <img
+                src={item.image}
+                alt=""
+                className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
+              />
+              <div className="min-w-0 flex-1">
+                <h3 className="text-sm text-text-primary sm:text-base md:text-lg">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-xs text-muted sm:text-sm">{item.desc}</p>
               </div>
-            );
-          })}
+            </a>
+          ))}
         </div>
       </div>
     </section>
