@@ -1,6 +1,7 @@
 import type { CaseProjectSummary } from "../../data/cases";
 
 const gold = "text-[#C9A96E]";
+const goldMuted = "text-[#C9A96E]/75";
 
 type Props = {
   data: CaseProjectSummary;
@@ -9,10 +10,14 @@ type Props = {
 /**
  * 项目总结收尾屏。
  * split（默认）：左文右图。
- * stack（鸿茅）：文案单独一行，图片完整展示在下方。
+ * stack（鸿茅）：文案单独一行，图片完整展示在下方；标题结构对齐插画体系应用。
  */
 export function CaseSummary({ data }: Props) {
-  const paragraphs = Array.isArray(data.body) ? data.body : [data.body];
+  const paragraphs = Array.isArray(data.body)
+    ? data.body.filter(Boolean)
+    : data.body
+      ? [data.body]
+      : [];
   const vertical = data.brandMarkVertical;
   const stacked = data.layout === "stack";
 
@@ -21,60 +26,36 @@ export function CaseSummary({ data }: Props) {
       <section className="border-b border-stroke bg-bg">
         <div className="mx-auto max-w-[1280px] px-6 py-12 md:px-10 md:py-14 lg:px-16 lg:py-16">
           <div className="flex flex-col gap-8 md:gap-10 lg:gap-12">
-            <div className="max-w-[40rem] lg:max-w-[44rem]">
-              <div className="mb-5 flex items-start gap-4 md:mb-6 md:gap-5">
-                {data.index && (
-                  <span
-                    className={`shrink-0 font-display text-5xl leading-none tabular-nums md:text-6xl lg:text-[4.25rem] ${gold}`}
-                    aria-hidden
-                  >
-                    {data.index}
-                  </span>
-                )}
-                <div className="pt-1 md:pt-2">
-                  <h2 className="text-2xl font-bold leading-tight text-text-primary md:text-3xl lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
-                    {data.title}
-                  </h2>
-                  <p
-                    className={`mt-1.5 text-[11px] uppercase tracking-[0.32em] ${gold} md:text-xs`}
-                  >
-                    {data.eyebrow}
-                  </p>
-                </div>
+            {/* 与「插画体系应用」一致：英文眉题 → 中文标题 → 副标 → 导语 */}
+            <header className="max-w-2xl">
+              <div className="mb-2.5">
+                <span
+                  className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}
+                >
+                  {data.eyebrow}
+                </span>
               </div>
-
-              {data.valueTitle && (
-                <h3 className="text-lg text-text-primary md:text-xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
-                  {data.valueTitle}
-                </h3>
-              )}
-
+              <h2 className="text-2xl tracking-tight text-text-primary md:text-[1.85rem] lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+                {data.title}
+              </h2>
               {data.subtitle && (
-                <p className="mt-2 text-base leading-snug text-text-primary/90 md:mt-2.5 md:text-lg">
+                <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>
                   {data.subtitle}
                 </p>
               )}
               {data.subtitleEn && (
-                <p
-                  className={`mt-1.5 text-[11px] uppercase tracking-[0.18em] md:text-xs ${gold}`}
-                >
+                <p className={`mt-2 text-sm md:text-base ${goldMuted}`}>
                   {data.subtitleEn}
                 </p>
               )}
-
               {paragraphs.length > 0 && (
-                <div className="mt-5 flex flex-col gap-2 md:mt-6 md:gap-2.5">
+                <div className="mt-4 space-y-2 text-[13px] leading-relaxed text-muted md:text-sm">
                   {paragraphs.map((para) => (
-                    <p
-                      key={para.slice(0, 24)}
-                      className="text-[14px] leading-[1.9] text-muted md:text-[15px]"
-                    >
-                      {para}
-                    </p>
+                    <p key={para.slice(0, 24)}>{para}</p>
                   ))}
                 </div>
               )}
-            </div>
+            </header>
 
             <div className="w-full overflow-hidden">
               <img

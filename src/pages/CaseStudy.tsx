@@ -33,10 +33,9 @@ export default function CaseStudyPage() {
   }
 
   const { prev, next } = getAdjacentCases(slug);
-  const pageBg = study.editorialHero ? "bg-[#0B1E19]" : "bg-bg";
 
   return (
-    <main className={`min-h-screen text-text-primary ${pageBg}`}>
+    <main className="min-h-screen bg-bg text-text-primary">
       {study.editorialHero ? (
         <CaseHeroHongmao study={study} />
       ) : (

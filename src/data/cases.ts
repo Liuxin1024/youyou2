@@ -1250,8 +1250,7 @@ export const CASES: CaseStudy[] = [
       title: "插画体系应用",
       subtitle: "围绕鸿茅药酒东方养生文化定位",
       intro: [
-        "提炼山水、草木、节气、人文等视觉元素，",
-        "建立统一的品牌插画资产体系，",
+        "提炼山水、草木、节气、人文等视觉元素，建立统一的品牌插画资产体系，",
         "并延展至包装、宣传物料及线上传播场景。",
       ],
       before: {
@@ -1282,10 +1281,10 @@ export const CASES: CaseStudy[] = [
     strategy: [],
     takeaway: "",
     projectSummary: {
-      eyebrow: "VISUAL",
+      eyebrow: "MULTI-SCENARIO VISUAL APPLICATIONS",
       title: "多场景视觉应用",
       subtitle: "",
-      body: [],
+      body: "将品牌插画体系延展至产品包装、宣传物料及营销传播场景，实现从视觉创作到商业落地的完整应用链路。",
       brandMark: "鸿茅药酒",
       brandMarkEn: "HONGMAO YAOJIU",
       layout: "stack",

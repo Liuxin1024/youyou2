@@ -60,7 +60,7 @@ export function CaseShowcase({ evolution, application, value, ai }: Props) {
   return (
     <section
       className={`relative overflow-hidden border-b border-stroke py-12 md:py-16 ${
-        parallelEvolution ? "bg-black" : ""
+        parallelEvolution ? "bg-bg" : ""
       }`}
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 lg:px-16">
@@ -157,7 +157,9 @@ function EvolutionBlock({
       <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-start md:justify-between">
         <div className="max-w-2xl">
           <div className="mb-2.5 flex items-center gap-3">
-            <span className={`h-px w-7 ${gold} bg-current`} />
+            {!parallelSeries && (
+              <span className={`h-px w-7 ${gold} bg-current`} />
+            )}
             <span className={`text-[11px] uppercase tracking-[0.28em] ${gold}`}>
               {evolution.eyebrow}
             </span>
