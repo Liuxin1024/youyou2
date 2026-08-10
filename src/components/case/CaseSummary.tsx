@@ -7,13 +7,87 @@ type Props = {
 };
 
 /**
- * 项目总结收尾屏：左文右图（设计图 52430）。
- * 娇本：序号 + 标题簇 + 价值标题 + 副标 + 分段正文；右上竖排品牌标。
- * 酃酃酒：保留底部署名收束（closing）。
+ * 项目总结收尾屏。
+ * split（默认）：左文右图。
+ * stack（鸿茅）：文案单独一行，图片完整展示在下方。
  */
 export function CaseSummary({ data }: Props) {
   const paragraphs = Array.isArray(data.body) ? data.body : [data.body];
   const vertical = data.brandMarkVertical;
+  const stacked = data.layout === "stack";
+
+  if (stacked) {
+    return (
+      <section className="border-b border-stroke bg-bg">
+        <div className="mx-auto max-w-[1280px] px-6 py-12 md:px-10 md:py-14 lg:px-16 lg:py-16">
+          <div className="flex flex-col gap-8 md:gap-10 lg:gap-12">
+            <div className="max-w-[40rem] lg:max-w-[44rem]">
+              <div className="mb-5 flex items-start gap-4 md:mb-6 md:gap-5">
+                {data.index && (
+                  <span
+                    className={`shrink-0 font-display text-5xl leading-none tabular-nums md:text-6xl lg:text-[4.25rem] ${gold}`}
+                    aria-hidden
+                  >
+                    {data.index}
+                  </span>
+                )}
+                <div className="pt-1 md:pt-2">
+                  <h2 className="text-2xl font-bold leading-tight text-text-primary md:text-3xl lg:text-[2.1rem] [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+                    {data.title}
+                  </h2>
+                  <p
+                    className={`mt-1.5 text-[11px] uppercase tracking-[0.32em] ${gold} md:text-xs`}
+                  >
+                    {data.eyebrow}
+                  </p>
+                </div>
+              </div>
+
+              {data.valueTitle && (
+                <h3 className="text-lg text-text-primary md:text-xl [font-family:'Songti_SC','STSong','SimSun','Noto_Serif_SC',serif]">
+                  {data.valueTitle}
+                </h3>
+              )}
+
+              {data.subtitle && (
+                <p className="mt-2 text-base leading-snug text-text-primary/90 md:mt-2.5 md:text-lg">
+                  {data.subtitle}
+                </p>
+              )}
+              {data.subtitleEn && (
+                <p
+                  className={`mt-1.5 text-[11px] uppercase tracking-[0.18em] md:text-xs ${gold}`}
+                >
+                  {data.subtitleEn}
+                </p>
+              )}
+
+              {paragraphs.length > 0 && (
+                <div className="mt-5 flex flex-col gap-2 md:mt-6 md:gap-2.5">
+                  {paragraphs.map((para) => (
+                    <p
+                      key={para.slice(0, 24)}
+                      className="text-[14px] leading-[1.9] text-muted md:text-[15px]"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="w-full overflow-hidden">
+              <img
+                src={data.backgroundImage}
+                alt=""
+                className="block h-auto w-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="border-b border-stroke">
@@ -48,7 +122,6 @@ export function CaseSummary({ data }: Props) {
         <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-6 pb-12 pt-14 md:px-10 md:pb-14 md:pt-16 lg:px-16 lg:pb-16 lg:pt-20">
           <div className="flex items-start justify-between gap-8">
             <div className="max-w-[22rem] md:max-w-[26rem] lg:max-w-[30rem]">
-              {/* 序号 + 项目总结 / PROJECT SUMMARY */}
               <div className="mb-6 flex items-start gap-4 md:mb-7 md:gap-5">
                 {data.index && (
                   <span
@@ -79,6 +152,13 @@ export function CaseSummary({ data }: Props) {
               <p className="mt-2 text-base leading-snug text-text-primary/90 md:mt-2.5 md:text-lg">
                 {data.subtitle}
               </p>
+              {data.subtitleEn && (
+                <p
+                  className={`mt-1.5 text-[11px] uppercase tracking-[0.18em] md:text-xs ${gold}`}
+                >
+                  {data.subtitleEn}
+                </p>
+              )}
 
               <div className="mt-6 flex flex-col gap-4 md:mt-7 md:gap-4.5">
                 {paragraphs.map((para) => (
@@ -92,7 +172,6 @@ export function CaseSummary({ data }: Props) {
               </div>
             </div>
 
-            {/* 非竖排时：右上横排品牌标（酃酃酒） */}
             {!vertical && (
               <div className="hidden shrink-0 pt-0.5 text-right sm:block">
                 <p

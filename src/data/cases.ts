@@ -208,12 +208,16 @@ export type CaseProjectSummary = {
   /** 价值小标题，如「项目价值总结」 */
   valueTitle?: string;
   subtitle: string;
+  /** 副标英文，紧跟 subtitle 下方 */
+  subtitleEn?: string;
   /** 正文；字符串或分段 */
   body: string | string[];
   brandMarkEn: string;
   brandMark: string;
   /** 竖排品牌标（娇本设计图） */
   brandMarkVertical?: boolean;
+  /** split：左文右图（默认）；stack：上文下图，图片完整展示 */
+  layout?: "split" | "stack";
   backgroundImage: string;
   closing?: {
     logo: string;
@@ -1277,6 +1281,16 @@ export const CASES: CaseStudy[] = [
     },
     strategy: [],
     takeaway: "",
+    projectSummary: {
+      eyebrow: "VISUAL",
+      title: "多场景视觉应用",
+      subtitle: "",
+      body: [],
+      brandMark: "鸿茅药酒",
+      brandMarkEn: "HONGMAO YAOJIU",
+      layout: "stack",
+      backgroundImage: "/33.png",
+    },
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
     coverPosition: "object-center",
