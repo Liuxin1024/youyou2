@@ -4,29 +4,25 @@ const CAPABILITIES = [
   {
     title: "插画创作",
     desc: "品牌插画、主视觉图形与系列化视觉资产",
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80",
+    image: "/ju1.png",
     href: "https://huaban.com/boards/92742694",
   },
   {
     title: "品牌视觉",
     desc: "KV、包装相关视觉、品牌调性延展",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&q=80",
+    image: "/30.jpg",
     href: "https://huaban.com/boards/97089369",
   },
   {
     title: "电商详情页",
     desc: "详情页策划、版式与卖点视觉表达",
-    image:
-      "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&q=80",
+    image: "/详情页1.jpg",
     href: "https://huaban.com/boards/92708089",
   },
   {
     title: "新媒体内容",
     desc: "双微、小红书、抖音、视频号全渠道物料",
-    image:
-      "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=400&q=80",
+    image: "/28.png",
     href: "https://huaban.com/boards/102026401",
   },
 ] as const;
