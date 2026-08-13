@@ -15,6 +15,7 @@ import { CaseStrategy } from "../components/case/CaseStrategy";
 import { CaseShowcase } from "../components/case/CaseShowcase";
 import { CaseTakeaway } from "../components/case/CaseTakeaway";
 import { CaseSummary } from "../components/case/CaseSummary";
+import { CaseVisualApplications } from "../components/case/CaseVisualApplications";
 import { CaseFooterNav } from "../components/case/CaseFooterNav";
 import { BackToTop } from "../components/BackToTop";
 
@@ -69,7 +70,7 @@ export default function CaseStudyPage() {
         ai={study.showcaseAi}
       />
       {study.visualApplications && (
-        <CaseSummary data={study.visualApplications} />
+        <CaseVisualApplications data={study.visualApplications} />
       )}
       {study.projectSummary ? (
         <CaseSummary data={study.projectSummary} />

@@ -199,6 +199,28 @@ export type CaseShowcaseAi = {
   quoteBackground?: string;
 };
 
+/** 鸿茅等：多场景视觉应用 */
+export type CaseVisualApplicationScene = {
+  index: string;
+  title: string;
+  englishTitle: string;
+  bullets: string[];
+  images: string[];
+  /** full 通栏（01、06）；half 半栏成对（02–05） */
+  span?: "full" | "half";
+  /** 文案下方装饰纹样 */
+  motif?: "mountain";
+};
+
+export type CaseVisualApplications = {
+  index: string;
+  indexLabel: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  scenes: CaseVisualApplicationScene[];
+};
+
 /** 项目总结收尾屏 */
 export type CaseProjectSummary = {
   /** 大号序号，如 06 */
@@ -489,8 +511,8 @@ export type CaseStudy = {
   showcaseValue?: CaseShowcaseValue;
   /** 落地展示 · AI辅助视觉创意探索 */
   showcaseAi?: CaseShowcaseAi;
-  /** 鸿茅等：多场景视觉应用（上文下图） */
-  visualApplications?: CaseProjectSummary;
+  /** 鸿茅等：多场景视觉应用 */
+  visualApplications?: CaseVisualApplications;
   /** 有则渲染 CaseSummary，替代通用 takeaway 复盘块 */
   projectSummary?: CaseProjectSummary;
   takeaway: string;
@@ -1284,14 +1306,83 @@ export const CASES: CaseStudy[] = [
     strategy: [],
     takeaway: "",
     visualApplications: {
+      index: "03",
+      indexLabel: "VISUAL APPLICATIONS",
       eyebrow: "MULTI-SCENARIO VISUAL APPLICATIONS",
       title: "多场景视觉应用",
-      subtitle: "",
       body: "将品牌插画体系延展至产品包装、宣传物料及营销传播场景，实现从视觉创作到商业落地的完整应用链路。",
-      brandMark: "鸿茅药酒",
-      brandMarkEn: "HONGMAO YAOJIU",
-      layout: "stack",
-      backgroundImage: "/33.png",
+      scenes: [
+        {
+          index: "01",
+          title: "产品包装",
+          englishTitle: "PACKAGING DESIGN",
+          bullets: [
+            "统一品牌视觉语言",
+            "强化产品识别性",
+            "提升货架吸引力和品牌价值",
+          ],
+          images: [
+            "/VISUAL1.png",
+            "/VISUAL2.png",
+            "/VISUAL3.png",
+            "/VISUAL4.png",
+          ],
+          span: "full",
+          motif: "mountain",
+        },
+        {
+          index: "02",
+          title: "品牌宣传物料",
+          englishTitle: "BRAND COMMUNICATION",
+          bullets: [
+            "丰富品牌传播形式",
+            "增强品牌曝光与文化认同",
+            "传递品牌价值主张",
+          ],
+          images: ["/VISUAL5.png"],
+          span: "half",
+        },
+        {
+          index: "03",
+          title: "营销传播物料",
+          englishTitle: "MARKETING MATERIALS",
+          bullets: [
+            "结合节庆热点",
+            "打造趣味化、多样化传播内容",
+            "提升品牌亲和力和参与度",
+          ],
+          images: ["/VISUAL9.png"],
+          span: "half",
+        },
+        {
+          index: "04",
+          title: "品牌辅助物料",
+          englishTitle: "BRAND AUXILIARY MATERIALS",
+          bullets: ["完善品牌信息传达", "提升品牌专业性和信任感"],
+          images: ["/VISUAL7.png", "/VISUAL8.png"],
+          span: "half",
+        },
+        {
+          index: "05",
+          title: "销售终端物料",
+          englishTitle: "SALES TERMINAL MATERIALS",
+          bullets: ["强化销售场景氛围", "促进产品认知与销售转化"],
+          images: ["/VISUAL6.png"],
+          span: "half",
+        },
+        {
+          index: "06",
+          title: "IP / 节庆延展应用",
+          englishTitle: "IP / FESTIVAL EXTENSION",
+          bullets: [
+            "打造品牌专属 IP 形象",
+            "增强品牌情感连接",
+            "提升用户记忆点与传播力",
+          ],
+          images: ["/VISUAL10.png"],
+          span: "full",
+        },
+      ],
     },
     projectSummary: {
       eyebrow: "PROJECT SUMMARY",
