@@ -4,37 +4,35 @@ const CAPABILITIES = [
   {
     title: "插画创作",
     desc: "品牌插画、主视觉图形与系列化视觉资产",
-    image: "/ju1.png",
+    image: "/36.webp",
     href: "https://huaban.com/boards/92742694",
   },
   {
     title: "品牌视觉",
     desc: "KV、包装相关视觉、品牌调性延展",
-    image: "/30.jpg",
+    image: "/37.webp",
     href: "https://huaban.com/boards/97089369",
   },
   {
     title: "电商详情页",
     desc: "详情页策划、版式与卖点视觉表达",
-    image: "/详情页1.jpg",
+    image: "/38.webp",
     href: "https://huaban.com/boards/92708089",
   },
   {
     title: "新媒体内容",
     desc: "双微、小红书、抖音、视频号全渠道物料",
-    image: "/28.png",
+    image: "/39.webp",
     href: "https://huaban.com/boards/102026401",
+    imageOffsetY: -150,
   },
 ] as const;
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
-const rowClassName =
-  "flex items-center gap-4 rounded-[40px] border border-stroke bg-surface/30 p-4 transition-colors hover:bg-surface sm:gap-6 sm:rounded-full";
-
 export function Capabilities() {
   return (
-    <section id="capabilities" className="bg-bg py-16 md:py-24">
+    <section id="capabilities" className="bg-bg pb-16 pt-6 md:pb-20 md:pt-8">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -59,27 +57,40 @@ export function Capabilities() {
           </div>
         </motion.div>
 
-        <div className="flex flex-col gap-4">
-          {CAPABILITIES.map((item) => (
-            <a
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {CAPABILITIES.map((item, i) => (
+            <motion.a
               key={item.title}
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={rowClassName}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease }}
+              viewport={{ once: true, margin: "-80px" }}
+              className="group flex flex-col overflow-hidden rounded-3xl border border-stroke bg-surface"
             >
-              <img
-                src={item.image}
-                alt=""
-                className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
-              />
-              <div className="min-w-0 flex-1">
-                <h3 className="text-sm text-text-primary sm:text-base md:text-lg">
+              <div className="aspect-[3/4] overflow-hidden">
+                <img
+                  src={item.image}
+                  alt=""
+                  className="h-full w-full origin-top object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  style={
+                    "imageOffsetY" in item
+                      ? { objectPosition: `center ${item.imageOffsetY}px` }
+                      : undefined
+                  }
+                />
+              </div>
+              <div className="flex min-h-[5.5rem] flex-col justify-center px-3 py-3 md:min-h-[6.25rem] md:px-4 md:py-4">
+                <h3 className="text-sm text-text-primary md:text-base">
                   {item.title}
                 </h3>
-                <p className="mt-1 text-xs text-muted sm:text-sm">{item.desc}</p>
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
+                  {item.desc}
+                </p>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

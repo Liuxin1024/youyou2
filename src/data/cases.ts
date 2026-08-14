@@ -982,11 +982,7 @@ export const CASES: CaseStudy[] = [
           eyebrow: "BEFORE",
           title: "旧有视觉印象",
           image: "/24.png",
-          bullets: [
-            "医学感强，距离感高",
-            "视觉风格偏传统",
-            "缺乏情感价值连接",
-          ],
+          bullets: ["医学感强，距离感高", "视觉风格偏传统", "缺乏情感价值连接"],
         },
         after: {
           eyebrow: "AFTER",
@@ -1061,7 +1057,8 @@ export const CASES: CaseStudy[] = [
     showcaseApplication: {
       eyebrow: "VISUAL COMMUNICATION RESULTS",
       title: "品牌数字内容应用",
-      subtitle: "将品牌视觉策略延展至数字传播场景，建立统一、高效的内容表达体系。",
+      subtitle:
+        "将品牌视觉策略延展至数字传播场景，建立统一、高效的内容表达体系。",
       intro:
         "围绕品牌传播需求，将产品价值、品牌理念与用户沟通场景进行视觉转译，覆盖公众号、电商内容及社交传播等多个数字触点，提升品牌认知与内容体验。",
       rows: [
@@ -1334,11 +1331,7 @@ export const CASES: CaseStudy[] = [
           index: "02",
           title: "品牌宣传物料",
           englishTitle: "BRAND COMMUNICATION",
-          bullets: [
-            "丰富品牌传播形式",
-            "增强品牌曝光与文化认同",
-            "传递品牌价值主张",
-          ],
+          bullets: ["丰富品牌传播形式", "增强品牌曝光", "传递品牌价值主张"],
           images: ["/VISUAL5.png"],
           span: "half",
         },
@@ -1348,7 +1341,7 @@ export const CASES: CaseStudy[] = [
           englishTitle: "MARKETING MATERIALS",
           bullets: [
             "结合节庆热点",
-            "打造趣味化、多样化传播内容",
+            "打造趣味化、多样化内容",
             "提升品牌亲和力和参与度",
           ],
           images: ["/VISUAL9.png"],
@@ -1416,9 +1409,7 @@ export const CASES: CaseStudy[] = [
 export function getPublishedCases() {
   return CASES.filter(
     (c) =>
-      Boolean(c.overview) ||
-      Boolean(c.editorialHero) ||
-      c.strategy.length > 0,
+      Boolean(c.overview) || Boolean(c.editorialHero) || c.strategy.length > 0,
   );
 }
 

@@ -6,27 +6,23 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ITEMS = [
   {
-    title: "Form Study 01",
-    image:
-      "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80",
+    title: "AI Study 01",
+    image: "/ai1.jpg",
     rotate: -6,
   },
   {
-    title: "Texture Lab",
-    image:
-      "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800&q=80",
+    title: "AI Study 02",
+    image: "/ai2.jpg",
     rotate: 4,
   },
   {
-    title: "Light Play",
-    image:
-      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&q=80",
+    title: "AI Study 03",
+    image: "/ai3.jpg",
     rotate: -3,
   },
   {
-    title: "Motion Frame",
-    image:
-      "https://images.unsplash.com/photo-1634017839464-5c339bbe3ca8?w=800&q=80",
+    title: "AI Study 04",
+    image: "/ai4.jpg",
     rotate: 7,
   },
   {
@@ -45,7 +41,6 @@ const ITEMS = [
 
 export function Explorations() {
   const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const colLeftRef = useRef<HTMLDivElement>(null);
   const colRightRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<(typeof ITEMS)[number] | null>(
@@ -53,21 +48,27 @@ export function Explorations() {
   );
 
   useEffect(() => {
+    if (!lightbox) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+      ScrollTrigger.refresh();
+    };
+  }, [lightbox]);
+
+  useEffect(() => {
     const section = sectionRef.current;
-    const content = contentRef.current;
     const left = colLeftRef.current;
     const right = colRightRef.current;
-    if (!section || !content || !left || !right) return;
+    if (!section || !left || !right) return;
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        pin: content,
-        pinSpacing: false,
-      });
-
       gsap.fromTo(
         left,
         { y: 80 },
@@ -77,8 +78,9 @@ export function Explorations() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "bottom bottom",
+            end: "bottom top",
             scrub: true,
+            invalidateOnRefresh: true,
           },
         },
       );
@@ -92,14 +94,25 @@ export function Explorations() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "bottom bottom",
+            end: "bottom top",
             scrub: true,
+            invalidateOnRefresh: true,
           },
         },
       );
     }, section);
 
-    return () => ctx.revert();
+    const refresh = () => ScrollTrigger.refresh();
+    const images = section.querySelectorAll("img");
+    images.forEach((img) => {
+      if (!img.complete) img.addEventListener("load", refresh);
+    });
+    requestAnimationFrame(refresh);
+
+    return () => {
+      images.forEach((img) => img.removeEventListener("load", refresh));
+      ctx.revert();
+    };
   }, []);
 
   const leftItems = ITEMS.filter((_, i) => i % 2 === 0);
@@ -109,12 +122,9 @@ export function Explorations() {
     <section
       ref={sectionRef}
       id="explorations"
-      className="relative min-h-[300vh] bg-bg"
+      className="relative min-h-[200vh] bg-bg"
     >
-      <div
-        ref={contentRef}
-        className="pointer-events-none relative z-10 flex h-screen flex-col items-center justify-center px-6 text-center"
-      >
+      <div className="pointer-events-none sticky top-0 z-10 flex h-screen flex-col items-center justify-center px-6 text-center">
         <div className="mb-4 flex items-center gap-3">
           <span className="h-px w-8 bg-stroke" />
           <span className="text-xs uppercase tracking-[0.3em] text-muted">
@@ -122,10 +132,11 @@ export function Explorations() {
           </span>
         </div>
         <h2 className="mb-4 text-3xl text-text-primary md:text-5xl">
-          视觉备忘
+          AI视觉探索
         </h2>
-        <p className="mb-8 max-w-md text-sm text-muted md:text-base">
-          核心项目之外的练习、局部与灵感碎片——持续更新的视觉库存。
+        <p className="mb-8 max-w-lg text-sm text-muted md:text-base">
+          探索 AI 驱动的视觉创作与设计表达，从概念构思、风格探索到画面生成，尝试将
+          AI 转化为创意工具，拓展视觉设计的可能性。
         </p>
       </div>
 
@@ -159,18 +170,21 @@ export function Explorations() {
       </div>
 
       {lightbox && (
-        <button
-          type="button"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-6"
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.title}
+          className="fixed inset-0 z-[100] cursor-zoom-out overflow-y-auto bg-black/85"
           onClick={() => setLightbox(null)}
-          aria-label="Close lightbox"
         >
-          <img
-            src={lightbox.image}
-            alt={lightbox.title}
-            className="max-h-[80vh] max-w-full rounded-2xl object-contain"
-          />
-        </button>
+          <div className="flex min-h-full justify-center px-4 py-10 md:px-8 md:py-14">
+            <img
+              src={lightbox.image}
+              alt={lightbox.title}
+              className="h-auto w-full max-w-5xl rounded-2xl object-contain shadow-2xl"
+            />
+          </div>
+        </div>
       )}
     </section>
   );
