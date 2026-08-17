@@ -26,10 +26,9 @@ const ITEMS = [
     rotate: 7,
   },
   {
-    title: "Color Drift",
-    image:
-      "https://images.unsplash.com/photo-1557682250-33bd8f75aa4d?w=800&q=80",
-    rotate: -5,
+    title: "AI Study 05",
+    image: "/40.jpg",
+    rotate: -10,
   },
   {
     title: "Shape Archive",
