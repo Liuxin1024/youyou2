@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 const LINKS = [
   { label: "Home", href: "#home" },
   { label: "Work", href: "#work" },
-  { label: "Resume", href: "#contact" },
+  { label: "Skills", href: "#capabilities" },
 ] as const;
 
 export function Navbar() {
@@ -12,10 +12,31 @@ export function Navbar() {
   const [active, setActive] = useState("Home");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 100);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const syncFromScroll = () => {
+      setScrolled(window.scrollY > 100);
+
+      const marker = window.innerHeight * 0.32;
+      let current: (typeof LINKS)[number]["label"] = "Home";
+
+      for (const link of LINKS) {
+        const id = link.href.slice(1);
+        const section = document.getElementById(id);
+        if (!section) continue;
+        if (section.getBoundingClientRect().top <= marker) {
+          current = link.label;
+        }
+      }
+
+      setActive(current);
+    };
+
+    syncFromScroll();
+    window.addEventListener("scroll", syncFromScroll, { passive: true });
+    window.addEventListener("hashchange", syncFromScroll);
+    return () => {
+      window.removeEventListener("scroll", syncFromScroll);
+      window.removeEventListener("hashchange", syncFromScroll);
+    };
   }, []);
 
   return (

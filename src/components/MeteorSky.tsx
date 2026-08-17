@@ -15,6 +15,7 @@ type Star = {
   baseAlpha: number;
   twinkle: number;
   phase: number;
+  spark: boolean;
 };
 
 type Meteor = {
@@ -57,13 +58,15 @@ export function MeteorSky() {
         width < MOBILE_MAX_WIDTH ? STAR_COUNT_MOBILE : STAR_COUNT_DESKTOP;
       stars = Array.from({ length: count }, () => {
         const near = Math.random() > 0.88;
+        const spark = Math.random() > 0.62;
         return {
           x: Math.random() * width,
           y: Math.random() * height,
-          r: near ? rand(1.1, 1.7) : rand(0.35, 1.05),
-          baseAlpha: near ? rand(0.55, 0.9) : rand(0.18, 0.55),
-          twinkle: rand(0.35, 1.05),
+          r: near ? rand(1.1, 1.7) : rand(0.4, 1.1),
+          baseAlpha: near ? rand(0.6, 0.95) : rand(0.28, 0.7),
+          twinkle: spark ? rand(1.6, 3.4) : rand(0.9, 2.2),
           phase: rand(0, Math.PI * 2),
+          spark,
         };
       });
     };
@@ -99,12 +102,19 @@ export function MeteorSky() {
       ctx.clearRect(0, 0, width, height);
 
       for (const star of stars) {
-        const flicker = reduced
-          ? 1
-          : 0.84 + 0.16 * Math.sin(now * 0.001 * star.twinkle + star.phase);
+        let flicker = 1;
+        if (!reduced) {
+          const wave =
+            0.5 + 0.5 * Math.sin(now * 0.001 * star.twinkle + star.phase);
+          flicker = star.spark
+            ? 0.18 + 0.82 * Math.pow(wave, 9)
+            : 0.32 + 0.68 * wave;
+        }
+        const alpha = Math.max(0.04, star.baseAlpha * flicker);
+        const radius = star.r * (0.7 + 0.45 * flicker);
         ctx.beginPath();
-        ctx.fillStyle = `rgba(236, 244, 252, ${star.baseAlpha * flicker})`;
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(236, 244, 252, ${alpha})`;
+        ctx.arc(star.x, star.y, radius, 0, Math.PI * 2);
         ctx.fill();
       }
 
