@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { LoadingScreen } from "../components/LoadingScreen";
+import { MeteorSky } from "../components/MeteorSky";
 import { Hero } from "../components/Hero";
 import { SelectedWorks } from "../components/SelectedWorks";
 import { Capabilities } from "../components/Capabilities";
@@ -38,10 +39,13 @@ export default function Index() {
         )}
       </AnimatePresence>
 
+      {!isLoading && <MeteorSky />}
+
       <AnimatePresence>
         {!isLoading && (
           <motion.main
             key="main"
+            className="relative z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}

@@ -11,20 +11,12 @@ const ease = [0.25, 0.1, 0.25, 1] as const;
 
 export function Stats() {
   return (
-    <section className="relative overflow-hidden border-y border-stroke bg-surface">
+    <section className="relative overflow-hidden border-y border-stroke">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
             "radial-gradient(80% 60% at 50% 120%, rgb(78 133 191 / 0.16), transparent 70%)",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #000 1px, transparent 1px)",
-          backgroundSize: "4px 4px",
         }}
       />
 

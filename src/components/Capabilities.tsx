@@ -32,7 +32,7 @@ const ease = [0.25, 0.1, 0.25, 1] as const;
 
 export function Capabilities() {
   return (
-    <section id="capabilities" className="bg-bg pb-16 pt-6 md:pb-20 md:pt-8">
+    <section id="capabilities" className="pb-16 pt-6 md:pb-20 md:pt-8">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

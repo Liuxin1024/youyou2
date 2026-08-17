@@ -121,7 +121,7 @@ export function Explorations() {
     <section
       ref={sectionRef}
       id="explorations"
-      className="relative min-h-[200vh] bg-bg"
+      className="relative min-h-[200vh]"
     >
       <div className="pointer-events-none sticky top-0 z-10 flex h-screen flex-col items-center justify-center px-6 text-center">
         <div className="mb-4 flex items-center gap-3">
