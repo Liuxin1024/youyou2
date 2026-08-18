@@ -32,8 +32,8 @@ const ITEMS = [
   },
   {
     title: "Shape Archive",
-    image:
-      "https://images.unsplash.com/photo-1614850715649-1d0106293bd1?w=800&q=80",
+    image: "/41.JPG",
+    video: "/42.mp4",
     rotate: 3,
   },
 ] as const;
@@ -176,12 +176,24 @@ export function Explorations() {
           className="fixed inset-0 z-[100] cursor-zoom-out overflow-y-auto bg-black/85"
           onClick={() => setLightbox(null)}
         >
-          <div className="flex min-h-full justify-center px-4 py-10 md:px-8 md:py-14">
-            <img
-              src={lightbox.image}
-              alt={lightbox.title}
-              className="h-auto w-full max-w-5xl rounded-2xl object-contain shadow-2xl"
-            />
+          <div className="flex min-h-full items-center justify-center px-4 py-10 md:px-8 md:py-14">
+            {"video" in lightbox ? (
+              <video
+                src={lightbox.video}
+                poster={lightbox.image}
+                autoPlay
+                controls
+                playsInline
+                className="h-auto w-full max-w-5xl rounded-2xl bg-black object-contain shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <img
+                src={lightbox.image}
+                alt={lightbox.title}
+                className="h-auto w-full max-w-5xl rounded-2xl object-contain shadow-2xl"
+              />
+            )}
           </div>
         </div>
       )}
@@ -200,7 +212,7 @@ function Card({
     <button
       type="button"
       onClick={onOpen}
-      className="pointer-events-auto aspect-square w-full max-w-[320px] overflow-hidden rounded-2xl border border-stroke bg-surface shadow-lg shadow-black/30 transition-transform hover:scale-[1.02]"
+      className="pointer-events-auto relative aspect-square w-full max-w-[320px] overflow-hidden rounded-2xl border border-stroke bg-surface shadow-lg shadow-black/30 transition-transform hover:scale-[1.02]"
       style={{ transform: `rotate(${item.rotate}deg)` }}
     >
       <img
@@ -208,6 +220,27 @@ function Card({
         alt={item.title}
         className="h-full w-full object-cover"
       />
+      {"video" in item && (
+        <span className="absolute inset-0 flex items-center justify-center bg-black/25">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-bg shadow-lg">
+            <PlayIcon />
+          </span>
+        </span>
+      )}
     </button>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M8 5.14v13.72L19 12 8 5.14z" />
+    </svg>
   );
 }
