@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 /** 占位数据，真实数字见 docs/TODO.md */
 const STATS = [
   { value: "10+", label: "合作品牌" },
-  { value: "一万+", label: "视觉交付" },
+  { value: "10000+", label: "视觉交付" },
   { value: "5", label: "垂类行业" },
 ] as const;
 
